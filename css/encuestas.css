@@ -1,0 +1,43 @@
+
+.tamOriginal{
+	height:500px;
+}
+.tamImage{
+   width:100px;
+   height:70px;
+   margin:auto;
+}
+.espacio{
+	height:100px;
+}
+
+.tamBoton{
+	height:50px;
+	margin-bottom:10px;
+}
+
+#crear{
+	margin-top:25px;
+}
+
+.bordeRedondo {
+-moz-border-radius:15px 55px 5px;
+-webkit-border-radius: 15px 55px 5px;
+}
+
+.divBlanco{
+	background-color:white;
+	-moz-border-radius:15 px;
+	-webkit-border-radius: 15px;
+}
+
+.divGris{
+	background-color:#A2A7B1;
+	-moz-border-radius:15 px;
+	-webkit-border-radius: 15px;
+}
+.alertBtnCrear{
+	width: 200px;
+}
+	
+
