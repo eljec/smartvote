@@ -9,20 +9,6 @@ private $db_usuario="jemac";
 private $db_password="0702364"; 
 private $db_nombre="jemac_tesis";
 
-// Trabajo //
-
-/*private $db_host="localhost";
-private $db_usuario="root"; 
-private $db_password=""; 
-private $db_nombre="tesis"; */
-
-// Curso 
-
-/*private $db_host="localhost"; 
-private $db_usuario="root"; 
-private $db_password=""; 
-private $db_nombre="jemac_tesis";*/
-
 private $db_conexion;
 private $db_conexionTran;
   

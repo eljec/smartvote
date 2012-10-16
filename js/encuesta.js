@@ -205,11 +205,21 @@ function successValidarEncuesta(data)
 	
 	if(data.tipo == "OK")
 	{
-	 alert("Bien");
+		$('#alertaEncuestas').removeClass('alert-error');
+		$('#alertaEncuestas').addClass('alert-success');	
+		$('#alertaEncuestas').html("<strong>OK!!</strong> Nombre Valido..");	
+		$('#alertaEncuestas').removeClass('ocultar');
+		
+		mostrarPanelesPreguntas();
 	}
 	else
 	{
-		alert(data.desc);
+		$('#alertaEncuestas').removeClass('alert-success');
+		$('#alertaEncuestas').addClass('alert-error');	
+		$('#alertaEncuestas').html("<strong>ERROR !!</strong> "+data.desc);	
+		$('#alertaEncuestas').removeClass('ocultar');
+		
+		ocultarPanelesPreguntas();
 	}
 }
 
@@ -244,6 +254,7 @@ function ocultarPanelEncuesta()
 	$("#validarEncuesta").attr('disabled','disabled');
 	$("#nameNuevaEncuesta").attr('disabled','disabled');
 	$("#textAreaNuevaEncuesta").attr('disabled','disabled');
+	$('#alertaEncuestas').addClass("ocultar");
 }
 
 function activarPanelEncuesta()
@@ -312,7 +323,10 @@ function activarPanelEncuesta()
 			$('#gifLoading').hide();
 			$('#alertaProgramas').html("<strong>Warning!</strong>  Falta seleccionar un programa...");
 			$('#alertaProgramas').removeClass('ocultar');
+			
 			ocultarPanelEncuesta();
+			
+			ocultarPanelesPreguntas();
 		}
 		else
 		{
@@ -324,13 +338,43 @@ function activarPanelEncuesta()
 	
 	$('#validarEncuesta').click(function(){
 		
-		$('#gifLoadingNuevaEncuesta').show();
-	
+		$('#alertaEncuestas').addClass('ocultar');
+
 		var idPrograma = $("#listaProgramas option:selected").val();
 		
 		var nombreNuevaEncuesta = $("#nameNuevaEncuesta").val();
 		
-		$.getJSON("phpHelper/servicioEncuesta.php?action=4",{id_p:idPrograma,nombre:nombreNuevaEncuesta},successValidarEncuesta).error(errorValidarEncuesta); 
+		var descNuevaEncuesta = $("#textAreaNuevaEncuesta").val();
+		
+		if(nombreNuevaEncuesta == "")
+		{
+			// Alerta
+			
+			$('#alertaEncuestas').removeClass('alert-success');
+			$('#alertaEncuestas').removeClass('alert-error');	
+			$('#alertaEncuestas').html("<strong>Ups !!</strong> Falta completar algun campo...");	
+			$('#alertaEncuestas').removeClass('ocultar');
+		}
+		else
+		{
+			if(descNuevaEncuesta == "")
+			{
+				// Alerta
+				
+				$('#alertaEncuestas').removeClass('alert-success');
+				$('#alertaEncuestas').removeClass('alert-error');	
+				$('#alertaEncuestas').html("<strong>Ups !!</strong> Falta completar algun campo...");	
+				$('#alertaEncuestas').removeClass('ocultar');
+			}
+			else
+			{
+				$('#gifLoadingNuevaEncuesta').show();
+				
+				$.getJSON("phpHelper/servicioEncuesta.php?action=4",{id_p:idPrograma,nombre:nombreNuevaEncuesta},successValidarEncuesta).error(errorValidarEncuesta); 
+			}
+		}
+		
+		
 	});
 	
 	// Boton Log on 
@@ -356,7 +400,8 @@ function activarPanelEncuesta()
 		
 	}); // fin click log on 
 
-	// Boton de nuevo elemento, ya sea encuesta o programa..
+	
+	// Boton de nuevo programa..
 	
 	$('#btnOkNewItem').click(function(){
 
@@ -426,7 +471,7 @@ function activarPanelEncuesta()
 			
 			var idPrograma = $("#listaProgramas option:selected").val();
 			
-			// Analizo si la encuesta ya tiene preguntas cargadas 
+			// Creo encuesta y Pregunta Juntas 
 			
 			$.post("phpHelper/insercion.php",{ tipo:'pregunta',Arr_preguntas: arrayPreguntasDatos ,idE: idEncuesta }, successInsersionPreguntas, "json").error(errorInsersionPreguntas);
 			
