@@ -292,7 +292,7 @@ function validatarExistencia($base,$idPrograma,$nombre)
 	
 	if( $count >0 ) 
 	{
-		$respuesta = new Respuesta("ERROR","ENCUESTA CON NOMBRE REPETIDO");
+		$respuesta = new Respuesta("ERROR","Una Encuesta ya tiene ese nombre..");
 		
 	} else 
 	{

@@ -88,23 +88,23 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 					<div class="divBlanco">
 						<div align="center">
 							<br>
+							<div id="alertaEncuestas" class="alert ocultar TamAlerta"></div>
 								<table CELLPADDING="15">
 									<tr>
 										<td><h4>Nombre:</h4></td>
-										<td><input type="text" name="name" id="nameNuevaEncuesta" placeholder="...."/></td>
+										<td>
+											<input type="text" name="name" id="nameNuevaEncuesta" placeholder="...."/>
+										</td>
 									</tr>
 									<tr>
 										<td><h4>Descripcion:</h4></td>
 										<td><textarea id="textAreaNuevaEncuesta" rows="4" placeholder="...."></textarea><br /></td>
+										<td></td>
 									</tr>
 								 </table>
 							<input id="validarEncuesta" type="button" class="btn" value="Validar"/>
 							<br>
 							<img id="gifLoadingNuevaEncuesta"src="img/ajax-loaderBlanco.gif" style="display: none;" alt="Loading..."/>
-							<br>
-							<div id="alertaEncuestas" class="alert ocultar">
-							  <strong>Atención!!</strong> Ya existe una encuesta con ese nombre.
-							</div>
 							<br>
 						</div>
 					</div>
