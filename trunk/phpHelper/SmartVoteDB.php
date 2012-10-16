@@ -1,6 +1,6 @@
 <?php
 
-	//include("Respuesta.php");
+	include("Respuesta.php");
 	
 class SmartVoteDB {
 	
@@ -27,7 +27,6 @@ class SmartVoteDB {
 
 	public function validarRepetido($stringConsultar)
 	{
-
 		try{
 		
 			$this->conectar();
@@ -218,6 +217,7 @@ class SmartVoteDB {
 			throw new Exception('Error MySQL ');
 		}
 	}
+	
 	public function InsertarEncuesta($id_p,$nombre,$desc,$arrayNumPreguntas,$arrayDescPreguntas)
 	{
 		try{
@@ -229,55 +229,93 @@ class SmartVoteDB {
 			$flag = true;
 			
 			$flagRepetido=false;
+			
+			$fecha_actual = date("Y-m-d");
 
 			// Creo la Encuesta y Obtengo su Id--> En caso de error regreso todo al estado anterior 
 			
-			$idEncuesta = $this->InsertarEncuesta($id_p,$nombre,$desc);
+			$cadenaInsertar="Insert into encuestas (id,id_p,nombre,descripcion,fechainicio,fechafin,activo) values ('','".$id_p."','".$nombre."','".$desc."','".$fecha_actual."','',1)";
+
+			$flag = mysqli_query($this->db_conexionTran,$cadenaInsertar);
 			
-			$lengtArray = count($arrayNumPreguntas);
-
-			$i=0;
-			while ($i < $lengtArray and $flag = true):
-
-				$cadenaValidar ="SELECT * FROM preguntas WHERE id_e='".$idEncuesta."' and descripcion='".$arrayDescPreguntas[$i]."'";
-
-				$existe = $this->validarRepetido($cadenaValidar);
-
-				if($existe)
-				{
-						$flag = false;
-						$flagRepetido=true;
-				}
-				else
-				{
-						$cadenaInsersion= "Insert into preguntas (id,id_e,descripcion,orden) values ( '','".$idEncuesta."','".$arrayDescPreguntas[$i]."','".$arrayNumPreguntas[$i]."')";
-
-						$flag = mysqli_query($this->db_conexionTran,$cadenaInsersion);
-				}
-
-				$i++;
-			endwhile;
-
-			if ($flag) {
-
-				mysqli_commit($this->db_conexionTran);
-
-				$retorno= json_encode(new Respuesta("OK",""));
-
-			} else
+			if(!$flag)
 			{
 				mysqli_rollback($this->db_conexionTran);
-				
+					
 				if($flagRepetido)
 					$retorno= json_encode(new Respuesta("ERROR","REPETIDO"));
 				else
 					throw new Exception('Error MySQL ');
 			}
+			else
+			{
+				
+				$queEmp = "Select e.id as Id from encuestas as e where e.nombre='".$nombre."' and e.id_p='".$id_p."'";
+				
+				$resultado = mysqli_query($this->db_conexionTran,$queEmp);
+				
+				if(!$resultado)
+				{
+					mysqli_rollback($this->db_conexionTran);
+					
+					if($flagRepetido)
+						$retorno= json_encode(new Respuesta("ERROR","REPETIDO"));
+					else
+						throw new Exception('Error MySQL ');
+				}
+				else
+				{
+					$idEncuestaFetch = mysqli_fetch_array($resultado);
 
-			mysqli_close($this->db_conexionTran);
+					$idEncuesta= $idEncuestaFetch['Id'];
+					
+				
+					$lengtArray = count($arrayNumPreguntas);
 
-			return $retorno;
+					$i=0;
+					while ($i < $lengtArray and $flag = true):
 
+						$cadenaValidar ="SELECT * FROM preguntas WHERE id_e='".$idEncuesta."' and descripcion='".$arrayDescPreguntas[$i]."'";
+
+						$existe = $this->validarRepetido($cadenaValidar);
+
+						if($existe)
+						{
+								$flag = false;
+								$flagRepetido=true;
+						}
+						else
+						{
+								$cadenaInsersion= "Insert into preguntas (id,id_e,descripcion,orden) values ( '','".$idEncuesta."','".$arrayDescPreguntas[$i]."','".$arrayNumPreguntas[$i]."')";
+
+								$flag = mysqli_query($this->db_conexionTran,$cadenaInsersion);
+						}
+
+						$i++;
+					endwhile;
+
+					if ($flag) {
+
+						mysqli_commit($this->db_conexionTran);
+
+						$retorno= json_encode(new Respuesta("OK",""));
+
+					} else
+					{
+						mysqli_rollback($this->db_conexionTran);
+						
+						if($flagRepetido)
+							$retorno= json_encode(new Respuesta("ERROR","REPETIDO"));
+						else
+							throw new Exception('Error MySQL ');
+					}
+
+					mysqli_close($this->db_conexionTran);
+
+					return $retorno;
+				
+				}
+			}
 		}catch (Exception $e) {
 			throw new Exception('Error MySQL ');
 		}
@@ -288,7 +326,7 @@ class SmartVoteDB {
 	
 	public function ValidarExistencia($idPrograma,$nombre)
 	{
-		$cadenaConsulta = "SELECT COUNT(*) as cantidad FROM encuestas WHERE id_p='".$idPrograma."' and nombre='".$nombre."'";
+		$cadenaConsulta = "SELECT * FROM encuestas WHERE id_p='".$idPrograma."' and nombre='".$nombre."'";
 
 		return $this->validarRepetido($cadenaConsulta);
 	}

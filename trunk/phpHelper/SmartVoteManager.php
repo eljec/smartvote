@@ -75,9 +75,9 @@ class SmartVoteManager {
 			$flagValido = $this->baseSmartVote->ValidarExistencia($idPrograma,$nombre);
 			
 			if($flagValido)
-				return new Respuesta("ERROR","VALOR REPETIDO");
+				return json_encode(new Respuesta("ERROR","VALOR REPETIDO"));
 			else
-				return new Respuesta("OK","");
+				return json_encode(new Respuesta("OK",""));
 				
 		}catch(Exception $e){
 			
@@ -93,7 +93,7 @@ class SmartVoteManager {
 
 		try{
 
-			$respuesta = $baseSmartVote->InsertarPrograma();
+			$respuesta = $baseSmartVote->InsertarPrograma($nombre,$desc);
 			
 			return $respuesta;
 	
@@ -139,6 +139,8 @@ class SmartVoteManager {
 			return json_encode($resp);
 		}
 	}
+	
+	
 	// ------------------------------    METODOS PRIVADOS  --------------------------------------------------  //
 
 	private function transformarDatosProgramas($datos)
