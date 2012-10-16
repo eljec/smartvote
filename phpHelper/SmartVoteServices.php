@@ -103,7 +103,7 @@
 						 
 							$nombre=$_GET["nombre"];
 						 
-							$respuesta = $adminServicio->ValidatarExistencia($idPrograma,$nombre);
+							$respuesta = $adminServicio->ValidarExistencia($idPrograma,$nombre);
 						}
 						else
 						{
@@ -170,7 +170,7 @@
 							
 							$arrayPreguntas=$_POST["Arr_preguntas"];
 						 
-							$respuesta = $adminServicio->InsertarEncuesta($id_p,$nombre,$desc,$arrayPreguntas);
+							$respuesta = $adminServicio->InsertarEncuesta($id_p,$nombreE,$descE,$arrayPreguntas);
 						}
 						else
 						{
