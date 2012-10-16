@@ -6,7 +6,8 @@ session_start();
 
 /* Importo la clase que me permite conectarme con la base */
 
-include("conexion.php");
+include_once("conexion.php");
+include_once("Respuesta.php");
 
 /* Variables por POST */
 
@@ -20,6 +21,7 @@ include("conexion.php");
 
  $base = new DBase();
 
+ $respuesta = "";
  try{
 	$resultado = $base->consultar($consulta);
 	
@@ -30,14 +32,22 @@ include("conexion.php");
 		while($reg=mysql_fetch_array($resultado)){
             $_SESSION["user"]=$reg[0];
         }
-		echo "{\"respuesta\":\"OK\"}";
+		
+		$respuesta = new Respuesta("OK","");
+		
+		echo json_encode($respuesta);
 	}
 	else
 	{
-		echo "{\"respuesta\":\"ERROR\"}";
+		$respuesta = new Respuesta("ERROR","VALORES INCORRECTOS");
+		
+		echo json_encode($respuesta);
 	}
 }catch (Exception $e) {
 
-		echo "{\"respuesta\":\"ERROR\"}";
+		$respuesta = new Respuesta("ERROR"," ERROR DE BASE DE DATOS ");
+		
+		echo json_encode($respuesta);
+		
 	}
 ?>

@@ -1,7 +1,7 @@
 <?php
 
-	include("SmartVoteManager.php");
-	include("Respuesta.php");
+	include_once("SmartVoteManager.php");
+	//include("Respuesta.php");
 	
 	// Este archivo se encarga de analizar la URL y relacionarla con los metodos que corresponda //
 	

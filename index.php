@@ -61,11 +61,11 @@
 			<div class="row">
 				<div class="span12">
 					<div align="center">
-						<h3>&copy; Production JEMAC 2012</h3>
+						<h4>&copy; Production JEMAC 2012</h4>
 					</div>
 				</div>
 			</div>
-        </div> <!-- /container -->
+        </div> 
 		
         <script src="js/vendor/jquery-1.8.0.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>

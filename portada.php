@@ -44,16 +44,16 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
                     </a>
                     <a class="brand" href="portada.php">SmartVote</a>
                     <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li><a href="#about">Que es SmartVote?</a></li>
-                            <li><a href="#contact">Contactanos</a></li>
-                        </ul>
                         <div class="navbar-form pull-right">
-							<img class="gifLoading"src="img/ajax-loaderNegro.gif" style="display: none;" alt="Loading..."/>
-                            <div id="alertLogon" class="alert ocultar"></div>
-							<input id="btnLogOn" type="button" class="btn" value="Sign on"/>							
+							<table>
+								<tr>
+									<td><span class="label label-important ocultar">Important</span></td>
+									<td><img class="gifLoading"src="img/ajax-loaderNegro.gif" style="display: none;" alt="Loading..."/></td>
+									<td><input id="btnLogOn" type="button" class="btn" value="Sign on"/>	</td>
+								</tr>
+							</table>						
                         </div>
-                    </div><!--/.nav-collapse -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -92,8 +92,8 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 
             <div class="row">
 				<div class="span12">
-					<div>
-						<h3>&copy; Production JEMAC 2012</h3>
+					<div align="center">
+						<h4>&copy; Production JEMAC 2012</h4>
 					</div>
 				</div>
 			</div>

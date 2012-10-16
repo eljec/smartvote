@@ -3,21 +3,15 @@
 
 $(document).ready(function() {
 
-	function showAlert(type,text)
+	function showAlert()
 	{
-		$('#alertLogon').addClass('alert-error');		
-		$('#alertLogon').html("<strong>Ocurrio un Error!</strong>");
-		$('#alertLogon').removeClass('ocultar');	
+		$('.label-important').text('Ups!! Ocurrio, intentelo mas tarde.');		
+		$('.label-important').removeClass('ocultar');	
 	}
 	
-	// Boton Logon 
-	
-	$('#btnLogOn').click(function(){
-		$('.gifLoading').show();
-		
-		$.post("phpHelper/nologin.php",function(data){ 
-		
-			$('.gifLoading').hide();
+	function successLogon(data)
+	{
+		$('.gifLoading').hide();
 				
 			if(data.respuesta =="OK")
 			{
@@ -28,8 +22,24 @@ $(document).ready(function() {
 			else{
 				showAlert();
 			}
-		}, "json").error(function() { showAlert(); });
+	}
+	
+	function errorLogon()
+	{
+		$('.gifLoading').hide();
+		showAlert();
+	}
+	// Boton Logon 
+	
+	$('#btnLogOn').click(function(){
+		
+		$('.gifLoading').show();
+		
+			$.post("phpHelper/nologin.php",successLogon, "json").error(errorLogon);
 		
 		}); // fin click log on 	
-				
+			
+		// Inicializo 
+		
+		$('.label-important').addClass('ocultar');
 }); // Fin ready 
