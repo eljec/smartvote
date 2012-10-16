@@ -17,6 +17,48 @@ $(document).ready(function() {
 		$('#alertLogin').removeClass('ocultar');	
 	}
 
+	function errorAjaxs(jqXHR, textStatus, errorThrown)
+	{
+		$('#gifLoadingIndex').hide();
+				
+		var textToShow="<strong>Error!</strong>";
+		
+		if (jqXHR.status === 0) {
+			textToShow=textToShow + '\n Not connect.\n Verify Network.';
+		} else if (jqXHR.status == 404) {
+			textToShow=textToShow+'\n Requested page not found. [404]';
+		} else if (jqXHR.status == 500) {
+			textToShow=textToShow+'\n Internal Server Error [500].';
+		} else if (textStatus === 'parsererror') {
+			textToShow=textToShow+'\n Requested JSON parse failed.';
+		} else if (textStatus === 'timeout') {
+			textToShow=textToShow+'\n Time out error.';
+		} else if (textStatus === 'abort') {
+			textToShow=textToShow+'\n Ajax request aborted.';
+		} else {
+			textToShow=textToShow+'\n Uncaught Error.\n' + jqXHR.responseText;
+		}
+	
+		textToShow= textToShow + "\t Intentelo mas tarde.Gracias."
+		
+		showAlert("error",textToShow);
+	}
+	
+	function successAjaxs(data)
+	{
+		$('#gifLoadingIndex').hide();
+				
+		if(data.tipo =="OK")
+		{
+			window.location = "portada.php";
+		}
+		else
+		{	
+			showAlert("error","<strong>Error!</strong>  Username or password incorrecto...");
+		}
+	}
+	
+	
 	// Inicializo Todo
 	
 	$( "#btnSubLogin").button();
@@ -71,44 +113,7 @@ $(document).ready(function() {
 		  {
 			$('#gifLoadingIndex').show();
 		
-			$.post("phpHelper/login.php",{ user: $('#username').val(), pass:$('#password').val() },function(data){ 
-		
-				$('#gifLoadingIndex').hide();
-				
-				if(data.respuesta =="OK")
-				{
-					window.location = "portada.php";
-				}
-				else
-				{	
-					showAlert("error","<strong>Error!</strong>  Username or password incorrecto...");
-				}
-			}, "json").error(function(jqXHR, textStatus, errorThrown) 
-			{
-				$('#gifLoadingIndex').hide();
-				
-				var textToShow="<strong>Error!</strong>";
-				
-				if (jqXHR.status === 0) {
-					textToShow=textToShow + '\n Not connect.\n Verify Network.';
-				} else if (jqXHR.status == 404) {
-					textToShow=textToShow+'\n Requested page not found. [404]';
-				} else if (jqXHR.status == 500) {
-					textToShow=textToShow+'\n Internal Server Error [500].';
-				} else if (textStatus === 'parsererror') {
-					textToShow=textToShow+'\n Requested JSON parse failed.';
-				} else if (textStatus === 'timeout') {
-					textToShow=textToShow+'\n Time out error.';
-				} else if (textStatus === 'abort') {
-					textToShow=textToShow+'\n Ajax request aborted.';
-				} else {
-					textToShow=textToShow+'\n Uncaught Error.\n' + jqXHR.responseText;
-				}
-			
-				textToShow= textToShow + "\t Intentelo mas tarde.Gracias."
-				
-				showAlert("error",textToShow);
-			});
+			$.post("phpHelper/login.php",{ user: $('#username').val(), pass:$('#password').val() },successAjaxs, "json").error(errorAjaxs);
 		  }
 		}
 	}); // fin click log in 	
