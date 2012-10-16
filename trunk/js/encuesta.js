@@ -60,35 +60,28 @@ function funcionError(jqXHR, textStatus, errorThrown)
 	showAlert("error",textToShow);
 }	
 
-function funcionSuccess(data)
+function successProgram(data)
 {
 	$('#gifLoadingNewItem').hide();
 	
-	switch(data.respuesta)
+	switch(data.tipo)
 	{
 		case "OK":	
-			var tipo = $('#itemToInsert').attr("name");
 
-			if(tipo== "programa")
-			{
-				llenaListaProgramas();	
-			}
-			else
-			{
-				var idPrograma = $('#itemToInsert').val();
-				
-				llenarComboEncuestas(idPrograma);
-
-			}
+			llenaListaProgramas();	
 			
 			$('#dialogNewItem').dialog('close');
 		break;
 		case "ERROR":
-			showAlert("error","<strong>OCURRIO UN ERROR!</strong><br><i class='icon-warning-sign'></i><p>Intentelo mas tarde...</p>");
+			if(data.desc == "REPETIDO")
+			{
+				showAlert("error","<strong>Ya existe un registro con estos valores!</strong><br><i class='icon-thumbs-down'></i>");
 		break;
-		case "REPETIDO":
-			showAlert("error","<strong>Ya existe un registro con estos valores!</strong><br><i class='icon-thumbs-down'></i>");
-		break;
+			}
+			else
+			{
+				showAlert("error","<strong>OCURRIO UN ERROR!</strong><br><i class='icon-warning-sign'></i><p>Intentelo mas tarde...</p>");
+			}
 	}
 }
 
@@ -111,7 +104,7 @@ function llenaListaProgramas()
 
 	$('#gifLoading').show();
 	
-	$.getJSON('phpHelper/servicioEncuesta.php?action=1&paged=0', function(data) {
+	$.getJSON('phpHelper/SmartVoteServices.php?action=1&paged=0', function(data) {
 		  
 			$('#gifLoading').hide();
 			
@@ -163,11 +156,11 @@ function validarPreguntas()
 		return false;
 }
 				
-function successInsersionPreguntas(data)
+function successEncuesta(data)
 {
 	$('#gifLoadingPreguntas').hide();
 	
-	if(data.respuesta == "OK"){
+	if(data.tipo == "OK"){
 	
 		$('#alertaPreguntas').addClass("alert-info");
 		$('#alertaPreguntas').html("<strong>FELICITACIONES!</strong><br><i class='icon-thumbs-up'></i><p>Las preguntas fueron cargadas correctamente.</p>");
@@ -182,7 +175,7 @@ function successInsersionPreguntas(data)
 	}
 }
 
-function errorInsersionPreguntas(jqXHR, textStatus, errorThrown)
+function errorEncuesta(jqXHR, textStatus, errorThrown)
 {
 	$('#gifLoadingPreguntas').hide();
 	
@@ -297,11 +290,8 @@ function activarPanelEncuesta()
 		/* Limpio los valores */
 		
 		$('#name').val('');
+		
 		$('#textAreaNI').val('');
-		
-		// Cargo valores al Hidden 
-		
-		$('#itemToInsert').attr("name","programa");
 		
 		$("#dialogNewItem").dialog( "option", "title","Nuevo Programa");
 		
@@ -309,6 +299,44 @@ function activarPanelEncuesta()
 		
 		return false;
 	});
+	
+	
+	// Boton de nuevo programa..
+	
+	$('#btnOkNewItem').click(function(){
+
+		$('#alertaProgramas').addClass("ocultar");
+		
+		$('#gifLoadingNewItem').show();
+		
+		var nameValue =$('#name').val();
+		var textAreaValue =$('#textAreaNI').val();
+		
+		if(nameValue =='')
+		{
+			showAlert("warning","<strong>Warning!</strong>  Faltan datos.....");
+			
+			$('#gifLoadingNewItem').hide();
+		}
+		else
+		{
+			if(textAreaValue =='')
+			{
+				showAlert("warning","<strong>Warning!</strong>  Faltan datos.....");
+				
+				$('#gifLoadingNewItem').hide();
+			}
+			else
+			{
+				$.post("phpHelper/SmartVoteServices.php",{ tipo:'programa',nombre: nameValue, desc:textAreaValue }, successProgram, "json").error(funcionError);
+			}
+				
+		}
+		
+	}); // fin click boton nuevo elelento
+	
+	
+	
 	
 	// Cambio en el combo de programas...
 	
@@ -334,6 +362,8 @@ function activarPanelEncuesta()
 		}
 	});	
 
+	
+	
 	// Boton Validar Encuesta 
 	
 	$('#validarEncuesta').click(function(){
@@ -370,12 +400,14 @@ function activarPanelEncuesta()
 			{
 				$('#gifLoadingNuevaEncuesta').show();
 				
-				$.getJSON("phpHelper/servicioEncuesta.php?action=4",{id_p:idPrograma,nombre:nombreNuevaEncuesta},successValidarEncuesta).error(errorValidarEncuesta); 
+				$.getJSON("phpHelper/SmartVoteServices.php?action=4",{id_p:idPrograma,nombre:nombreNuevaEncuesta},successValidarEncuesta).error(errorValidarEncuesta); 
 			}
 		}
 		
 		
 	});
+	
+	
 	
 	// Boton Log on 
 	
@@ -401,54 +433,7 @@ function activarPanelEncuesta()
 	}); // fin click log on 
 
 	
-	// Boton de nuevo programa..
-	
-	$('#btnOkNewItem').click(function(){
 
-		$('#alertaProgramas').addClass("ocultar");
-		
-		$('#gifLoadingNewItem').show();
-		
-		var nameValue =$('#name').val();
-		var textAreaValue =$('#textAreaNI').val();
-		
-		if(nameValue =='')
-		{
-			showAlert("warning","<strong>Warning!</strong>  Faltan datos.....");
-			
-			$('#gifLoadingNewItem').hide();
-		}
-		else
-		{
-			if(textAreaValue =='')
-			{
-				showAlert("warning","<strong>Warning!</strong>  Faltan datos.....");
-				
-				$('#gifLoadingNewItem').hide();
-			}
-			else
-			{
-				
-				// Analizo si inserto programa o encuesta //
-				
-				var tipoInsercion = $('#itemToInsert').attr("name");
-				
-				if( tipoInsercion == "programa")
-				{
-					$.post("phpHelper/insercion.php",{ tipo:'programa',nombre: nameValue, desc:textAreaValue }, funcionSuccess, "json").error(funcionError);
-					
-				}else
-				{
-					var idPrograma = $('#itemToInsert').val();
-					
-					$.post("phpHelper/insercion.php",{ tipo:'encuesta',nombre: nameValue, desc:textAreaValue, idp: idPrograma }, funcionSuccess, "json").error(funcionError);
-				}
-			}
-		}
-		
-	}); // fin click boton nuevo elelento
-
-	
     // Click boton Crear nuevas preguntas para encuesta
 	
     $('#crear').click(function(){
@@ -471,9 +456,13 @@ function activarPanelEncuesta()
 			
 			var idPrograma = $("#listaProgramas option:selected").val();
 			
-			// Creo encuesta y Pregunta Juntas 
+			var nombreNuevaEncuesta = $("#nameNuevaEncuesta").val();
+		
+			var descNuevaEncuesta = $("#textAreaNuevaEncuesta").val();
 			
-			$.post("phpHelper/insercion.php",{ tipo:'pregunta',Arr_preguntas: arrayPreguntasDatos ,idE: idEncuesta }, successInsersionPreguntas, "json").error(errorInsersionPreguntas);
+			// Creo encuesta y Pregunta Juntas 
+
+			$.post("phpHelper/SmartVoteServices.php",{ tipo:'encuesta',nombreE: nombreNuevaEncuesta, descE:descNuevaEncuesta, id_p: idPrograma,Arr_preguntas: arrayPreguntasDatos}, successEncuesta, "json").error(errorEncuesta);
 			
 		}
 		else
