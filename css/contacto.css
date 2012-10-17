@@ -1,6 +1,26 @@
 .titulo{
 	background-color:black;
-	color: white;
 	text-align:center;
 	height:100%;
+	font: 250% sans-serif; 
+	color: white;
+}
+
+td
+{
+vertical-align:top;
+}
+
+.etiquetas{
+	font: 150% sans-serif; 
+}
+
+#bordeArribaAbajo{
+	border-bottom-style:solid;
+	border-bottom-width:5px;
+	border-top-style:solid;
+	border-top-width:5px;
+}
+.textoAlerta{
+	text-align:center;
 }
