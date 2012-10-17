@@ -1,7 +1,6 @@
 <!DOCTYPE html>
  <html class="no-js">
     <head>
-        <!--<meta charset="utf-8">-->
 		<meta charset="ISO-8859-1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title></title>
@@ -37,8 +36,8 @@
                     <a class="brand" href="index.php">SmartVote</a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
-                            <li><a href="informacion.php">Que es SmartVote?</a></li>
-                            <li class="active"><a href="contactanos.php">Contactanos</a></li>
+                            <li class="active"><a href="informacion.php">Que es SmartVote?</a></li>
+                            <li><a href="contactanos.php">Contactanos</a></li>
                         </ul>
                     </div>
                 </div>
@@ -46,35 +45,25 @@
         </div>
          <div class="container-fluid">
 			<div class="row-fluid">
-                <div class="span8 offset2 hero-unit">
-					<div class="titulo bordeRedondoGral">
-						Contactanos
+                <div class="span6 offset3 bordeRedondoGral">
+					<br>
+					<br>
+					<div id="myCarousel" class="carousel slide">
+						<!-- Carousel items -->
+						<div class="carousel-inner">
+							<div class="active item"><img src="img/logoTV.png" alt="">
+								<div class="carousel-caption">
+								  <h4>Second Thumbnail label</h4>
+								  <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
+								</div>
+							</div>
+							<div class="item"><img src="img/encuesta2.jpg" alt=""></div>
+							<div class="item"><img src="img/grafico.png" alt=""></div>
+						</div>
+						<!-- Carousel nav -->
+						<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+						<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
 					</div>
-					<br>
-					<br>
-					<form id="formContacto"action="contactanos.html" autocomplete="on">
-						<div id="alertaEmail" class="textoAlerta alert alert-error ocultar"><strong>Ups!! Ocurrió un error</strong><br>Intentelo las tarde.</div>
-						<div id="bordeArribaAbajo">
-							<table align="center" CELLPADDING="20">
-								<tr>
-									<td class="etiquetas">Nombre:</td>
-									<td><input id="nombreContacto" type="text" name="fname" required="required" placeholder="Ej: Julio"></td>
-								</tr>
-								<tr>
-									<td class="etiquetas"> E-mail:</td>
-									<td><input id="correoContacto" type="email" name="email" autocomplete="off" required="required" placeholder="Ej: julio@.asdf.com"></td>
-								</tr>
-								<tr>
-									<td class="etiquetas">Consulta:</td>
-									<td><textarea id="consultaContacto" rows="5" placeholder="...." required="required"></textarea></td>
-								</tr>
-							</table>
-						</div>
-						<br>
-						<div align="center">
-							<input type="submit" class="btn btn-large">
-						</div>
-					</form>
 				</div>
             </div>
 			<div class="row">

@@ -181,6 +181,26 @@
 					case "votos": // Insertar votos por parte de la TV
 
 					break;
+					
+					case "contacto":
+						if(isset( $_POST["nombreC"],$_POST["correoC"], $_POST["consultaC"]))
+						{
+							$nombreC=$_POST["nombreC"];
+
+							$correoC=$_POST["correoC"];
+						 
+							$consultaC=$_POST["consultaC"];
+						 
+							$respuesta = $adminServicio->EnviarCorreo($nombreC,$correoC,$consultaC);
+						}
+						else
+						{
+							errorParametros("LA URL NO CONTIENE LOS PARAMETROS CORRECTOS");
+						} 
+					break;
+					
+					default:
+						errorParametros("METODO NO ENCONTRADO");
 				}
 				
 				echo $respuesta;

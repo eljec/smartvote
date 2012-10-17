@@ -1,5 +1,4 @@
-
-public function successEmail(data)
+ function successEmail(data)
 {
 	if(data.tipo == "OK")
 	{
@@ -14,7 +13,7 @@ public function successEmail(data)
 	return false ;
 }
 
-public function errorEmail()
+ function errorEmail()
 {
   // Muestro Alerta //
   
@@ -32,7 +31,7 @@ $(function() {
 		
 		var nombreContacto = $('#nombreContacto').val();
 		var correoContacto = $('#correoContacto').val();
-		var consultaContacto $('#consultaContacto').val();
+		var consultaContacto = $('#consultaContacto').val();
 		
 		$.post("phpHelper/SmartVoteServices.php",{ tipo:'contacto',nombreC: nombreContacto, correoC:correoContacto, consultaC: consultaContacto}, successEmail, "json").error(errorEmail);
 		

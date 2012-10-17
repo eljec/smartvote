@@ -140,7 +140,21 @@ class SmartVoteManager {
 		}
 	}
 	
-	
+	public function EnviarCorreo($nombreC,$correoC,$consultaC)
+	{
+		$subject = "Nueva Consulta de ".$nombreC;
+
+		try{
+		
+			mail("juliocastillo.sistemas@gmail.com", $subject,$consultaC, "From:" . $correoC);
+			
+			return json_encode(new Respuesta("OK","CORREO ENVIADO SATISFACTORIAMENTE"));
+			
+		}catch(Exception $e){
+		
+			return json_encode(new Respuesta("ERROR","PROBLEMA AL ENVIAR EL CORREO"));
+		}
+	}
 	// ------------------------------    METODOS PRIVADOS  --------------------------------------------------  //
 
 	private function transformarDatosProgramas($datos)
