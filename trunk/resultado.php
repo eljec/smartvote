@@ -39,8 +39,8 @@
                     <a class="brand" href="index.php">SmartVote</a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
-                            <li><a href="informacion.html">Que es SmartVote?</a></li>
-                            <li><a href="contactanos.html">Contactanos</a></li>
+                            <li><a href="informacion.php">Que es SmartVote?</a></li>
+                            <li><a href="contactanos.php">Contactanos</a></li>
                         </ul>
                     </div>
                 </div>
