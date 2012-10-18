@@ -281,6 +281,14 @@ function activarPanelEncuesta()
 		}
 	});
 	
+	$('.foco').focus(function() {
+		$('.control-group').removeClass('error');
+		//$('.help-inline').addClass('ocultar');
+		$('.help-inline').hide();
+	});
+	
+	$('.help-inline').hide();
+	
 	// Dialog Boton nuevo programa
 	
 	$('#newPrograma').click(function(){
@@ -376,18 +384,15 @@ function activarPanelEncuesta()
 		
 		var descNuevaEncuesta = $("#textAreaNuevaEncuesta").val();
 		
-		if(nombreNuevaEncuesta == "")
+		if(nombreNuevaEncuesta=="" && descNuevaEncuesta=="")
 		{
-			// Alerta
-			
-			$('#alertaEncuestas').removeClass('alert-success');
-			$('#alertaEncuestas').removeClass('alert-error');	
-			$('#alertaEncuestas').html("<strong>Ups !!</strong> Falta completar algun campo...");	
-			$('#alertaEncuestas').removeClass('ocultar');
+			$('.control-group').addClass('error');
+			//$('.help-inline').removeClass('ocultar');
+			$('.help-inline').show();
 		}
 		else
 		{
-			if(descNuevaEncuesta == "")
+			if(nombreNuevaEncuesta == "")
 			{
 				// Alerta
 				
@@ -395,16 +400,27 @@ function activarPanelEncuesta()
 				$('#alertaEncuestas').removeClass('alert-error');	
 				$('#alertaEncuestas').html("<strong>Ups !!</strong> Falta completar algun campo...");	
 				$('#alertaEncuestas').removeClass('ocultar');
+				
 			}
 			else
 			{
-				$('#gifLoadingNuevaEncuesta').show();
-				
-				$.getJSON("phpHelper/SmartVoteServices.php?action=4",{id_p:idPrograma,nombre:nombreNuevaEncuesta},successValidarEncuesta).error(errorValidarEncuesta); 
+				if(descNuevaEncuesta == "")
+				{
+					// Alerta
+					
+					$('#alertaEncuestas').removeClass('alert-success');
+					$('#alertaEncuestas').removeClass('alert-error');	
+					$('#alertaEncuestas').html("<strong>Ups !!</strong> Falta completar algun campo...");	
+					$('#alertaEncuestas').removeClass('ocultar');
+				}
+				else
+				{
+					$('#gifLoadingNuevaEncuesta').show();
+					
+					$.getJSON("phpHelper/SmartVoteServices.php?action=4",{id_p:idPrograma,nombre:nombreNuevaEncuesta},successValidarEncuesta).error(errorValidarEncuesta); 
+				}
 			}
-		}
-		
-		
+		}	
 	});
 	
 	
