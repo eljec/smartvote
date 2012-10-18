@@ -25,6 +25,7 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
         </style>
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="css/common.css">
+		<link rel="stylesheet" href="css/portada.css">
         <script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
     </head>
     <body>
@@ -47,7 +48,7 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
                         <div class="navbar-form pull-right">
 							<table>
 								<tr>
-									<td><span class="label label-important ocultar">Important</span></td>
+									<td><span class="label label-important ocultar"></span></td>
 									<td><img class="gifLoading"src="img/ajax-loaderNegro.gif" style="display: none;" alt="Loading..."/></td>
 									<td><input id="btnLogOn" type="button" class="btn" value="Sign on"/>	</td>
 								</tr>

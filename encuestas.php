@@ -7,7 +7,8 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 <!DOCTYPE html>
  <html class="no-js">
     <head>
-        <meta charset="utf-8">
+        <!--<meta charset="utf-8">-->
+		<meta charset="ISO-8859-1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title></title>
         <meta name="description" content="">
@@ -41,13 +42,14 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
                     </a>
                     <a class="brand" href="portada.php">SmartVote</a>
                     <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li><a href="#about">Que es SmartVote?</a></li>
-                            <li><a href="#contact">Contactanos</a></li>
-                        </ul>
                         <div class="navbar-form pull-right">
-							<img class="gifLoading"src="img/ajax-loaderNegro.gif" style="display: none;" alt="Loading..."/>
-                            <input id="btnLogOn" type="button" class="btn" value="Sign on"/>
+							<table>
+								<tr>
+									<td><span class="label label-important ocultar"></span></td>
+									<td><img class="gifLoading"src="img/ajax-loaderNegro.gif" style="display: none;" alt="Loading..."/></td>
+									<td><input id="btnLogOn" type="button" class="btn" value="Sign on"/></td>
+								<tr>
+							</table>
                         </div>
                     </div><!--/.nav-collapse -->
                 </div>
@@ -85,23 +87,37 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 					<div class="azulado bordeRedondo">
 						<h3 align="center">Encuestas</h3>
 					</div>
-					<div class="divBlanco">
+					<div class="divBlanco form-horizontal">
+						<br>
 						<div align="center">
-							<br>
 							<div id="alertaEncuestas" class="alert ocultar TamAlerta"></div>
-								<table CELLPADDING="15">
-									<tr>
-										<td><h4>Nombre:</h4></td>
-										<td>
-											<input type="text" name="name" id="nameNuevaEncuesta" placeholder="...."/>
-										</td>
-									</tr>
-									<tr>
-										<td><h4>Descripcion:</h4></td>
-										<td><textarea id="textAreaNuevaEncuesta" rows="4" placeholder="...."></textarea><br /></td>
-										<td></td>
-									</tr>
-								 </table>
+						</div>
+						<br>
+						<table align="center" width="100%">
+							<tr>
+								<td width="40%">
+									<div class="control-group">
+										<label class="control-label" for="nameNuevaEncuesta">Nombre</label>
+										<div class="controls">
+											<input class="foco" type="text" id="nameNuevaEncuesta" placeholder="....">
+											<span id="avisoNombre" class="help-inline">Campo obligatorio.</span>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="control-group">
+										<label class="control-label" for="textAreaNuevaEncuesta">Descripción</label>
+										<div class="controls">
+											<textarea class="foco" id="textAreaNuevaEncuesta" rows="4" placeholder="...."></textarea>
+											<span class="help-inline"><p>Campo obligatorio.</p></span>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</table>
+						<div align="center">
 							<input id="validarEncuesta" type="button" class="btn" value="Validar"/>
 							<br>
 							<img id="gifLoadingNuevaEncuesta"src="img/ajax-loaderBlanco.gif" style="display: none;" alt="Loading..."/>
