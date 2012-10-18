@@ -1,7 +1,8 @@
 <!DOCTYPE html>
  <html class="no-js">
     <head>
-        <meta charset="utf-8">
+        <!--<meta charset="utf-8">-->
+		<meta charset="ISO-8859-1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title></title>
         <meta name="description" content="">
@@ -31,7 +32,7 @@
                 <div class="span4 offset4" class="divLogo" align="center">
 					<image src="img/logoTV.png"/> 
 					<a id="dialog_link" class="boton">Sig In</a>
-					<a href="resultado.php" id="btnResultado" class="boton">Dar un paseo</a>
+					<a href="informacion.php" id="btnResultado" class="boton">¿Que es SmartVote?</a>
 					<a id="btnVideo"class="boton">Video</a>
 					<div id="dialog">
 						<table>
