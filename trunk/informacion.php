@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
         <link rel="stylesheet" href="css/main.css">
 		<link rel="stylesheet" href="css/common.css">
-		<link rel="stylesheet" href="css/contacto.css">
+		<link rel="stylesheet" href="css/informacion.css">
         <script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
     </head>
     <body>
@@ -38,6 +38,7 @@
                         <ul class="nav">
                             <li class="active"><a href="informacion.php">Que es SmartVote?</a></li>
                             <li><a href="contactanos.php">Contactanos</a></li>
+							<li><a href="resultado.php">Ejemplos</a></li>
                         </ul>
                     </div>
                 </div>
@@ -51,14 +52,65 @@
 					<div id="myCarousel" class="carousel slide">
 						<!-- Carousel items -->
 						<div class="carousel-inner">
-							<div class="active item"><img src="img/logoTV.png" alt="">
+							<div class="active item tamImagen"><img class="alinearCentroImagen" src="img/historia.png" alt="">
 								<div class="carousel-caption">
-								  <h4>Second Thumbnail label</h4>
-								  <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
+								  <h4>Un poco de Historia</h4>
+								  <p>Durante el desarrollo de la humanidad hubieron muchos suscesos que marcaron un antes y un despues.</p>
 								</div>
 							</div>
-							<div class="item"><img src="img/encuesta2.jpg" alt=""></div>
-							<div class="item"><img src="img/grafico.png" alt=""></div>
+							<div class="item tamImagen"><img class="alinearCentroImagen" src="img/televisorviejo.jpg" alt="">
+								<div class="carousel-caption">
+								  <h4>El Televisor</h4>
+								  <p>Revoluciono la comunicacion: video + audio.</p>
+								</div>
+							</div>
+							<div class="item tamImagen"><img class="alinearCentroImagen" src="img/internet.jpg" alt="">
+								<div class="carousel-caption">
+								  <h4>Inetrnet</h4>
+								  <p>Revoluciono la comunicacion,saber de todo en todo momento: datos.</p>
+								</div>
+							</div>
+							<div class="item tamImagen"><img class="alinearCentroImagen" src="img/televisordigital.jpg" alt="">
+								<div class="carousel-caption">
+								  <h4>Televisor con acceso a Internet</h4>
+								  <p>Se combinaron ambos conocimientos y surgio una nueva concepcion de comunicacion.</p>
+								</div>
+							</div>
+							<div class="item tamImagen"><img class="alinearCentroImagen" src="img/desarrollo_software.jpg" alt="">
+								<div class="carousel-caption">
+								  <h4>Desarrollo de Aplicaciones</h4>
+								  <p>Se abrio un nuevo mercado para la creacion de aplicaciones para este tipo de televisor.</p>
+								</div>
+							</div>
+							<div class="item tamImagen"><img class="alinearCentroImagen" src="img/logoTV.png" alt="">
+								<div class="carousel-caption">
+								  <h4>Surgio: SmartVote</h4>
+								  <p>Sistema integrador que te permite interactuar con tus programas favoritos y votar sus encuestas.</p>
+								</div>
+							</div>
+							<div class="item tamImagen"><img class="alinearCentroImagen" src="img/signopregunta.gif" alt="">
+								<div class="carousel-caption">
+								  <h4>Como se usa ?</h4>
+								</div>
+							</div>
+							<div class="item tamImagen"><img src="img/elegir.jpg" alt="">
+								<div class="carousel-caption">
+									<h4>Inicio y Selección</h4>
+									<p>Iniciamos la aplicación y elegimos la encuesta a votar.</p>
+								</div>
+							</div>
+							<div class="item tamImagen"><img class="alinearCentroImagen" src="img/encuesta2.jpg" alt="">
+								<div class="carousel-caption">
+									<h4>Votamos</h4>
+									<p>Vamos pasando de pregunta en pregunta y votamos con el control remoto.</p>
+								</div>
+							</div>
+							<div class="item tamImagen"><img class="alinearCentroImagen" src="img/grafico.png" alt="">
+								<div class="carousel-caption">
+									<h4>Graficos</h4>
+									<p>Luego de votar podemos ver graficos de los resultados de las encuestas.</p>
+								</div>
+							</div>
 						</div>
 						<!-- Carousel nav -->
 						<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
