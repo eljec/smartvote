@@ -1,14 +1,14 @@
 <!DOCTYPE html>
  <html class="no-js">
     <head>
-        <!--<meta charset="utf-8">-->
-		<meta charset="ISO-8859-1">
+        <meta charset="utf-8">
+		<!--<meta charset="ISO-8859-1">-->
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title></title>
         <meta name="description" content="">
 		<meta http-equiv="Access-Control-Allow-Origin" content="*"> 
         <meta name="viewport" content="width=device-width">
-		<link type="text/css" href="css/jquery-ui-1.8.23.custom.css" rel="stylesheet" />
+		<link type="text/css" href="css/jquery-ui-1.9.0.custom.css" rel="stylesheet" />
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <style>
             body {
@@ -20,7 +20,6 @@
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
         <link rel="stylesheet" href="css/main.css">
 		<link rel="stylesheet" href="css/common.css">
-        <script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -32,8 +31,7 @@
                 <div class="span4 offset4" class="divLogo" align="center">
 					<image src="img/logoTV.png"/> 
 					<a id="dialog_link" class="boton">Sig In</a>
-					<a href="informacion.php" id="btnResultado" class="boton">¿Que es SmartVote?</a>
-					<a id="btnVideo"class="boton">Video</a>
+					<a href="informacion.php" id="btnResultado" class="boton">Â¿Que es SmartVote?</a>
 					<div id="dialog">
 						<table>
 							<tr>
@@ -67,11 +65,12 @@
 				</div>
 			</div>
         </div> 
-		
+        
+		<script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
         <script src="js/vendor/jquery-1.8.0.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
         <script src="js/main.js"></script>
 		<script src="js/index.js"></script>
-		<script src="js/jquery-ui-1.8.23.custom.min.js"></script>
+		<script src="js/jquery-ui-1.9.0.custom.min.js"></script>
     </body>
 </html>
