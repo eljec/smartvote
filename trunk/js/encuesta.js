@@ -126,6 +126,9 @@ function ocultarPanelesPreguntas()
   $("#panelPreguntas2").addClass("ocultar");
   $("#panelPreguntas3").addClass("ocultar");
   $("#tituloPanelPreguntas").addClass("ocultar");
+  
+  $('.pregunta').val('');
+	
 }
 
 function mostrarPanelesPreguntas()
@@ -134,11 +137,14 @@ function mostrarPanelesPreguntas()
 	$("#panelPreguntas2").removeClass("ocultar");
 	$("#panelPreguntas3").removeClass("ocultar");
 	$("#tituloPanelPreguntas").removeClass("ocultar");
+	
+	$('.pregunta').val('');
 }
 
 function validarPreguntas()
 {
 	var arrayPreguntas = $('.pregunta');
+	
 	
 	var i = 0;
 	var flag = true;
@@ -173,6 +179,7 @@ function successEncuesta(data)
 		$('#alertaPreguntas').removeClass("ocultar");
 	
 	}
+
 }
 
 function errorEncuesta(jqXHR, textStatus, errorThrown)
@@ -248,6 +255,12 @@ function ocultarPanelEncuesta()
 	$("#nameNuevaEncuesta").attr('disabled','disabled');
 	$("#textAreaNuevaEncuesta").attr('disabled','disabled');
 	$('#alertaEncuestas').addClass("ocultar");
+	
+	$("#nameNuevaEncuesta").val('');
+	$("#textAreaNuevaEncuesta").val('');
+	
+	$('.control-group').removeClass('error');
+	$('.help-inline').hide();
 }
 
 function activarPanelEncuesta()
@@ -255,6 +268,14 @@ function activarPanelEncuesta()
 	$("#validarEncuesta").removeAttr('disabled','disabled');
 	$("#nameNuevaEncuesta").removeAttr('disabled','disabled');
 	$("#textAreaNuevaEncuesta").removeAttr('disabled','disabled');
+	
+	$("#nameNuevaEncuesta").val('');
+	$("#textAreaNuevaEncuesta").val('');
+	
+	$('#alertaEncuestas').addClass('ocultar');
+	
+	$('.control-group').removeClass('error');
+	$('.help-inline').hide();
 }
 
 	// ---------------------------- MAIN ----------------------------------------------------------------------------------------- //
@@ -283,7 +304,6 @@ function activarPanelEncuesta()
 	
 	$('.foco').focus(function() {
 		$('.control-group').removeClass('error');
-		//$('.help-inline').addClass('ocultar');
 		$('.help-inline').hide();
 	});
 	
@@ -362,12 +382,14 @@ function activarPanelEncuesta()
 			
 			ocultarPanelEncuesta();
 			
-			ocultarPanelesPreguntas();
+			
 		}
 		else
 		{
 			activarPanelEncuesta();
 		}
+		
+		ocultarPanelesPreguntas();
 	});	
 
 	
@@ -387,7 +409,6 @@ function activarPanelEncuesta()
 		if(nombreNuevaEncuesta=="" && descNuevaEncuesta=="")
 		{
 			$('.control-group').addClass('error');
-			//$('.help-inline').removeClass('ocultar');
 			$('.help-inline').show();
 		}
 		else
@@ -396,10 +417,9 @@ function activarPanelEncuesta()
 			{
 				// Alerta
 				
-				$('#alertaEncuestas').removeClass('alert-success');
-				$('#alertaEncuestas').removeClass('alert-error');	
-				$('#alertaEncuestas').html("<strong>Ups !!</strong> Falta completar algun campo...");	
-				$('#alertaEncuestas').removeClass('ocultar');
+				$('#controlNombre .help-inline').show();
+				$('#controlNombre').addClass('error');
+				
 				
 			}
 			else
@@ -408,10 +428,9 @@ function activarPanelEncuesta()
 				{
 					// Alerta
 					
-					$('#alertaEncuestas').removeClass('alert-success');
-					$('#alertaEncuestas').removeClass('alert-error');	
-					$('#alertaEncuestas').html("<strong>Ups !!</strong> Falta completar algun campo...");	
-					$('#alertaEncuestas').removeClass('ocultar');
+					$('#controlDesc .help-inline').show();
+					$('#controlDesc').addClass('error');
+					
 				}
 				else
 				{

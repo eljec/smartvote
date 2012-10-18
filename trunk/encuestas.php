@@ -7,8 +7,8 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 <!DOCTYPE html>
  <html class="no-js">
     <head>
-        <!--<meta charset="utf-8">-->
-		<meta charset="ISO-8859-1">
+        <meta charset="utf-8">
+		<!--<meta charset="ISO-8859-1">-->
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title></title>
         <meta name="description" content="">
@@ -96,19 +96,19 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 						<table align="center" width="100%">
 							<tr>
 								<td width="40%">
-									<div class="control-group">
+									<div id="controlNombre" class="control-group">
 										<label class="control-label" for="nameNuevaEncuesta">Nombre</label>
 										<div class="controls">
 											<input class="foco" type="text" id="nameNuevaEncuesta" placeholder="....">
-											<span id="avisoNombre" class="help-inline">Campo obligatorio.</span>
+											<span class="help-inline">Campo obligatorio.</span>
 										</div>
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<div class="control-group">
-										<label class="control-label" for="textAreaNuevaEncuesta">Descripción</label>
+									<div id="controlDesc" class="control-group">
+										<label class="control-label" for="textAreaNuevaEncuesta">DescripciÃ³n</label>
 										<div class="controls">
 											<textarea class="foco" id="textAreaNuevaEncuesta" rows="4" placeholder="...."></textarea>
 											<span class="help-inline"><p>Campo obligatorio.</p></span>
