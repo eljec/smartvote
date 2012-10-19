@@ -59,6 +59,37 @@ class SmartVoteDB {
 		
 			$this->conectar();
 			
+			$result = mysql_query($queEmp, $this->db_conexion);
+			
+			// Cierro la conexion //
+
+			mysql_close($this->db_conexion);
+
+			// Se obtiene el resultado de la consulta
+			
+			$row = mysql_fetch_array($result);
+			$count = $row['count'];
+			
+			// Retorno la respuesta //
+		
+			return $count;
+			
+		}catch (Exception $e) {
+
+			mysql_close($this->db_conexion);
+			
+			throw new Exception('Error MySQL');
+		}
+	}
+	
+	public function CantidadProgramasActivos()
+	{
+		$queEmp ="SELECT COUNT(*) AS count FROM programas as p where p.activo=1";	
+		
+		try{
+		
+			$this->conectar();
+			
 			$resultado = mysql_query($queEmp, $this->db_conexion);
 			
 			// Cierro la conexion //
@@ -68,6 +99,34 @@ class SmartVoteDB {
 			// Retorno la respuesta //
 
 			return $resultado;	
+		
+		}catch (Exception $e) {
+
+			mysql_close($this->db_conexion);
+			
+			throw new Exception('Error MySQL');
+		}
+	}
+	
+	public function ObtenerPagina($start,$limit,$sidx,$sord)
+	{
+		try{
+			
+		    //Consulta que devuelve los registros de una sola pagina
+		    $consulta = "SELECT * FROM programas ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+			
+			$this->conectar();
+			
+			$result = mysql_query($consulta, $this->db_conexion);
+			
+			// Cierro la conexion //
+
+			mysql_close($this->db_conexion);
+			
+			
+			// Retorno la respuesta //
+
+			return $result;	
 		
 		}catch (Exception $e) {
 

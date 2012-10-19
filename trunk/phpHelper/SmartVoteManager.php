@@ -33,6 +33,41 @@ class SmartVoteManager {
 		}
 	}
 	
+	public function BuscarProgramas_Paginado($page,$limit,$sidx,$sord)
+	{
+		try{
+		
+			$count = $this->baseSmartVote->CantidadProgramasActivos();
+			
+			// Formo parametros para traer la pagina 
+			
+			//En base al numero de registros se obtiene el numero de paginas
+		    if( $count >0 ) 
+			{
+				$total_pages = ceil($count/$limit);
+		    } else 
+			{
+				$total_pages = 0;
+		    }
+		    if ($page > $total_pages)
+		        $page=$total_pages;
+			
+		    //Almacena numero de registro donde se va a empezar a recuperar los registros para la pagina
+		    $start = $limit*$page - $limit;
+			
+			$datos = $this->baseSmartVote->ObtenerPagina($start, $limit, $sidx, $sord);
+
+			$respuesta = $this->transformarDatosProgramaPaginado($datos,$total_pages,$page,$count);
+			
+			return $respuesta;
+	
+		}catch (Exception $e) {
+		
+			$resp = new Respuesta("ERROR","NO SE PUDO HACER LA BUSQUEDA");
+			
+			return json_encode($resp);
+		}
+	}
 	public function BuscarEncuestas($id_program)
 	{
 		try{
@@ -104,7 +139,6 @@ class SmartVoteManager {
 			return json_encode($resp);
 		}
 	}
-	
 	
 	public function InsertarEncuesta($id_p,$nombre,$desc,$arrayPreguntas)
 	{
@@ -274,6 +308,34 @@ class SmartVoteManager {
 			}
 			$count++;
 		}
+		$cadenaDevolver = $cadenaDevolver. "]}";
+		
+		return $cadenaDevolver;
+	}
+	
+	private function transformarDatosProgramaPaginado($datos,$total_pages,$page,$count)
+	{
+		$cadenaDevolver = "{";
+		$cadenaDevolver = $cadenaDevolver." \"total\":\"".$total_pages."\",";
+		$cadenaDevolver = $cadenaDevolver. " \"page\":\"".$page."\",";
+		$cadenaDevolver = $cadenaDevolver. " \"records\":\"".$count."\",";
+		$cadenaDevolver = $cadenaDevolver. "\"rows\":[";
+	    $i=0;
+	    while($fila = mysql_fetch_assoc($datos))
+		{
+	
+			if($i == 0)
+			{
+				$cadenaDevolver = $cadenaDevolver."{\"id\":\"".$fila["id"]."\",";
+				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\"]}";
+			}
+			else
+			{
+				$cadenaDevolver = $cadenaDevolver.",{\"id\":\"".$fila["id"]."\",";
+				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\"]}";
+			}
+	        $i++;
+	    }
 		$cadenaDevolver = $cadenaDevolver. "]}";
 		
 		return $cadenaDevolver;

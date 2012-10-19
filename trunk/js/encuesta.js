@@ -64,13 +64,13 @@ function successEncuesta(data)
 	if(data.tipo == "OK"){
 	
 		$('#alertaPreguntas').addClass("alert-info");
-		$('#alertaPreguntas').html("<strong>FELICITACIONES!</strong><br><i class='icon-thumbs-up'></i><p>Las preguntas fueron cargadas correctamente.</p>");
+		$('#alertaPreguntas').html("<strong>FELICITACIONES!</strong><br><i class='icon-thumbs-up'></i>Preguntas cargadas correctamente.");
 		$('#alertaPreguntas').removeClass("ocultar");
 	}
 	else{
 		
 		$('#alertaPreguntas').addClass("alert-error");
-		$('#alertaPreguntas').html("<strong>OCURRIO UN ERROR!</strong><br><i class='icon-thumbs-down'></i><p>Intentelo mas tarde...</p>");
+		$('#alertaPreguntas').html("<strong>OCURRIO UN ERROR!</strong><br><i class='icon-thumbs-down'></i>Intentelo mas tarde...");
 		$('#alertaPreguntas').removeClass("ocultar");
 	
 	}
@@ -215,19 +215,28 @@ function llenaListaProgramas()
 				
 function ocultarPanelesPreguntas()
 {
-  $("#panelPreguntas").addClass("ocultar");
-  $("#panelPreguntas2").addClass("ocultar");
-  $("#panelPreguntas3").addClass("ocultar");
-  $("#tituloPanelPreguntas").addClass("ocultar");
-  
-  $('.pregunta').val('');
+	$("#panelPreguntas").addClass("ocultar");
+	
+	$("#panelPreguntas3").addClass("ocultar");
+	
+	$("#tituloPanelPreguntas").addClass("ocultar");
+	  
+	$('.pregunta').val('');
+	  
+	$('.controls').removeClass('mal');
+	
+	$('.controlPregunta').removeClass('bad');
+	
+	$('.controlPregunta').removeClass('error');
+	
+	$('.controlPregunta .help-inline').hide();
+	
 	
 }
 
 function mostrarPanelesPreguntas()
 {
 	$("#panelPreguntas").removeClass("ocultar");
-	$("#panelPreguntas2").removeClass("ocultar");
 	$("#panelPreguntas3").removeClass("ocultar");
 	$("#tituloPanelPreguntas").removeClass("ocultar");
 	
@@ -236,23 +245,54 @@ function mostrarPanelesPreguntas()
 
 function validarPreguntas()
 {
+	$('.controls').removeClass('mal');
+	
+	$('.controlPregunta').removeClass('bad');
+	
+	$('.controlPregunta').removeClass('error');
+	
+	$('.controlPregunta .help-inline').hide();
+	
+	
+	
 	var arrayPreguntas = $('.pregunta');
 	
+	var padre;
 	
-	var i = 0;
+	var abuelo;
+	
 	var flag = true;
 	
-	while (i< arrayPreguntas.length && flag==true)
+	var i = 0;
+	
+	for(i=0;i<arrayPreguntas.length;i++)
 	{
-		if(arrayPreguntas[i].value == "")
-			flag=false;
-		i++;
+		if(arrayPreguntas[i].value == null || arrayPreguntas[i].value.length == 0 || /^\s+$/.test(arrayPreguntas[i].value))
+		{
+			flag = false;
+			
+			padre = arrayPreguntas[i].parentNode;
+			
+			padre.className = padre.className + " mal";
+			
+			abuelo = padre.parentNode;
+			
+			abuelo.className = abuelo.className + " bad";
+		}
 	}
 	
-	if(flag)
-		return true;
-	else
-		return false;
+	if(!flag)
+	{
+		$('.controlPregunta').each(function() {
+		if ($(this).hasClass("bad")) {
+			$(this).addClass('error');
+			}
+		});
+	
+		$('.mal .help-inline').show();
+	}
+	
+	return flag;
 }
 				
 function formarDatos()
@@ -305,7 +345,7 @@ function activarPanelEncuesta()
 	$('.help-inline').hide();
 }
 
-	// ---------------------------- MAIN ----------------------------------------------------------------------------------------- //
+// ---------------------------- MAIN ----------------------------------------------------------------------------------------- //
 				
 	llenaListaProgramas();
 	
@@ -337,7 +377,7 @@ function activarPanelEncuesta()
 	});
 	
 	$('.help-inline').hide();
-	
+
 	// Dialog Boton nuevo programa
 	
 	$('#newPrograma').click(function(){
@@ -449,7 +489,7 @@ function activarPanelEncuesta()
 				$('#controlNombre .help-inline').show();
 				$('#controlNombre').addClass('error');
 				
-				
+				ocultarPanelesPreguntas();
 			}
 			else
 			{
@@ -460,6 +500,7 @@ function activarPanelEncuesta()
 					$('#controlDesc .help-inline').show();
 					$('#controlDesc').addClass('error');
 					
+					ocultarPanelesPreguntas();
 				}
 				else
 				{
@@ -516,18 +557,6 @@ function activarPanelEncuesta()
 			$.post("phpHelper/SmartVoteServices.php",{ tipo:'encuesta',nombreE: nombreNuevaEncuesta, descE:descNuevaEncuesta, id_p: idPrograma,Arr_preguntas: arrayPreguntasDatos}, successEncuesta, "json").error(errorEncuesta);
 			
 		}
-		else
-		{
-			// Muestro alertas 
-			
-			$('#alertaPreguntas').addClass("alert-error");
-			$('#alertaPreguntas').html("<strong>OOOHH !!!</strong><br><i class='icon-warning-sign'></i><p>Al parecer te falta completar algun campo..</p>");
-			$('#alertaPreguntas').removeClass("ocultar");
-			
-		}
-		
-		
-	
 	});
 	
 }); // Fin ready 
