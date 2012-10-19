@@ -63,7 +63,7 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
             </div>
 			<div class="row-fluid">
                 <div class="span6">
-					<div class="azulado bordeRedondo">
+					<div class="negro bordeRedondoGral">
 						<h3 align="center">Programas</h3>
 					</div>
 					<div class="divBlanco">
@@ -84,7 +84,7 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 					</div>
 				</div>
 				<div class="span6">
-					<div class="azulado bordeRedondo">
+					<div class="negro bordeRedondoGral">
 						<h3 align="center">Encuestas</h3>
 					</div>
 					<div class="divBlanco form-horizontal">
@@ -131,9 +131,8 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 			<br>
 			<div id="tituloPanelPreguntas" class="row">
 				<div class="span12" align="center">
-					<div class="verdeDos bordeRedondo">
-						<h3 align="center">Preguntas</h3>
-						<p align="center">(No incluir los signos)</p>
+					<div class="negro bordeRedondoGral">
+						<h3 align="center">Preguntas (sin ¿?)</h3>
 					</div>
 				</div>
 			</div>
@@ -175,7 +174,7 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 				</div>
 			<br>
 			<div id="panelPreguntas3" class="row">
-				<div class="span12 verdeDos bordeRedondo" align="center">
+				<div class="span12 negro bordeRedondoGral" align="center">
 					<input id="crear" type="button" class="btn tamBoton" value="Crear"/>
 					<br>
 					<img id="gifLoadingPreguntas"src="img/ajax-loaderVerdeDos.gif" style="display: none;" alt="Loading..."/>

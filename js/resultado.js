@@ -19,7 +19,7 @@ $(document).ready(function() {
 				{name:'descripcion', editable: true, index:'descripcion', width:400}
 			],
 			pager: '#paginacion',
-			rowNum:10,
+			rowNum:5,
 			rowList:[5,10],
 			sortname: 'id',
 			sortorder: 'asc',

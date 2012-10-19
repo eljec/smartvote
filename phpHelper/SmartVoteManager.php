@@ -155,6 +155,7 @@ class SmartVoteManager {
 			return json_encode(new Respuesta("ERROR","PROBLEMA AL ENVIAR EL CORREO"));
 		}
 	}
+
 	// ------------------------------    METODOS PRIVADOS  --------------------------------------------------  //
 
 	private function transformarDatosProgramas($datos)
