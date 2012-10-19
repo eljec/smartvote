@@ -3,35 +3,7 @@
 
 $(document).ready(function() {
 				
-/* FUNCIONES */
-
-function inicializarDialog(titulo)
-{
-	$('.claseNewEncuesta').click(function(){
-	
-		
-		$('#alertNewItem').addClass("ocultar");
-		
-		/* Limpio los valores */
-		
-		$('#name').val('');
-		$('#textAreaNI').val('');
-		
-		// Cargo valores al Hidden 
-		
-		$('#itemToInsert').attr("name","encuesta");
-		
-		var idp = $("#listaProgramas option:selected").val();
-		
-		$('#itemToInsert').val(idp)
-		
-		$("#dialogNewItem").dialog( "option", "title","Nueva Encuesta");
-		
-		$('#dialogNewItem').dialog('open');
-		
-		return false;
-	});
-}
+/* FUNCIONES MANEJO AJAXS */
 
 function funcionError(jqXHR, textStatus, errorThrown)
 {
@@ -83,6 +55,127 @@ function successProgram(data)
 				showAlert("error","<strong>OCURRIO UN ERROR!</strong><br><i class='icon-warning-sign'></i><p>Intentelo mas tarde...</p>");
 			}
 	}
+}
+
+function successEncuesta(data)
+{
+	$('#gifLoadingPreguntas').hide();
+	
+	if(data.tipo == "OK"){
+	
+		$('#alertaPreguntas').addClass("alert-info");
+		$('#alertaPreguntas').html("<strong>FELICITACIONES!</strong><br><i class='icon-thumbs-up'></i><p>Las preguntas fueron cargadas correctamente.</p>");
+		$('#alertaPreguntas').removeClass("ocultar");
+	}
+	else{
+		
+		$('#alertaPreguntas').addClass("alert-error");
+		$('#alertaPreguntas').html("<strong>OCURRIO UN ERROR!</strong><br><i class='icon-thumbs-down'></i><p>Intentelo mas tarde...</p>");
+		$('#alertaPreguntas').removeClass("ocultar");
+	
+	}
+
+}
+
+function errorEncuesta(jqXHR, textStatus, errorThrown)
+{
+	$('#gifLoadingPreguntas').hide();
+	
+	var textToShow="<strong>OCURRIO UN ERROR!</strong>";
+	
+	if (jqXHR.status === 0) {
+		textToShow=textToShow + "<br><i class='icon-thumbs-down'></i><p>Al parecer no esta conectado a Internet.</p><p>Verifique su conexion</p>";
+	} else {
+		textToShow=textToShow + "<br><i class='icon-thumbs-down'></i><p>Intentelo mas tarde...</p>";
+	}
+
+	$('#alertaPreguntas').addClass("alert-error");
+	$('#alertaPreguntas').html(textToShow);
+	$('#alertaPreguntas').removeClass("ocultar");
+}
+
+function successValidarEncuesta(data)
+{
+	$('#gifLoadingNuevaEncuesta').hide();
+	
+	if(data.tipo == "OK")
+	{
+		$('#alertaEncuestas').removeClass('alert-error');
+		$('#alertaEncuestas').addClass('alert-success');	
+		$('#alertaEncuestas').html("<strong>OK!!</strong> Nombre Valido..");	
+		$('#alertaEncuestas').removeClass('ocultar');
+		
+		mostrarPanelesPreguntas();
+	}
+	else
+	{
+		$('#alertaEncuestas').removeClass('alert-success');
+		$('#alertaEncuestas').addClass('alert-error');	
+		$('#alertaEncuestas').html("<strong>ERROR !!</strong> "+data.desc);	
+		$('#alertaEncuestas').removeClass('ocultar');
+		
+		ocultarPanelesPreguntas();
+	}
+}
+
+function errorValidarEncuesta(jqXHR, textStatus, errorThrown)
+{
+
+}
+
+function successLogon(data)
+{
+		$('.gifLoading').hide();
+				
+			if(data.tipo =="OK")
+			{
+				// Redirecciono a la pagina de portada 
+				
+				 window.location = "index.php";
+			}
+			else{
+			
+				$('.label-important').text('Ups!! Ocurrio, intentelo mas tarde.');		
+				$('.label-important').removeClass('ocultar');
+			}
+	}
+	
+function errorLogon()
+{
+		$('.gifLoading').hide();
+		$('.label-important').text('Ups!! Ocurrio, intentelo mas tarde.');		
+		$('.label-important').removeClass('ocultar');
+	}
+
+	
+/* OTRAS FUNCIONES */
+
+function inicializarDialog(titulo)
+{
+	$('.claseNewEncuesta').click(function(){
+	
+		
+		$('#alertNewItem').addClass("ocultar");
+		
+		/* Limpio los valores */
+		
+		$('#name').val('');
+		$('#textAreaNI').val('');
+		
+		// Cargo valores al Hidden 
+		
+		$('#itemToInsert').attr("name","encuesta");
+		
+		var idp = $("#listaProgramas option:selected").val();
+		
+		$('#itemToInsert').val(idp)
+		
+		$("#dialogNewItem").dialog( "option", "title","Nueva Encuesta");
+		
+		$('#dialogNewItem').dialog('open');
+		
+		return false;
+	});
 }
 
 function showAlert(type,text)
@@ -162,72 +255,6 @@ function validarPreguntas()
 		return false;
 }
 				
-function successEncuesta(data)
-{
-	$('#gifLoadingPreguntas').hide();
-	
-	if(data.tipo == "OK"){
-	
-		$('#alertaPreguntas').addClass("alert-info");
-		$('#alertaPreguntas').html("<strong>FELICITACIONES!</strong><br><i class='icon-thumbs-up'></i><p>Las preguntas fueron cargadas correctamente.</p>");
-		$('#alertaPreguntas').removeClass("ocultar");
-	}
-	else{
-		
-		$('#alertaPreguntas').addClass("alert-error");
-		$('#alertaPreguntas').html("<strong>OCURRIO UN ERROR!</strong><br><i class='icon-thumbs-down'></i><p>Intentelo mas tarde...</p>");
-		$('#alertaPreguntas').removeClass("ocultar");
-	
-	}
-
-}
-
-function errorEncuesta(jqXHR, textStatus, errorThrown)
-{
-	$('#gifLoadingPreguntas').hide();
-	
-	var textToShow="<strong>OCURRIO UN ERROR!</strong>";
-	
-	if (jqXHR.status === 0) {
-		textToShow=textToShow + "<br><i class='icon-thumbs-down'></i><p>Al parecer no esta conectado a Internet.</p><p>Verifique su conexion</p>";
-	} else {
-		textToShow=textToShow + "<br><i class='icon-thumbs-down'></i><p>Intentelo mas tarde...</p>";
-	}
-
-	$('#alertaPreguntas').addClass("alert-error");
-	$('#alertaPreguntas').html(textToShow);
-	$('#alertaPreguntas').removeClass("ocultar");
-}
-
-function successValidarEncuesta(data)
-{
-	$('#gifLoadingNuevaEncuesta').hide();
-	
-	if(data.tipo == "OK")
-	{
-		$('#alertaEncuestas').removeClass('alert-error');
-		$('#alertaEncuestas').addClass('alert-success');	
-		$('#alertaEncuestas').html("<strong>OK!!</strong> Nombre Valido..");	
-		$('#alertaEncuestas').removeClass('ocultar');
-		
-		mostrarPanelesPreguntas();
-	}
-	else
-	{
-		$('#alertaEncuestas').removeClass('alert-success');
-		$('#alertaEncuestas').addClass('alert-error');	
-		$('#alertaEncuestas').html("<strong>ERROR !!</strong> "+data.desc);	
-		$('#alertaEncuestas').removeClass('ocultar');
-		
-		ocultarPanelesPreguntas();
-	}
-}
-
-function errorValidarEncuesta(jqXHR, textStatus, errorThrown)
-{
-
-}
-
 function formarDatos()
 {
 	var arrayPreguntas = $('.pregunta');
@@ -286,7 +313,9 @@ function activarPanelEncuesta()
 	
 	ocultarPanelesPreguntas();
 	ocultarPanelEncuesta();
-		
+	
+	$('.label-important').addClass('ocultar');
+	
 	$( "#btnOkNewItem").button();
 	
 	// Dialog
@@ -450,20 +479,7 @@ function activarPanelEncuesta()
 
 		$('.gifLoading').show();
 
-		$.post("nologin.php",function(data){ 
-		
-			$('.gifLoading').hide();
-				
-			if(data.respuesta =="OK")
-			{
-				// Redirecciono a la pagina de portada 
-				
-				 window.location = "index.php";
-			}
-			else{
-				alert("error de log in");
-			}
-		}, "json").error(function() { alert("error"); });
+		$.post("phpHelper/nologin.php",successLogon, "json").error(errorLogon);
 		
 	}); // fin click log on 
 

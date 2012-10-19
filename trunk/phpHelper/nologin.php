@@ -1,11 +1,14 @@
 <?php session_start();
+
+include_once("Respuesta.php");
+
  try{
 	unset($_SESSION['user']);
 	session_destroy();
-	echo "{\"respuesta\":\"OK\"}";
+	echo json_encode(new Respuesta("OK",""));
 	
 }catch (Exception $e) {
 
-		echo "{\"respuesta\":\"ERROR\"}";
+		echo json_encode(new Respuesta("ERROR",""));
 	}
 ?>
