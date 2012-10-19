@@ -14,7 +14,7 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
         <meta name="description" content="">
 		<meta http-equiv="Access-Control-Allow-Origin" content="*"> 
         <meta name="viewport" content="width=device-width">
-		<link type="text/css" href="css/jquery-ui-1.8.23.custom.css" rel="stylesheet" />
+		<link type="text/css" href="css/jquery-ui-1.9.0.custom.css" rel="stylesheet" />
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <style>
             body {
@@ -212,6 +212,6 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
         <script src="js/vendor/bootstrap.min.js"></script>
         <script src="js/main.js"></script>
 		<script src="js/encuesta.js"></script>
-		<script src="js/jquery-ui-1.8.23.custom.min.js"></script>
+		<script src="js/jquery-ui-1.9.0.custom.min.js"></script>
     </body>
 </html>

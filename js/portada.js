@@ -13,7 +13,7 @@ $(document).ready(function() {
 	{
 		$('.gifLoading').hide();
 				
-			if(data.respuesta =="OK")
+			if(data.tipo =="OK")
 			{
 				// Redirecciono a la pagina de portada 
 				
