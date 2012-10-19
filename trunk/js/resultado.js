@@ -31,6 +31,29 @@ $(document).ready(function() {
 
 	// Click Mas votados seccion Programas
 	
+	$('#masVotadosProgramas').click(function(){
+		
+		$('#contenido').html("<div id='chartdiv' style='height:400px;width:500px; '></div>");
+		
+		var data = [
+				    ['Heavy Industry', 12],['Retail', 9], ['Light Industry', 14], 
+				    ['Out of home', 16],['Commuting', 7], ['Orientation', 9]
+				  ];
+	  var plot1 = jQuery.jqplot ('chartdiv', [data], 
+	    { 
+	      seriesDefaults: {
+	        // Make this a pie chart.
+	        renderer: jQuery.jqplot.PieRenderer, 
+	        rendererOptions: {
+	          // Put data labels on the pie slices.
+	          // By default, labels show the percentage of the slice.
+	          showDataLabels: true
+	        }
+	      }, 
+	      legend: { show:true, location: 'e' }
+	    }
+	  );
+	})
 	// ****************** Inicio todo ************************* //
 	
 	// Acordion 

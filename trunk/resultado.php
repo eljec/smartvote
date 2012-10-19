@@ -21,6 +21,10 @@
 		<link rel="stylesheet" href="css/common.css">
 		<link rel="stylesheet" href="css/resultado.css">
 		
+		
+
+		<link rel="stylesheet" type="css" href="jquery.jqplot.css" />
+		
 		<link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
 
     </head>
@@ -92,6 +96,11 @@
 		
 		<script src="js/i18n/grid.locale-es.js" type="text/javascript"></script>
         <script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
+        
+		<script language="javascript" type="text/javascript" src="js/jquery.jqplot.min.js"></script>
+		
+		<script type="text/javascript" src="js/plugins/jqplot.pieRenderer.min.js"></script>
+		<script type="text/javascript" src="js/plugins/jqplot.donutRenderer.min.js"></script>
 
 		<script src="js/resultado.js" type="text/javascript"></script>
  
