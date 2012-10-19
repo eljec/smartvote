@@ -15,7 +15,7 @@
             }
         </style>
 		
-		<link type="text/css" href="css/jquery-ui-1.8.23.custom.css" rel="stylesheet"/>
+		<link type="text/css" href="css/jquery-ui-1.9.0.custom.css" rel="stylesheet" />
         <link rel="stylesheet" href="css/bootstrapCustom3.min.css">
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="css/common.css">
@@ -50,7 +50,7 @@
         <div class="container-fluid">
 		  <div class="row-fluid">
 			<div class="span4">
-			  <div class="azulado bordeRedondo">
+			  <div class="negro bordeRedondoGral">
 					<h3 id="tituloAcordion" align="center">Menu</h3>
 				</div>
 			  <div id="accordion">
@@ -69,7 +69,7 @@
 			<br>
 			</div>
 			<div class="span8">
-				<div class="azulado bordeRedondo">
+				<div class="negro bordeRedondoGral">
 					<h3 id="tituloAccion" align="center">Seleccione una opcion del menu</h3>
 				</div>
 				<div align="center">
@@ -87,7 +87,7 @@
         <script src="js/vendor/jquery-1.8.0.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
         <script src="js/main.js"></script>
-		<script src="js/jquery-ui-1.8.23.custom.min.js"></script>
+		<script src="js/jquery-ui-1.9.0.custom.min.js"></script>
 		
 		<script src="js/i18n/grid.locale-es.js" type="text/javascript"></script>
         <script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
