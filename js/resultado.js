@@ -10,7 +10,7 @@ $(document).ready(function() {
 		$('#contenido').html(stringTabla);
 		
 		$("#tablaContenido").jqGrid({
-			url:'phpHelper/servicioEncuesta.php?action=1&paged=1',
+			url:'phpHelper/SmartVoteServices.php?action=1&paged=1',
 			datatype: 'json',
 			mtype: 'GET',
 			colNames:['NOMBRE','DESCRIPCION'],

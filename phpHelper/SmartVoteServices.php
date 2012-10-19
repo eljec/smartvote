@@ -48,7 +48,14 @@
 							{
 								/* Paginada */
 								
-								$respuesta = $adminServicio->BuscarProgramas_Paginado();
+								$page = $_GET['page'];  // Almacena el numero de pagina actual
+							    $limit = $_GET['rows']; // Almacena el numero de filas que se van a mostrar por pagina
+							    $sidx = $_GET['sidx'];  // Almacena el indice por el cual se har� la ordenaci�n de los datos
+							    $sord = $_GET['sord'];  // Almacena el modo de ordenaci�n
+							
+							    if(!$sidx) $sidx =1;
+															
+								$respuesta = $adminServicio->BuscarProgramas_Paginado($page,$limit,$sidx,$sord);
 							}
 							else
 							{

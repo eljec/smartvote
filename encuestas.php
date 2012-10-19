@@ -76,7 +76,7 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 							<input id="newPrograma" type="button" class="btn tamBoton" value="Nuevo"/>
 							<br>
 							<img id="gifLoading"src="img/ajax-loaderBlanco.gif" style="display: none;" alt="Loading..."/>
-							<div id="alertaProgramas" class="alert ocultar">
+							<div id="alertaProgramas" class="alert ocultar TamAlerta">
 							  <strong>Warning!</strong> Falta seleccionar un programa...
 							</div>	
 							<br>
@@ -126,56 +126,86 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 					</div>
 				</div>
 			</div>
-			<br>
-			<br>
-			<br>
+			<div class="row">
+                <div class="span12">	
+				</div>
+            </div>
 			<div id="tituloPanelPreguntas" class="row">
-				<div class="span12" align="center">
+				<div class="span6 offset3" align="center">
 					<div class="negro bordeRedondoGral">
 						<h3 align="center">Preguntas (sin ¿?)</h3>
 					</div>
 				</div>
 			</div>
 			<br>
-				<div id="panelPreguntas" class="row">
-					<div class="span4 divGris">
-						<div align="center">
-							<h5>Pregunta 1</h5>
-							<textarea class="pregunta" name="1" rows="4" placeholder="Texto de la pregunta.."></textarea>
-						</div>
-					</div>
-					<div class="span4 divGris">
-						<div align="center">
-							<h5>Pregunta 2</h5>
-							<textarea class="pregunta" name="2" rows="4" placeholder="Texto de la pregunta.."></textarea>
-						</div>
-					</div>
-					<div class="span4 divGris">
-						<div align="center">
-							<h5>Pregunta 3</h5>
-							<textarea class="pregunta" name="3" rows="4" placeholder="Texto de la pregunta.."></textarea>
-						</div>
-					</div>
+			
+			<div class="row" id="panelPreguntas">
+                <div class="span6 offset3 divBlanco">
+                	<br>
+                	<br>
+					<table style="width: 100%;">
+						<tr>
+							<td style="width: 50%;" class="form-horizontal">
+								<div class="control-group controlPregunta">
+									<label class="control-label" for="inputWarning">Pregunta 1</label>
+								  	<div class="controls">
+								    	<input type="text" id="1" name="1" class="pregunta" placeholder="Texto de la pregunta..">
+								    	<span class="help-inline">Campo Obligatorio</span>
+								  	</div>
+								</div>
+							</td>				
+						</tr>
+						<tr>
+							<td style="width: 50%;" class="form-horizontal">
+								<div class="control-group controlPregunta">
+									<label class="control-label" for="inputWarning">Pregunta 2</label>
+								  	<div class="controls">
+								    	<input type="text" id="2" name="2" class="pregunta" placeholder="Texto de la pregunta..">
+								    	<span class="help-inline">Campo Obligatorio</span>
+								  	</div>
+								</div>
+							</td>		
+						</tr>
+						<tr>
+							<td style="width: 50%;" class="form-horizontal">
+								<div class="control-group controlPregunta">
+									<label class="control-label" for="inputWarning">Pregunta 3</label>
+								  	<div class="controls">
+								    	<input type="text" id="3" name="3" class="pregunta" placeholder="Texto de la pregunta..">
+								    	<span class="help-inline">Campo Obligatorio</span>
+								  	</div>
+								</div>
+							</td>		
+						</tr>
+						<tr>
+							<td style="width: 50%;" class="form-horizontal">
+								<div class="control-group controlPregunta">
+									<label class="control-label" for="inputWarning">Pregunta 4</label>
+								  	<div class="controls">
+								    	<input type="text" id="4" name="4" class="pregunta" placeholder="Texto de la pregunta..">
+								    	<span class="help-inline">Campo Obligatorio</span>
+								  	</div>
+								</div>
+							</td>		
+						</tr>
+						<tr>
+							<td style="width: 50%;" class="form-horizontal">
+								<div class="control-group controlPregunta">
+									<label class="control-label" for="inputWarning">Pregunta 5</label>
+								  	<div class="controls">
+								    	<input type="text" id="5" name="5" class="pregunta" placeholder="Texto de la pregunta..">
+								    	<span class="help-inline">Campo Obligatorio</span>
+								  	</div>
+								</div>
+							</td>		
+						</tr>
+					</table>
 				</div>
-				<br>
-				<div id="panelPreguntas2" class="row">
-					<div class="span6 divGris">
-						<div align="center">
-							<h5>Pregunta 4</h5>
-							<textarea class="pregunta" name="4" rows="4" placeholder="Texto de la pregunta.."></textarea>
-						</div>
-					</div>
-					<div class="span6 divGris">
-						<div align="center">
-							<h5>Pregunta 5</h5>
-							<textarea class="pregunta" name="5" rows="4" placeholder="Texto de la pregunta.."></textarea>
-						</div>
-					</div>
-				</div>
-			<br>
-			<div id="panelPreguntas3" class="row">
-				<div class="span12 negro bordeRedondoGral" align="center">
-					<input id="crear" type="button" class="btn tamBoton" value="Crear"/>
+            </div>      
+            <br>     
+            <div id="panelPreguntas3" class="row">
+				<div class="span6 offset3 negro bordeRedondoGral" align="center">
+					<input id="crear" type="button" class="btn" value="Crear"/>
 					<br>
 					<img id="gifLoadingPreguntas"src="img/ajax-loaderVerdeDos.gif" style="display: none;" alt="Loading..."/>
 					<br>
@@ -183,7 +213,7 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 					</div>
 				</div>
 			</div>
-			
+			<br>
 			<div id="dialogNewItem">
 				<table>
 					<tr>
