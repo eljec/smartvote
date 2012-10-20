@@ -25,6 +25,30 @@ class SmartVoteDB {
 		$this->db_conexionTran = mysqli_connect($this->db_host, $this->db_usuario, $this->db_password,$this->db_nombre); 
 	}
 
+	private function buscar($consulta)
+	{
+		try{
+		
+			$this->conectar();
+			
+			$result = mysql_query($consulta, $this->db_conexion);
+			
+			// Cierro la conexion //
+
+			mysql_close($this->db_conexion);
+
+			// Retorno la respuesta //
+			
+			return $result;	
+
+		}catch (Exception $e) {
+
+			mysql_close($this->db_conexion);
+			
+			throw new Exception('Error MySQL');
+		}
+	}
+	
 	public function validarRepetido($stringConsultar)
 	{
 		try{
@@ -53,8 +77,10 @@ class SmartVoteDB {
 	// ------------------------------- METODOS PUBLICOS ----------------------------------------->
 	public function BuscarProgramas()
 	{
+
 		$queEmp = "SELECT * FROM programas as p where p.activo=1";
-		
+
+
 		try{
 		
 			$this->conectar();
@@ -65,21 +91,28 @@ class SmartVoteDB {
 
 			mysql_close($this->db_conexion);
 
-			// Se obtiene el resultado de la consulta
-			
-			$row = mysql_fetch_array($result);
-			$count = $row['count'];
-			
 			// Retorno la respuesta //
-		
-			return $count;
 			
+			return $result;	
+
 		}catch (Exception $e) {
 
 			mysql_close($this->db_conexion);
 			
 			throw new Exception('Error MySQL');
 		}
+	}
+	
+	public function BuscarProgramasAutoComplete($like)
+	{
+		$like_escape = mysql_real_escape_string($like);
+		
+		$queEmp = "SELECT * FROM programas as p where p.activo=1 and p.nombre like '%".$like_escape."%'";
+
+		$resultado = $this->buscar($queEmp);
+		
+		return $resultado;
+				
 	}
 	
 	public function CantidadProgramasActivos()
@@ -96,10 +129,15 @@ class SmartVoteDB {
 
 			mysql_close($this->db_conexion);
 
+			// Se obtiene el resultado de la consulta
+			
+			$row = mysql_fetch_array($resultado);
+			$count = $row['count'];
+			
 			// Retorno la respuesta //
-
-			return $resultado;	
 		
+			return $count;
+
 		}catch (Exception $e) {
 
 			mysql_close($this->db_conexion);

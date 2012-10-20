@@ -33,11 +33,10 @@ $(document).ready(function() {
 	
 	$('#masVotadosProgramas').click(function(){
 		
-		$('#contenido').html("<div id='chartdiv' style='height:400px;width:500px; '></div>");
+		$('#contenido').html("<div id='chartdiv' style='height:400px;width:600px; '></div>");
 		
 		var data = [
-				    ['Heavy Industry', 12],['Retail', 9], ['Light Industry', 14], 
-				    ['Out of home', 16],['Commuting', 7], ['Orientation', 9]
+				    ['SI', 12],['NO', 9]
 				  ];
 	  var plot1 = jQuery.jqplot ('chartdiv', [data], 
 	    { 
@@ -50,10 +49,67 @@ $(document).ready(function() {
 	          showDataLabels: true
 	        }
 	      }, 
-	      legend: { show:true, location: 'e' }
+	      legend: { show:true, location: 'e' },
+	      title: {
+        		text: 'Programas mas consultados',  
+        		show: true,
+    			}
 	    }
 	  );
 	})
+	
+	$('#listadoEncuestas').click(function(){
+		 
+        /*$.getJSON("phpHelper/SmartVoteServices.php?action=1&paged=0'", function(data) {
+        	
+        	$('#contenido').html("<div class='ui-widget'><label for='programa'>Nombre del Programa: </label><input id='programa' /></div>");
+        	
+        	var ju = new Array();
+        	
+        	for(var i=0;i<data.programas.length;i++)
+        	{
+        		ju.push(data.programas[i].nombre);
+        	}
+        	
+        	$( "#programa" ).autocomplete({
+            source: ju
+        	
+        	});
+   				
+ 		});*/
+ 		
+ 		$('#contenido').html("<div class='ui-widget'><label for='programa'>Nombre del Programa: </label><input id='programa' /></div>");
+ 		
+ 		$( "#programa" ).autocomplete({
+	
+	 		source: function( request, response ) {
+	                $.ajax({
+	                    url: "phpHelper/SmartVoteServices.php",
+	                    dataType: "json",
+	                    data: {
+	                        action: 1,
+	                        paged: 0,
+	                        autocomplete:1,
+	                        like: request.term
+	                    },
+	                    success: function( data ) {
+	                        response( $.map( data.programas, function( item ) {
+	                            return {
+	                                label: item.nombre,
+	                                value: item.nombre,
+	                                key: item.id
+	                            }
+	                        }));
+	                    }
+	                });
+	            },
+	            select: function( event, ui ) {
+               
+                    alert(ui.item.key);	
+              	}
+	      });
+
+	});
 	// ****************** Inicio todo ************************* //
 	
 	// Acordion 
