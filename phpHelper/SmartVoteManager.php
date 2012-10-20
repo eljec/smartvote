@@ -33,6 +33,25 @@ class SmartVoteManager {
 		}
 	}
 	
+	
+	public function BuscarProgramasAutoComplete($like)
+	{
+		try{
+		
+			$datos = $this->baseSmartVote->BuscarProgramasAutoComplete($like);
+			
+			$respuesta = $this->transformarDatosProgramas($datos);
+			
+			return $respuesta;
+	
+		}catch (Exception $e) {
+		
+			$resp = new Respuesta("ERROR","NO SE PUDO HACER LA BUSQUEDA");
+			
+			return json_encode($resp);
+		}
+	}
+	
 	public function BuscarProgramas_Paginado($page,$limit,$sidx,$sord)
 	{
 		try{

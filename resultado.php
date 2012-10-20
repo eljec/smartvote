@@ -23,7 +23,7 @@
 		
 		
 
-		<link rel="stylesheet" type="css" href="jquery.jqplot.css" />
+		<link rel="stylesheet" type="css" href="css/jquery.jqplot.css" />
 		
 		<link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
 
@@ -75,7 +75,7 @@
 			</div>
 			<div class="span8">
 				<div class="negro bordeRedondoGral">
-					<h3 id="tituloAccion" align="center">Seleccione una opcion del menu</h3>
+					<h3 id="tituloAccion" align="center">Resultados</h3>
 				</div>
 				<div align="center">
 					<img id="gifLoading"src="img/ajax-loaderBlanco.gif" style="display: none;" alt="Loading..."/>

@@ -60,8 +60,23 @@
 							else
 							{
 								/* Sin paginar */
-							
-								$respuesta = $adminServicio->BuscarProgramas();
+								
+								if(isset($_GET["autocomplete"]))
+								{
+									if(isset($_GET["like"]))
+									{
+										$like = $_GET['like'];
+										$respuesta = $adminServicio->BuscarProgramasAutoComplete($like);
+									}
+									else
+									{
+										errorParametros("LA URL NO CONTIENE PARAMETROS NECESARIOS");	
+									}
+								}
+								else
+								{
+									$respuesta = $adminServicio->BuscarProgramas();
+								}								
 							}
 						}
 						else
