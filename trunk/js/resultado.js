@@ -1,7 +1,68 @@
 
 $(document).ready(function() {
 
-		
+	
+	// FUNCIONES DE MANEJO DE PETICIONES AJAXS //
+	
+	function ajaxErrorMasVotadosGeneral()
+	{
+		 $('#gifLoading').hide();
+		 $('#alertaCragaDatos').removeClass('ocultar');
+	}
+	
+	function ajaxSuccessMasVotadosProgramas(data) 
+	{
+	  $('#gifLoading').hide();
+			
+			var datos = data.datosgrafico;
+			   			
+   			var plot1 = jQuery.jqplot ('chartdiv', [datos], 
+	    			{ 
+	      				seriesDefaults: {
+	        							// Make this a pie chart.
+	        							renderer: jQuery.jqplot.PieRenderer, 
+	        							rendererOptions: {
+	        		 					 // Put data labels on the pie slices.
+	          							// By default, labels show the percentage of the slice.
+	          							showDataLabels: true
+	        			}	
+				      }, 
+				      legend: { show:true, location: 'e' },
+				      title: {
+			        		text: 'Programas mas consultados',  
+			        		show: true,
+			    			}
+				    }
+				  );
+	}
+	
+	
+	function ajaxSuccessMasVotadosEncuestas(data)
+	{
+		$('#gifLoading').hide();
+			
+			var datos = data.datosgrafico;
+			   			
+   			var plot1 = jQuery.jqplot ('chartdiv', [datos], 
+	    			{ 
+	      				seriesDefaults: {
+	        							// Make this a pie chart.
+	        							renderer: jQuery.jqplot.PieRenderer, 
+	        							rendererOptions: {
+	        		 					 // Put data labels on the pie slices.
+	          							// By default, labels show the percentage of the slice.
+	          							showDataLabels: true
+	        			}	
+				      }, 
+				      legend: { show:true, location: 'e' },
+				      title: {
+			        		text: 'Encuestas mas votadas',  
+			        		show: true,
+			    			}
+				    }
+				  );
+	}
+
 	// Click Listado de Programas 
 	
 	$('#listadoProgramas').click(function(){
@@ -33,48 +94,16 @@ $(document).ready(function() {
 	
 	$('#masVotadosProgramas').click(function(){
 		
-		$('#contenido').html("<div id='chartdiv' style='height:400px;width:600px; '></div>");
-		
-		/*var data = [
-				    ['SI', 12],['NO', 9]
-				  ];*/
-				 
-	 	$.post("phpHelper/SmartVoteServices.php",{tipo:grafico,de:programas} ,function(data) {
-   			
-   			 
-   			 
-   			 var dataGraficoRenderer = function() {
-			    var datosListos = [];
-			    for (var i=0; i<data.datosgrafico.length; i+=0.5) {
-			      datosListos.push([data.datosgrafico[i].nombre, data.datosgrafico[i].cantidad]);
-			    }
-			    return datosListos;
-			  };
-			 
-			 
-			   			
-   			var plot1 = jQuery.jqplot ('chartdiv', [], 
-	    			{ 
-	      				seriesDefaults: {
-	        							// Make this a pie chart.
-	        							renderer: jQuery.jqplot.PieRenderer, 
-	        							rendererOptions: {
-	        		 					 // Put data labels on the pie slices.
-	          							// By default, labels show the percentage of the slice.
-	          							showDataLabels: true
-	        			}	
-				      }, 
-				      legend: { show:true, location: 'e' },
-				      title: {
-			        		text: 'Programas mas consultados',  
-			        		show: true,
-			    			},
-			    	 dataRenderer: dataGraficoRenderer
-				    }
-				  );
- 		},"json");
+		$('#gifLoading').show();
 
-	})
+		$('#contenido').html("<div id='chartdiv' style='height:400px;width:600px; '></div>");
+ 
+	 	$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'programas'} ,ajaxSuccessMasVotadosProgramas,"json").error(ajaxErrorMasVotadosGeneral);
+
+	});
+	
+	
+	// Click mas votados seccion ecnuesta 
 	
 	$('#masVotadosEncuestas').click(function(){
 		 
@@ -112,11 +141,19 @@ $(document).ready(function() {
 	      });
 	      
 	      	$('#vergrafico').click(function(){
+	      		
+	      			var nombrePrograma = $('#programa').val();
+	      			
+	      			if(nombrePrograma== null || nombrePrograma=="" || /^\s+$/.test(nombrePrograma))
+	      			{
+	      				// Muetro Alertas //
+	      			}
+	      			else
+	      			{
+	      				$('#contenido').append("<div id='chartdiv' style='height:400px;width:600px; '></div>");
 		
-					$('#contenido').append("<div id='chartdiv' style='height:400px;width:600px; '></div>");
-		
-					alert('hola');
-	  
+						$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'encuestas',nombre_p: nombrePrograma} ,ajaxSuccessMasVotadosEncuestas,"json").error(ajaxErrorMasVotadosGeneral);
+	      			}	
 			});
 	});
 	
