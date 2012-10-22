@@ -221,6 +221,31 @@
 						} 
 					break;
 					
+					case 'grafico':
+						
+						if(isset($_POST["de"]))
+						{
+							switch ($_POST["de"]) 
+							{
+								case 'programas':
+										$respuesta = $adminServicio->GraficoPrograma();
+									break;
+								case 'encuestas':
+										$respuesta = $adminServicio->GraficoEncuesta($nombre_p);
+									break;
+								case 'preguntas':
+										$respuesta = $adminServicio->GraficoPreguntas($id_p,$id_e);
+									break;
+								default:
+										throw new Exception('Error MySQL');
+									break;
+							}
+						}
+						else {
+							errorParametros("LA URL NO CONTIENE LOS PARAMETROS CORRECTOS");
+						}
+					break;
+					
 					default:
 						errorParametros("METODO NO ENCONTRADO");
 				}
