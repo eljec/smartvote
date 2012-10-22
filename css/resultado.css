@@ -27,3 +27,13 @@
 	-moz-border-radius:15px 55px 5px;
 	-webkit-border-radius: 15px 55px 5px;
 }
+
+.inputLargo{
+	width: 350px;
+	
+}
+
+#graficoDos{
+	text-align: center;
+	alignment-baseline: center;
+}

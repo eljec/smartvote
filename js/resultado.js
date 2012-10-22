@@ -35,50 +35,52 @@ $(document).ready(function() {
 		
 		$('#contenido').html("<div id='chartdiv' style='height:400px;width:600px; '></div>");
 		
-		var data = [
+		/*var data = [
 				    ['SI', 12],['NO', 9]
-				  ];
-	  var plot1 = jQuery.jqplot ('chartdiv', [data], 
-	    { 
-	      seriesDefaults: {
-	        // Make this a pie chart.
-	        renderer: jQuery.jqplot.PieRenderer, 
-	        rendererOptions: {
-	          // Put data labels on the pie slices.
-	          // By default, labels show the percentage of the slice.
-	          showDataLabels: true
-	        }
-	      }, 
-	      legend: { show:true, location: 'e' },
-	      title: {
-        		text: 'Programas mas consultados',  
-        		show: true,
-    			}
-	    }
-	  );
+				  ];*/
+				 
+	 	$.post("phpHelper/SmartVoteServices.php",{tipo:grafico,de:programas} ,function(data) {
+   			
+   			 
+   			 
+   			 var dataGraficoRenderer = function() {
+			    var datosListos = [];
+			    for (var i=0; i<data.datosgrafico.length; i+=0.5) {
+			      datosListos.push([data.datosgrafico[i].nombre, data.datosgrafico[i].cantidad]);
+			    }
+			    return datosListos;
+			  };
+			 
+			 
+			   			
+   			var plot1 = jQuery.jqplot ('chartdiv', [], 
+	    			{ 
+	      				seriesDefaults: {
+	        							// Make this a pie chart.
+	        							renderer: jQuery.jqplot.PieRenderer, 
+	        							rendererOptions: {
+	        		 					 // Put data labels on the pie slices.
+	          							// By default, labels show the percentage of the slice.
+	          							showDataLabels: true
+	        			}	
+				      }, 
+				      legend: { show:true, location: 'e' },
+				      title: {
+			        		text: 'Programas mas consultados',  
+			        		show: true,
+			    			},
+			    	 dataRenderer: dataGraficoRenderer
+				    }
+				  );
+ 		},"json");
+
 	})
 	
-	$('#listadoEncuestas').click(function(){
+	$('#masVotadosEncuestas').click(function(){
 		 
-        /*$.getJSON("phpHelper/SmartVoteServices.php?action=1&paged=0'", function(data) {
-        	
-        	$('#contenido').html("<div class='ui-widget'><label for='programa'>Nombre del Programa: </label><input id='programa' /></div>");
-        	
-        	var ju = new Array();
-        	
-        	for(var i=0;i<data.programas.length;i++)
-        	{
-        		ju.push(data.programas[i].nombre);
-        	}
-        	
-        	$( "#programa" ).autocomplete({
-            source: ju
-        	
-        	});
-   				
- 		});*/
+ 		$('#contenido').html("<table id='graficoDos' style='width:100%;'><tr><td style='width:80%;'><div class='ui-widget'><label for='programa'>Nombre del Programa: </label><input class='inputLargo' id='programa' /></div></td><td style='width:20%;'><input type='button' value='Ver Grafico' id='vergrafico'/></td></tr></table> ");
  		
- 		$('#contenido').html("<div class='ui-widget'><label for='programa'>Nombre del Programa: </label><input id='programa' /></div>");
+ 		$('#vergrafico').button();
  		
  		$( "#programa" ).autocomplete({
 	
@@ -108,8 +110,17 @@ $(document).ready(function() {
                     alert(ui.item.key);	
               	}
 	      });
-
+	      
+	      	$('#vergrafico').click(function(){
+		
+					$('#contenido').append("<div id='chartdiv' style='height:400px;width:600px; '></div>");
+		
+					alert('hola');
+	  
+			});
 	});
+	
+	
 	// ****************** Inicio todo ************************* //
 	
 	// Acordion 

@@ -12,6 +12,10 @@ class SmartVoteDB {
 	private $db_conexion;
 	private $db_conexionTran;
 	
+	// ---------------------------------METODO QUE PERMITE LA SOBRECARGA ------------------------------------ //
+	
+
+	
 	// ------------------------------  METODOS PRIVADOS (BASE DE DATOS)---------------------------------------->
 	
 	private function conectar ()
@@ -75,6 +79,7 @@ class SmartVoteDB {
 	}
 
 	// ------------------------------- METODOS PUBLICOS ----------------------------------------->
+	
 	public function BuscarProgramas()
 	{
 
@@ -418,8 +423,25 @@ class SmartVoteDB {
 		}
 	}
 	
+	public function GraficoPrograma()
+	{
+		
+		$cadenaConsulta = "SELECT p.nombre,COUNT(*)as cantidad FROM encuestasvotadas as ev, encuestas as e, programas as p WHERE e.id_p = p.id and e.id=ev.id_e GROUP BY ev.id_e";
+		
+		return $resultado = $this->buscar($cadenaConsulta);
+	}
 	
+	public function GraficoEncuesta($nombre_p)
+	{
+		$cadenaConsulta = "SELECT e.nombre,COUNT(*)as cantidad FROM encuestasvotadas as ev, encuestas as e, programas as p WHERE e.id_p = p.id and e.id=ev.id_e and p.nombre='".$nombre_p."' GROUP BY ev.id_e";
+		
+		return $resultado = $this->buscar($cadenaConsulta);
+	}
 	
+	public function GraficoPreguntas($id_p,$id_e)
+	{
+		
+	}
 	
 	public function ValidarExistencia($idPrograma,$nombre)
 	{

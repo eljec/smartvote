@@ -10,7 +10,7 @@ class SmartVoteManager {
 	function __construct(){
      $this->baseSmartVote=new SmartVoteDB();
     }
-	
+
 	// -------------------------------   METODOS PUBLICOS  --------------------------------------------------  //
 	
 	public function BuscarProgramas()
@@ -32,7 +32,6 @@ class SmartVoteManager {
 			return json_encode($resp);
 		}
 	}
-	
 	
 	public function BuscarProgramasAutoComplete($like)
 	{
@@ -87,6 +86,7 @@ class SmartVoteManager {
 			return json_encode($resp);
 		}
 	}
+	
 	public function BuscarEncuestas($id_program)
 	{
 		try{
@@ -206,6 +206,20 @@ class SmartVoteManager {
 		}catch(Exception $e){
 		
 			return json_encode(new Respuesta("ERROR","PROBLEMA AL ENVIAR EL CORREO"));
+		}
+	}
+
+	public function GraficoPrograma()
+	{
+		try{
+			
+			$datos = $this->baseSmartVote->GraficoPrograma();
+			
+			return ($this->transformarDatosGrafico($datos));
+			
+		}catch(Exception $e){
+			
+			return json_encode(new Respuesta("ERROR","PROBLEMA AL TRAER LOS DATOS PARA EL GRAFICO"));
 		}
 	}
 
@@ -358,6 +372,38 @@ class SmartVoteManager {
 		$cadenaDevolver = $cadenaDevolver. "]}";
 		
 		return $cadenaDevolver;
+	}
+	
+	private function transformarDatosGrafico($datos)
+	{
+		$cadenaDevolver =  "{\"datosgrafico\":[";
+		$count=0;
+
+		while ($fila = mysql_fetch_assoc($datos))
+		{
+			if($count==0)
+			{
+				$cadenaDevolver = $cadenaDevolver."{\"nombre\":";
+					$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['id']));
+				$cadenaDevolver = $cadenaDevolver. ",";
+				$cadenaDevolver = $cadenaDevolver. "\"cantidad\":";
+					$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['nombre']));
+				$cadenaDevolver = $cadenaDevolver. ",";
+			}
+			else
+			{
+				$cadenaDevolver = $cadenaDevolver. ",{\"nombre\":";
+					$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['id']));
+				$cadenaDevolver = $cadenaDevolver. ",";
+				$cadenaDevolver = $cadenaDevolver. "\"cantidad\":";
+					$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['nombre']));
+				$cadenaDevolver = $cadenaDevolver. ",";
+			}
+			$count++;
+		}
+		$cadenaDevolver = $cadenaDevolver. "]}";
+		
+		return $cadenaDevolver;	
 	}
 	
 	}
