@@ -223,6 +223,12 @@ class SmartVoteManager {
 		}
 	}
 
+	public  function GraficoEncuesta($nombre_p)
+	{
+		$datos = $this->baseSmartVote->GraficoEncuesta($nombre_p);
+		$resultado = $this->transformarDatosGrafico($datos);
+		echo $resultado;
+	}
 	// ------------------------------    METODOS PRIVADOS  --------------------------------------------------  //
 
 	private function transformarDatosProgramas($datos)
@@ -383,21 +389,19 @@ class SmartVoteManager {
 		{
 			if($count==0)
 			{
-				$cadenaDevolver = $cadenaDevolver."{\"nombre\":";
-					$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['id']));
-				$cadenaDevolver = $cadenaDevolver. ",";
-				$cadenaDevolver = $cadenaDevolver. "\"cantidad\":";
+				$cadenaDevolver = $cadenaDevolver."[";
 					$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['nombre']));
 				$cadenaDevolver = $cadenaDevolver. ",";
+					$cadenaDevolver = $cadenaDevolver. $fila['cantidad'];
+				$cadenaDevolver = $cadenaDevolver. "]";
 			}
 			else
 			{
-				$cadenaDevolver = $cadenaDevolver. ",{\"nombre\":";
-					$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['id']));
-				$cadenaDevolver = $cadenaDevolver. ",";
-				$cadenaDevolver = $cadenaDevolver. "\"cantidad\":";
+				$cadenaDevolver = $cadenaDevolver. ",[";
 					$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['nombre']));
 				$cadenaDevolver = $cadenaDevolver. ",";
+					$cadenaDevolver = $cadenaDevolver. $fila['cantidad'];
+				$cadenaDevolver = $cadenaDevolver. "]";
 			}
 			$count++;
 		}

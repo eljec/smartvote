@@ -133,11 +133,7 @@ $(document).ready(function() {
 	                        }));
 	                    }
 	                });
-	            },
-	            select: function( event, ui ) {
-               
-                    alert(ui.item.key);	
-              	}
+	            }
 	      });
 	      
 	      	$('#vergrafico').click(function(){
@@ -152,7 +148,7 @@ $(document).ready(function() {
 	      			{
 	      				$('#contenido').append("<div id='chartdiv' style='height:400px;width:600px; '></div>");
 		
-						$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'encuestas',nombre_p: nombrePrograma} ,ajaxSuccessMasVotadosEncuestas,"json").error(ajaxErrorMasVotadosGeneral);
+						$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'encuestas',nombreP: nombrePrograma} ,ajaxSuccessMasVotadosEncuestas,"json").error(ajaxErrorMasVotadosGeneral);
 	      			}	
 			});
 	});
