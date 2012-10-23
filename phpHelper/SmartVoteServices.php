@@ -65,6 +65,8 @@
 								{
 									if(isset($_GET["like"]))
 									{
+										/* Auocomplete */
+										
 										$like = $_GET['like'];
 										$respuesta = $adminServicio->BuscarProgramasAutoComplete($like);
 									}
@@ -75,6 +77,8 @@
 								}
 								else
 								{
+									/* Busqueda Común */
+										
 									$respuesta = $adminServicio->BuscarProgramas();
 								}								
 							}
