@@ -231,6 +231,7 @@
 										$respuesta = $adminServicio->GraficoPrograma();
 									break;
 								case 'encuestas':
+										$nombre_p = $_POST['nombreP'];
 										$respuesta = $adminServicio->GraficoEncuesta($nombre_p);
 									break;
 								case 'preguntas':
