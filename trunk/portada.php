@@ -10,7 +10,8 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
-        <meta charset="utf-8">
+        <!--<meta charset="utf-8">-->
+        <meta charset="ISO-8859-1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title></title>
         <meta name="description" content="">

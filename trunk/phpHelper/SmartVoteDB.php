@@ -117,9 +117,12 @@ class SmartVoteDB {
 				
 	}
 	
-	public function CantidadProgramasActivos()
+	public function CantidadProgramasActivos($tipo)
 	{
-		$queEmp ="SELECT COUNT(*) AS count FROM programas as p where p.activo=1";	
+		if($tipo == 'programa')
+			$queEmp ="SELECT COUNT(*) AS count FROM programas as p where p.activo=1";	
+		else 
+			$queEmp ="SELECT COUNT(*) AS count FROM encuestas as e where e.activo=1";	
 		
 		try{
 		
@@ -148,13 +151,15 @@ class SmartVoteDB {
 		}
 	}
 	
-	public function ObtenerPagina($start,$limit,$sidx,$sord)
+	public function ObtenerPagina($start,$limit,$sidx,$sord,$tipo)
 	{
+			if($tipo=='programa')
+		    	$consulta = "SELECT * FROM programas ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+			else 
+		    	$consulta = "SELECT e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+			
 		try{
-			
-		    //Consulta que devuelve los registros de una sola pagina
-		    $consulta = "SELECT * FROM programas ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
-			
+
 			$this->conectar();
 			
 			$result = mysql_query($consulta, $this->db_conexion);

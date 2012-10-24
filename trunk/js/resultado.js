@@ -7,6 +7,7 @@ $(document).ready(function() {
 	function ajaxErrorMasVotadosGeneral()
 	{
 		 $('#gifLoading').hide();
+		 $('#alertaCargaDatos').html('<strong>Warning!</strong> Ocurrio un Error, Intentelo mas tarde.');
 		 $('#alertaCragaDatos').removeClass('ocultar');
 	}
 	
@@ -36,7 +37,6 @@ $(document).ready(function() {
 				  );
 	}
 	
-	
 	function ajaxSuccessMasVotadosEncuestas(data)
 	{
 		$('#gifLoading').hide();
@@ -56,7 +56,7 @@ $(document).ready(function() {
 				      }, 
 				      legend: { show:true, location: 'e' },
 				      title: {
-			        		text: 'Encuestas mas votadas',  
+			        		text: 'Encuestas mas votadas segun el programa seleccionado',  
 			        		show: true,
 			    			}
 				    }
@@ -102,7 +102,33 @@ $(document).ready(function() {
 
 	});
 	
+	// Click Listado encuestas 
 	
+	$('#listadoEncuestas').click(function(){
+		
+		var stringTabla = "<table id='tablaContenido' align='center'></table><div id='paginacion'></div>";
+		$('#contenido').html(stringTabla);
+		
+		$("#tablaContenido").jqGrid({
+			url:'phpHelper/SmartVoteServices.php?action=2&paged=1',
+			datatype: 'json',
+			mtype: 'GET',
+			colNames:['NOMBRE','DESCRIPCION','NOMBRE PROGRAMA'],
+			colModel:[
+				{name:'nombre', editable: true, index:'nombre', width:160,resizable:false, sortable:true},
+				{name:'descripcion', editable: true, index:'descripcion', width:400},
+				{name:'nombrep', editable: true, index:'nombrep', width:160}
+			],
+			pager: '#paginacion',
+			rowNum:5,
+			rowList:[5,10],
+			sortname: 'id',
+			sortorder: 'asc',
+			viewrecords: true,
+			caption: 'LISTA ENCUESTAS',
+			width:700
+		});
+	});
 	// Click mas votados seccion ecnuesta 
 	
 	$('#masVotadosEncuestas').click(function(){
@@ -136,21 +162,32 @@ $(document).ready(function() {
 	            }
 	      });
 	      
-	      	$('#vergrafico').click(function(){
-	      		
-	      			var nombrePrograma = $('#programa').val();
-	      			
-	      			if(nombrePrograma== null || nombrePrograma=="" || /^\s+$/.test(nombrePrograma))
-	      			{
-	      				// Muetro Alertas //
-	      			}
-	      			else
-	      			{
-	      				$('#contenido').append("<div id='chartdiv' style='height:400px;width:600px; '></div>");
-		
-						$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'encuestas',nombreP: nombrePrograma} ,ajaxSuccessMasVotadosEncuestas,"json").error(ajaxErrorMasVotadosGeneral);
-	      			}	
-			});
+	      
+	    $('#programa').focus(function(){
+	    	$('#alertaCragaDatos').addClass('ocultar');
+	    });
+	    
+	    
+      	$('#vergrafico').click(function(){
+      		
+      			var nombrePrograma = $('#programa').val();
+      			
+      			if(nombrePrograma== null || nombrePrograma=="" || /^\s+$/.test(nombrePrograma))
+      			{
+      				// Muetro Alertas //
+      				
+      				$('#alertaCragaDatos').html('<strong>Ups!!</strong> Te falto ingresar el nombre del programa');
+      				$('#alertaCragaDatos').removeClass('ocultar');
+      			}
+      			else
+      			{
+      				$('#contenido').append("<br><div id='chartdiv' style='height:400px;width:600px; '></div>");
+      				
+					$('#gifLoading').show();
+					
+					$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'encuestas',nombreP: nombrePrograma} ,ajaxSuccessMasVotadosEncuestas,"json").error(ajaxErrorMasVotadosGeneral);
+      			}	
+		});
 	});
 	
 	
