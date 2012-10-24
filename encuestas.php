@@ -108,7 +108,7 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 							<tr>
 								<td>
 									<div id="controlDesc" class="control-group">
-										<label class="control-label" for="textAreaNuevaEncuesta">Descripción</label>
+										<label class="control-label" for="textAreaNuevaEncuesta">Descripcion</label>
 										<div class="controls">
 											<textarea class="foco" id="textAreaNuevaEncuesta" rows="4" placeholder="...."></textarea>
 											<span class="help-inline"><p>Campo obligatorio.</p></span>
@@ -133,7 +133,7 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 			<div id="tituloPanelPreguntas" class="row">
 				<div class="span6 offset3" align="center">
 					<div class="negro bordeRedondoGral">
-						<h3 align="center">Preguntas (sin ¿?)</h3>
+						<h3 align="center">Preguntas (sin �?)</h3>
 					</div>
 				</div>
 			</div>

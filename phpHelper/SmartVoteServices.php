@@ -90,19 +90,45 @@
 						break;
 						
 					case 2: // Obtiene todas las encuestas segun un programa especifico //
-						
-						if(isset($_GET["id_p"]))
-						{
-							$id_program=$_GET["id_p"]; 
-						
-							$respuesta = $adminServicio->BuscarEncuestas($id_program);
-						}
-						else
-						{
-							errorParametros("LA URL NO CONTIENE EL PARAMETRO id_p");
-						}
 
-						break;
+							if(isset($_GET["paged"]))
+							{
+								$flagPaged = $_GET["paged"];
+							
+								if($flagPaged == 1)
+								{
+									/* Paginada */
+									
+									$page = $_GET['page'];  // Almacena el numero de pagina actual
+								    $limit = $_GET['rows']; // Almacena el numero de filas que se van a mostrar por pagina
+								    $sidx = $_GET['sidx'];  // Almacena el indice por el cual se harï¿½ la ordenaciï¿½n de los datos
+								    $sord = $_GET['sord'];  // Almacena el modo de ordenaciï¿½n
+
+								    if(!$sidx) $sidx =1;
+																
+									$respuesta = $adminServicio->BuscarEncuestas_Paginado($page,$limit,$sidx,$sord);
+								}
+								else
+								{								
+									if(isset($_GET["id_p"]))
+									{
+										$id_program=$_GET["id_p"]; 	
+										
+										 /* Busqueda Común */	
+										$respuesta = $adminServicio->BuscarEncuestas($id_program);
+									}
+									else
+									{
+										errorParametros("LA URL NO CONTIENE EL PARAMETRO id_p");
+									}
+																
+								}
+							}
+							else
+							{
+								errorParametros("LA URL NO CONTIENE EL PARAMETRO paged");
+							}	
+					break;
 						
 					case 3: // Obtiene todas las preguntas segun una encuesta especifica //
 

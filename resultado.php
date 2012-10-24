@@ -2,7 +2,8 @@
 <!DOCTYPE html>
  <html class="no-js">
     <head>
-        <meta charset="utf-8">
+        <!--<meta charset="utf-8">-->
+        <meta charset="ISO-8859-1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title></title>
         <meta name="description" content="">
@@ -77,12 +78,12 @@
 				<div class="negro bordeRedondoGral">
 					<h3 id="tituloAccion" align="center">Resultados</h3>
 				</div>
-				<div align="center">
-					<img id="gifLoading"src="img/ajax-loaderBlanco.gif" style="display: none;" alt="Loading..."/>
-				</div>
 				<div id="alertaCragaDatos" class="alert ocultar TamAlerta">
 					<strong>Warning!</strong> Ocurrio un Error, Intentelo mas tarde.
 				</div>	
+				<div align="center">
+					<img id="gifLoading"src="img/ajax-loaderBlanco.gif" style="display: none;" alt="Loading..."/>
+				</div>
 				<div id="contenido" align="center">
 					<table id='tablaContenido' align="center"></table>
 					<div id='paginacion'></div>
