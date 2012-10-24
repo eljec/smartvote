@@ -81,9 +81,6 @@
 				<div id="alertaCragaDatos" class="alert ocultar TamAlerta">
 					<strong>Warning!</strong> Ocurrio un Error, Intentelo mas tarde.
 				</div>	
-				<div align="center">
-					<img id="gifLoading"src="img/ajax-loaderBlanco.gif" style="display: none;" alt="Loading..."/>
-				</div>
 				<div id="contenido" align="center">
 					<table id='tablaContenido' align="center"></table>
 					<div id='paginacion'></div>

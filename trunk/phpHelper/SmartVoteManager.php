@@ -122,6 +122,7 @@ class SmartVoteManager {
 			return json_encode($resp);
 		}
 	}
+	
 	public function BuscarEncuestas($id_program)
 	{
 		try{
@@ -264,6 +265,8 @@ class SmartVoteManager {
 		$resultado = $this->transformarDatosGrafico($datos);
 		echo $resultado;
 	}
+	
+	
 	// ------------------------------    METODOS PRIVADOS  --------------------------------------------------  //
 
 	private function transformarDatosProgramas($datos)
@@ -459,12 +462,12 @@ class SmartVoteManager {
 			if($i == 0)
 			{
 				$cadenaDevolver = $cadenaDevolver."{\"id\":\"".$fila["id"]."\",";
-				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["nombrep"])."]}";
+				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["nombrep"])."\"]}";
 			}
 			else
 			{
 				$cadenaDevolver = $cadenaDevolver.",{\"id\":\"".$fila["id"]."\",";
-				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["nombrep"])."]}";
+				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["nombrep"])."\"]}";
 			}
 	        $i++;
 	    }
