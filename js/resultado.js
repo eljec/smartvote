@@ -13,28 +13,30 @@ $(document).ready(function() {
 	
 	function ajaxSuccessMasVotadosProgramas(data) 
 	{
-	  $('#gifLoading').hide();
-			
-			var datos = data.datosgrafico;
-			   			
-   			var plot1 = jQuery.jqplot ('chartdiv', [datos], 
-	    			{ 
-	      				seriesDefaults: {
-	        							// Make this a pie chart.
-	        							renderer: jQuery.jqplot.PieRenderer, 
-	        							rendererOptions: {
-	        		 					 // Put data labels on the pie slices.
-	          							// By default, labels show the percentage of the slice.
-	          							showDataLabels: true
-	        			}	
-				      }, 
-				      legend: { show:true, location: 'e' },
-				      title: {
-			        		text: 'Programas mas consultados',  
-			        		show: true,
-			    			}
-				    }
-				  );
+	  	$('#gifLoading').hide();
+	
+		$('#contenido').html("<div id='chartdiv' style='height:400px;width:600px; '></div>");
+				
+		var datos = data.datosgrafico;
+		   			
+		var graficoMasVotadosProgramas = jQuery.jqplot ('chartdiv', [datos], 
+    			{ 
+      				seriesDefaults: {
+        							// Make this a pie chart.
+        							renderer: jQuery.jqplot.PieRenderer, 
+        							rendererOptions: {
+        		 					 // Put data labels on the pie slices.
+          							// By default, labels show the percentage of the slice.
+          							showDataLabels: true
+        			}	
+			      }, 
+			      legend: { show:true, location: 'e' },
+			      title: {
+		        		text: 'Programas mas consultados',  
+		        		show: true,
+		    			}
+			    }
+			  );
 	}
 	
 	function ajaxSuccessMasVotadosEncuestas(data)
@@ -42,8 +44,19 @@ $(document).ready(function() {
 		$('#gifLoading').hide();
 			
 			var datos = data.datosgrafico;
-			   			
-   			var plot1 = jQuery.jqplot ('chartdiv', [datos], 
+			 
+			var cantidad = datos.length;
+			
+			if(cantidad == 0)
+			{
+				// Muetro alertas de que no hay programas con ese nombre //
+				
+  				$('#alertaCragaDatos').html('<strong>No Existe un programa con ese nombre</strong>');
+  				$('#alertaCragaDatos').removeClass('ocultar');
+			}	
+			else
+			{
+				var graficoMasVotadosEncuestasXPrograma = jQuery.jqplot ('chartdiv', [datos], 
 	    			{ 
 	      				seriesDefaults: {
 	        							// Make this a pie chart.
@@ -61,12 +74,15 @@ $(document).ready(function() {
 			    			}
 				    }
 				  );
+			}	
 	}
 
 	// Click Listado de Programas 
 	
 	$('#listadoProgramas').click(function(){
-	
+		
+		$('#alertaCragaDatos').addClass('ocultar');
+		
 		var stringTabla = "<table id='tablaContenido' align='center'></table><div id='paginacion'></div>";
 		$('#contenido').html(stringTabla);
 		
@@ -94,10 +110,14 @@ $(document).ready(function() {
 	
 	$('#masVotadosProgramas').click(function(){
 		
+		$('#alertaCragaDatos').addClass('ocultar');
+		
+		// Cargo el gif de carga //
+		
+		$('#contenido').html("<div align='center'><img id='gifLoading'src='img/ajax-loaderBlanco.gif' style='display: none;' alt='Loading...'/></div>");
+		
 		$('#gifLoading').show();
-
-		$('#contenido').html("<div id='chartdiv' style='height:400px;width:600px; '></div>");
- 
+		
 	 	$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'programas'} ,ajaxSuccessMasVotadosProgramas,"json").error(ajaxErrorMasVotadosGeneral);
 
 	});
@@ -105,6 +125,8 @@ $(document).ready(function() {
 	// Click Listado encuestas 
 	
 	$('#listadoEncuestas').click(function(){
+		
+		$('#alertaCragaDatos').addClass('ocultar');
 		
 		var stringTabla = "<table id='tablaContenido' align='center'></table><div id='paginacion'></div>";
 		$('#contenido').html(stringTabla);
@@ -129,11 +151,17 @@ $(document).ready(function() {
 			width:700
 		});
 	});
+	
 	// Click mas votados seccion ecnuesta 
 	
 	$('#masVotadosEncuestas').click(function(){
 		 
+ 		$('#alertaCragaDatos').addClass('ocultar');
+ 				
  		$('#contenido').html("<table id='graficoDos' style='width:100%;'><tr><td style='width:80%;'><div class='ui-widget'><label for='programa'>Nombre del Programa: </label><input class='inputLargo' id='programa' /></div></td><td style='width:20%;'><input type='button' value='Ver Grafico' id='vergrafico'/></td></tr></table> ");
+ 		$('#contenido').append("<div align='center'><img id='gifLoading'src='img/ajax-loaderBlanco.gif' style='display: none;' alt='Loading...'/></div>");
+ 		$('#contenido').append("<br><div id='chartdiv' style='height:400px;width:600px; '></div>");
+ 		
  		
  		$('#vergrafico').button();
  		
@@ -152,7 +180,8 @@ $(document).ready(function() {
 	                    success: function( data ) {
 	                        response( $.map( data.programas, function( item ) {
 	                            return {
-	                                label: item.nombre,
+	                                label: item.nombre,  
+	                                //label: item.nombre.replace(new RegExp("(?![^&;]+;)(?!<[^<>]*)(" +$.ui.autocomplete.escapeRegex(request.term) +")(?![^<>]*>)(?![^&;]+;)", "gi"),request.term.bold() ),
 	                                value: item.nombre,
 	                                key: item.id
 	                            }
@@ -170,6 +199,8 @@ $(document).ready(function() {
 	    
       	$('#vergrafico').click(function(){
       		
+      			$('#chartdiv').html('');
+
       			var nombrePrograma = $('#programa').val();
       			
       			if(nombrePrograma== null || nombrePrograma=="" || /^\s+$/.test(nombrePrograma))
@@ -181,8 +212,7 @@ $(document).ready(function() {
       			}
       			else
       			{
-      				$('#contenido').append("<br><div id='chartdiv' style='height:400px;width:600px; '></div>");
-      				
+
 					$('#gifLoading').show();
 					
 					$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'encuestas',nombreP: nombrePrograma} ,ajaxSuccessMasVotadosEncuestas,"json").error(ajaxErrorMasVotadosGeneral);
@@ -190,7 +220,15 @@ $(document).ready(function() {
 		});
 	});
 	
+	// Click mas votados seccion pregunats //
 	
+	$('#masVotadosEncuestaPorPrograma').click(function(){
+		
+		$('#contenido').html("<select id='mySelect'><option value='1'>one</option><option value='2''>two</option></select>");
+		
+		$("#mySelect").combobox();
+
+	});
 	// ****************** Inicio todo ************************* //
 	
 	// Acordion 

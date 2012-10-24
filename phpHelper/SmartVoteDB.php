@@ -156,8 +156,8 @@ class SmartVoteDB {
 			if($tipo=='programa')
 		    	$consulta = "SELECT * FROM programas ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
 			else 
-		    	$consulta = "SELECT e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
-			
+		    	$consulta = "SELECT e.id,e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+
 		try{
 
 			$this->conectar();
@@ -437,7 +437,7 @@ class SmartVoteDB {
 	{
 		$ju='Show de la Mañana';	
 		
-		$cadenaConsulta = "SELECT e.nombre,COUNT(*)as cantidad FROM encuestasvotadas as ev, encuestas as e, programas as p WHERE e.id_p = p.id and e.id=ev.id_e and p.nombre='".$ju."' GROUP BY ev.id_e";
+		$cadenaConsulta = "SELECT e.nombre,COUNT(*)as cantidad FROM encuestasvotadas as ev, encuestas as e, programas as p WHERE e.id_p = p.id and e.id=ev.id_e and p.nombre='".utf8_decode($nombre_p)."' GROUP BY ev.id_e";
 		
 		return $resultado = $this->buscar($cadenaConsulta);
 	
