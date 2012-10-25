@@ -67,8 +67,8 @@
 				<h2>Encuestas</h2>
 				<ul class="nav nav-pills nav-stacked">
 					<li><a href="#" id="listadoEncuestas"><i  class="icon-list"></i>  Lista</a></li>
-					<li><a href="#" id="masVotadosEncuestas"><i class="icon-plus"></i>  Votos en general</a></li>
-					<li><a href="#" id="masVotadosEncuestaPorPrograma"><i class="icon-plus"></i>  Votos por programa</a></li>
+					<li><a href="#" id="masVotadosEncuestasPorPrograma"><i class="icon-plus"></i>  Votos por programa</a></li>
+					<li><a href="#" id="masVotadosPreguntasPorEncuestas"><i class="icon-plus"></i>  Votos por enuesta</a></li>
 					<br>
 				</ul>
 			</div>
