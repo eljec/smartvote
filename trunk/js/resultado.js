@@ -93,7 +93,7 @@ $(document).ready(function() {
 			for(var i=0;i<data.programas.length;i++)
 			{
 				
-				nuevoObjeto = { text:"\""+data.programas[i].nombre + "\"",
+				nuevoObjeto = { text:data.programas[i].nombre,
 								value:data.programas[i].id,
 								}
 				
@@ -108,7 +108,7 @@ $(document).ready(function() {
 			    	
 			        var id = selectedData.selectedData.value; 
 			        
-			         var idLimpio = replaceAll(id,"\"",'');
+			        var idLimpio = replaceAll(id,"\"",'');
 			        
 			        llenarComboEncuestas(idLimpio);
 			    }   
@@ -125,7 +125,7 @@ $(document).ready(function() {
 		for(var i=0;i<data.encuestas.length;i++)
 		{
 			
-			nuevoObjeto = { text:"\""+data.encuestas[i].nombre + "\"",
+			nuevoObjeto = { text:data.encuestas[i].nombre,
 							value:data.encuestas[i].id,
 							}
 			
@@ -191,7 +191,7 @@ $(document).ready(function() {
 		$('#gifLoading').show();
 		$('#vergrafico').hide();
 		$('#alertaCragaDatos').addClass('ocultar');
-		
+		$('#chartdiv').html('');
 		$('#comboEncuestas').ddslick('destroy');
 		
 		$.getJSON('phpHelper/SmartVoteServices.php?action=2&paged=0&id_p='+idPrograma,ajaxSuccessComboEncuestas);
@@ -301,7 +301,7 @@ $(document).ready(function() {
 	
 	// Click mas votados seccion ecnuesta 
 	
-	$('#masVotadosEncuestas').click(function(){
+	$('#masVotadosEncuestasPorPrograma').click(function(){
 		 
  		$('#alertaCragaDatos').addClass('ocultar');
  				
@@ -369,7 +369,7 @@ $(document).ready(function() {
 	
 	// Click mas votados seccion pregunats 
 	
-	$('#masVotadosEncuestaPorPrograma').click(function(){
+	$('#masVotadosPreguntasPorEncuestas').click(function(){
 		
 		$('#contenido').html("<div align='center'><img id='gifLoading'src='img/ajax-loaderBlanco.gif' style='display: none;' alt='Loading...'/></div>");
 		$('#gifLoading').show();
