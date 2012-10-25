@@ -435,16 +435,49 @@ class SmartVoteDB {
 	
 	public function GraficoEncuesta($nombre_p)
 	{
-		$ju='Show de la Mañana';	
-		
+
 		$cadenaConsulta = "SELECT e.nombre,COUNT(*)as cantidad FROM encuestasvotadas as ev, encuestas as e, programas as p WHERE e.id_p = p.id and e.id=ev.id_e and p.nombre='".utf8_decode($nombre_p)."' GROUP BY ev.id_e";
 		
 		return $resultado = $this->buscar($cadenaConsulta);
-	
-		//echo $cadenaConsulta;
-		
-	}
 
+	}
+	
+	public function GraficoPreguntas($id_e)
+	{
+		//$arrayResultado = array();
+			
+			
+		$cadenaConsulta = "SELECT count(calificacion) as cantidad from votos where calificacion=1 and id_e='".$id_e."'";
+		
+		$resultado = $this->buscar($cadenaConsulta);
+		
+		$row = mysql_fetch_array($resultado);
+		
+		$cantidadSI = $row['cantidad'];
+			
+			
+		$cadenaConsulta = "SELECT count(calificacion) as cantidad from votos where calificacion=0 and id_e='".$id_e."'";
+		
+		$resultado = $this->buscar($cadenaConsulta);
+		
+		$row = mysql_fetch_array($resultado);
+		
+		$cantidadNO = $row['cantidad'];
+		
+		if($cantidadNO >0  && $cantidadSI >0)
+		{
+			$arrayResultado[0] = $cantidadSI;
+			$arrayResultado[1] = $cantidadNO;
+		}
+		else 
+		{
+			$arrayResultado = array();
+		}
+
+		return $arrayResultado;
+	}
+	
+	
 	public function ValidarExistencia($idPrograma,$nombre)
 	{
 		$cadenaConsulta = "SELECT * FROM encuestas WHERE id_p='".$idPrograma."' and nombre='".$nombre."'";
