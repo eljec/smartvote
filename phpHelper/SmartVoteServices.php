@@ -265,7 +265,10 @@
 										$respuesta = $adminServicio->GraficoEncuesta($nombre_p);
 									break;
 								case 'preguntas':
-										$respuesta = $adminServicio->GraficoPreguntas($id_p,$id_e);
+								
+										$id_e = $_POST['id_e'];
+										$respuesta = $adminServicio->GraficoPreguntas($id_e);
+										
 									break;
 								default:
 										throw new Exception('Error MySQL');

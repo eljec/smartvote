@@ -263,9 +263,23 @@ class SmartVoteManager {
 	{
 		$datos = $this->baseSmartVote->GraficoEncuesta($nombre_p);
 		$resultado = $this->transformarDatosGrafico($datos);
-		echo $resultado;
+		
+		return $resultado;
 	}
 	
+	public function GraficoPreguntas($id_e)
+	{
+		try{
+			
+			$datos = $this->baseSmartVote->GraficoPreguntas($id_e);
+			
+			return ($this->transformarDatosGraficoArray($datos));
+			
+		}catch(Exception $e){
+			
+			return json_encode(new Respuesta("ERROR","PROBLEMA AL TRAER LOS DATOS PARA EL GRAFICO"));
+		}
+	}
 	
 	// ------------------------------    METODOS PRIVADOS  --------------------------------------------------  //
 
@@ -475,6 +489,31 @@ class SmartVoteManager {
 		
 		return $cadenaDevolver;
 	}
+	
+	private function transformarDatosGraficoArray($datos)
+	{
+		$cadenaDevolver =  "{\"datosgrafico\":[";
+		
+		if(count($datos) > 0)
+		{
+			$cadenaDevolver = $cadenaDevolver."[";
+			$cadenaDevolver = $cadenaDevolver. json_encode('SI');
+			$cadenaDevolver = $cadenaDevolver. ",";
+			$cadenaDevolver = $cadenaDevolver. $datos[0];
+			$cadenaDevolver = $cadenaDevolver. "]";
+	
+			$cadenaDevolver = $cadenaDevolver. ",[";
+			$cadenaDevolver = $cadenaDevolver. json_encode('NO');
+			$cadenaDevolver = $cadenaDevolver. ",";
+			$cadenaDevolver = $cadenaDevolver. $datos[1];
+			$cadenaDevolver = $cadenaDevolver. "]";
+		}
+		
+		$cadenaDevolver = $cadenaDevolver. "]}";
+		
+		return $cadenaDevolver;
+	}
+	
 	
 	
 	}
