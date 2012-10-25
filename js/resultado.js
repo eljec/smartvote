@@ -77,6 +77,76 @@ $(document).ready(function() {
 			}	
 	}
 
+	function ajaxSuccessComboProgramas(data)
+	{
+		$('#contenido').html("<table><tr><td><div id='comboProgramas'></div></td><td><div id='comboEncuestas'></div></td></tr>");
+			
+			var nuevoObjeto;
+			var ddData = new Array();
+			
+			for(var i=0;i<data.programas.length;i++)
+			{
+				
+				nuevoObjeto = { text:"\""+data.programas[i].nombre + "\"",
+								value:"\""+data.programas[i].id + "\"",
+								}
+				
+				ddData[i] = nuevoObjeto;
+			}
+		 
+		 	$('#comboProgramas').ddslick({
+			    data:ddData,
+			    width:300,
+			    selectText: "Seleccione un programa..",
+			    onSelected: function(selectedData){
+			    	
+			        var ema = selectedData.selectedData.value; 
+			        
+			        var ju = replaceAll(ema,"\"",'');
+			        
+			        llenarComboEncuestas(ju);
+			    }   
+			});
+	}
+	
+	function replaceAll(text, search, newstring ){
+		    while (text.toString().indexOf(search) != -1)
+		        text = text.toString().replace(search,newstring);
+		    return text;
+	}
+
+	function ajaxSuccessComboEncuestas(data)
+	{
+		var nuevoObjeto;
+		var ddData = new Array();
+		
+		for(var i=0;i<data.encuestas.length;i++)
+		{
+			
+			nuevoObjeto = { text:"\""+data.encuestas[i].nombre + "\"",
+							value:data.encuestas[i].id,
+							}
+			
+			ddData[i] = nuevoObjeto;
+		}
+	 
+	 	$('#comboEncuestas').ddslick({
+		    data:ddData,
+		    width:300,
+		    selectText: "Seleccione una encuesta..",
+		    onSelected: function(selectedData){
+
+		    }   
+		});
+	}
+	
+	// FUNCIONES PARA OTRAS COSAS //
+	
+	function llenarComboEncuestas(idPrograma)
+	{
+		$.getJSON('phpHelper/SmartVoteServices.php?action=2&paged=0&id_p='+idPrograma,ajaxSuccessComboEncuestas);
+	}
+	
 	// Click Listado de Programas 
 	
 	$('#listadoProgramas').click(function(){
@@ -224,10 +294,13 @@ $(document).ready(function() {
 	
 	$('#masVotadosEncuestaPorPrograma').click(function(){
 		
-		$('#contenido').html("<select id='mySelect'><option value='1'>one</option><option value='2''>two</option></select>");
 		
-		$("#mySelect").combobox();
-
+		
+		$('#contenido').html("<div align='center'><img id='gifLoading'src='img/ajax-loaderBlanco.gif' style='display: none;' alt='Loading...'/></div>");
+		$('#gifLoading').show();
+		
+		$.getJSON('phpHelper/SmartVoteServices.php?action=1&paged=0',ajaxSuccessComboProgramas);
+				
 	});
 	// ****************** Inicio todo ************************* //
 	

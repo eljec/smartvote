@@ -80,7 +80,8 @@
 				</div>
 				<div id="alertaCragaDatos" class="alert ocultar TamAlerta">
 					<strong>Warning!</strong> Ocurrio un Error, Intentelo mas tarde.
-				</div>	
+				</div>
+				<br />	
 				<div id="contenido" align="center">
 					<table id='tablaContenido' align="center"></table>
 					<div id='paginacion'></div>
@@ -102,6 +103,8 @@
 		
 		<script type="text/javascript" src="js/plugins/jqplot.pieRenderer.min.js"></script>
 		<script type="text/javascript" src="js/plugins/jqplot.donutRenderer.min.js"></script>
+		
+		<script type="text/javascript" src="js/ddslick.js"></script>
 
 		<script src="js/resultado.js" type="text/javascript"></script>
  
