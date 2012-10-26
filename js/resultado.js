@@ -104,6 +104,7 @@ $(document).ready(function() {
 			    data:ddData,
 			    width:300,
 			    selectText: "Seleccione un programa..",
+			    imagePosition:"right",
 			    onSelected: function(selectedData){
 			    	
 			        var id = selectedData.selectedData.value; 
