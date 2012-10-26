@@ -75,7 +75,35 @@ class SmartVoteDB {
 		}
 	}
 
-	// ------------------------------- METODOS PUBLICOS ----------------------------------------->
+	public function insertar($cadenaInsersion)
+	{
+		try{
+	
+			$this->conectar();
+			
+			$flag = mysql_query($cadenaInsersion);
+		
+			mysql_close($this->db_conexion);
+
+		}catch (Exception $e) {
+
+			mysql_close($this->db_conexion);
+			
+			throw new Exception('Error MySQL');
+		}	
+	}
+	
+	public function ValidarExistencia($idPrograma,$nombre)
+	{
+		$cadenaConsulta = "SELECT * FROM encuestas WHERE id_p='".$idPrograma."' and nombre='".$nombre."'";
+
+		return $this->validarRepetido($cadenaConsulta);
+	}
+	
+	
+	// ------------------------------- METODOS PUBLICOS ------------------------------------------------------>
+	
+	//--->BUSCAR 
 	
 	public function BuscarProgramas()
 	{
@@ -230,6 +258,9 @@ class SmartVoteDB {
 		}
 
 	}
+	
+	
+	//--->INSERTAR 
 	
 	public function InsertarPrograma($nombre,$desc)
 	{
@@ -425,6 +456,9 @@ class SmartVoteDB {
 		}
 	}
 	
+	
+	//--->GRAFICO 
+	 
 	public function GraficoPrograma()
 	{
 		
@@ -476,31 +510,51 @@ class SmartVoteDB {
 
 		return $arrayResultado;
 	}
-	
-	
-	public function ValidarExistencia($idPrograma,$nombre)
-	{
-		$cadenaConsulta = "SELECT * FROM encuestas WHERE id_p='".$idPrograma."' and nombre='".$nombre."'";
 
-		return $this->validarRepetido($cadenaConsulta);
-	}
+	//--->VOTAR
 	
-	public function insertar($cadenaInsersion)
+	public function GuardarVotos($arrayIdPr,$arrayVotacion,$idEncuesta,$idTv)
 	{
 		try{
+        
+	        $this->conectarTran();
+	        
+	        mysqli_autocommit($this->db_conexionTran, false);
 	
-			$this->conectar();
-			
-			$flag = mysql_query($cadenaInsersion);
-		
-			mysql_close($this->db_conexion);
+	        $flag = true;
+	        
+	        $lengtArray = count($arrayIdPr);
+	
+	        $fecha_actual = date("Y-m-d");
+	        
+	        for($i=0;$i<$lengtArray;$i++)
+	        {
+	            $cadenaInsersion= "Insert into votos (id_pr, id_e, calificacion,fecha,id_tv) values ( '".$arrayIdPr[$i]."','".$idEncuesta."','".$arrayVotacion[$i]."','".$fecha_actual."','".$idTv."')";
+	
+	            $flag = mysqli_query($this->db_conexionTran,$cadenaInsersion);
+	        }
+	
+	        if ($flag) {
+	    
+	            mysqli_commit($this->db_conexionTran);
+	        
+	            return new Respuesta("OK","");
+	
+	        } else
+	        {
+	            mysqli_rollback($this->db_conexionTran);
+	
+	            throw new Exception('Ocurrio un error ');
+	        }
+	
+	        mysqli_close($this->db_conexionTran);
+	
+	        return $retorno;
 
-		}catch (Exception $e) {
-
-			mysql_close($this->db_conexion);
-			
-			throw new Exception('Error MySQL');
-		}	
+		}catch (Exception $e) 
+		{
+    		throw new Exception('Ocurrio un error ');
+		}
 	}
 	
 }

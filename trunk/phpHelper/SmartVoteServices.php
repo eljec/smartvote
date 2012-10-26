@@ -231,6 +231,21 @@
 					break;
 						
 					case "votos": // Insertar votos por parte de la TV
+					
+						if(isset( $_POST["votos"],$_POST["idE"], $_POST["idTv"]))
+						{
+							$datos=$varPost["votos"];
+
+							$idEncuesta =$varPost["idE"];
+					
+							$idTv = $varPost["idTv"];
+
+							$respuesta = $adminServicio->GuardarVotos($datos,$idEncuesta,$idTv);
+						}
+						else
+						{
+							errorParametros("LA URL NO CONTIENE LOS PARAMETRO CORRECTOS");
+						} 
 
 					break;
 					

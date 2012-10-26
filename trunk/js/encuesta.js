@@ -63,9 +63,11 @@ function successEncuesta(data)
 	
 	if(data.tipo == "OK"){
 	
-		$('#alertaPreguntas').addClass("alert-info");
+		/*$('#alertaPreguntas').addClass("alert-info");
 		$('#alertaPreguntas').html("<strong>FELICITACIONES!</strong><br><i class='icon-thumbs-up'></i>Preguntas cargadas correctamente.");
-		$('#alertaPreguntas').removeClass("ocultar");
+		$('#alertaPreguntas').removeClass("ocultar");*/
+		
+		$('.pregunta').val('');
 	}
 	else{
 		
@@ -120,7 +122,12 @@ function successValidarEncuesta(data)
 
 function errorValidarEncuesta(jqXHR, textStatus, errorThrown)
 {
-
+	$('#alertaEncuestas').removeClass('alert-success');
+	$('#alertaEncuestas').addClass('alert-error');	
+	$('#alertaEncuestas').html("<strong>ERROR !!</strong> Intentalo mas tarde.");	
+	$('#alertaEncuestas').removeClass('ocultar');
+		
+		ocultarPanelesPreguntas();
 }
 
 function successLogon(data)

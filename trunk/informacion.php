@@ -55,7 +55,7 @@
 							<div class="active item tamImagen"><img class="alinearCentroImagen" src="img/historia.png" alt="">
 								<div class="carousel-caption">
 								  <h4>Un poco de Historia</h4>
-								  <p>Durante el desarrollo de la humanidad hubieron muchos suscesos que marcaron un antes y un despues.</p>
+								  <p>En la historia hubieron muchos suscesos que marcaron un antes y un despues.</p>
 								</div>
 							</div>
 							<div class="item tamImagen"><img class="alinearCentroImagen" src="img/televisorviejo.jpg" alt="">
@@ -85,12 +85,13 @@
 							<div class="item tamImagen"><img class="alinearCentroImagen" src="img/logoTV.png" alt="">
 								<div class="carousel-caption">
 								  <h4>Surgio: SmartVote</h4>
-								  <p>Sistema integrador que te permite interactuar con tus programas favoritos y votar sus encuestas.</p>
+								  <p>Sistema integrador que une: TV + Intenet + Programas favoritos.</p>
 								</div>
 							</div>
 							<div class="item tamImagen"><img class="alinearCentroImagen" src="img/signopregunta.gif" alt="">
 								<div class="carousel-caption">
 								  <h4>Como se usa ?</h4>
+								  <p>Que tengo que saber?</p>
 								</div>
 							</div>
 							<div class="item tamImagen"><img src="img/elegir.jpg" alt="">
