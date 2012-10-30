@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<listaProgramas>
+  <programas>
+     <id>1</id>
+	 <nombre>Show de la Mañana</nombre>
+	 <descripcion>Programa de Noticias de la Ciudad de Córdoba</descripcion>
+	   <encuesta>
+	      <id>1</id>
+		  <tema>Supersticion</tema>
+	      <pregunta>
+	          <num>1</num>
+		      <descripcion>¿ Tiene alguna cabala ?</descripcion>
+	      </pregunta>
+	      <pregunta>
+	          <num>2</num>
+		      <descripcion>¿ Usa cinta de color ?</descripcion>
+	      </pregunta>
+	      <pregunta>
+	          <num>3</num>
+		      <descripcion>¿ En la hora de comer, se pasa la sal de mano en mano ?</descripcion>
+	      </pregunta>
+	   </encuesta>  
+	   <encuesta>
+	      <id>2</id>
+		  <tema>Homosexualidad</tema>
+	      <pregunta>
+	          <num>1</num>
+		      <descripcion>¿ Crees que la Homosexualidad es una enfermedad ?</descripcion>
+	          </pregunta>
+	      <pregunta>
+	          <num>2</num>
+		      <descripcion>¿ Odias a los homosexuales ?</descripcion>
+	      </pregunta>
+	      <pregunta>
+	          <num>3</num>
+		      <descripcion>¿ Estas a favor del casamiento igualitario ?</descripcion>
+	      </pregunta>
+	   </encuesta>   
+  </programas> 
+  <programas>
+     <id>2</id>
+	 <nombre>Ana Maria y la Gente</nombre>
+	 <descripcion>Programa de entretenimeinto y familiar de la Ciudad de Córdoba</descripcion>
+	   <encuesta>
+	      <id>1</id>
+		  <tema>La Familia</tema>
+	      <pregunta>
+	          <num>1</num>
+		      <descripcion>¿Crees que cambio el concepto de familia en la actualidad?</descripcion>
+	      </pregunta>
+	      <pregunta>
+	          <num>2</num>
+		      <descripcion>¿Respetas a tus padres?</descripcion>
+	      </pregunta>
+	      <pregunta>
+	          <num>3</num>
+		      <descripcion>¿Crees que la familia es importante?</descripcion>
+	      </pregunta>
+	   </encuesta>   
+  </programas>  
+  <programas>
+     <id>3</id>
+	 <nombre>El Avispero</nombre>
+	 <descripcion>Programa de Noticias de la Ciudad de Córdoba</descripcion>
+  </programas> 
+  <programas>
+     <id>4</id>
+	 <nombre>ADN</nombre>
+	 <descripcion>Programa de Noticias de la Ciudad de Córdoba</descripcion>
+  </programas> 
+  <programas>
+     <id>5</id>
+	 <nombre>Sabatico</nombre>
+	 <descripcion>Programa de Noticias y entretenimeinto de la Ciudad de Córdoba</descripcion>
+  </programas>
+  <programas>
+     <id>6</id>
+	 <nombre>Mañana de Córdoba</nombre>
+	 <descripcion>Programa de Noticias de la Ciudad de Córdoba</descripcion>
+  </programas>
+</listaProgramas>

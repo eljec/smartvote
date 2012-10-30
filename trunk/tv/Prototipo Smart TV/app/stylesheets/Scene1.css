@@ -1,0 +1,57 @@
+#SceneScene1 {
+	position : absolute;
+	left : 0px;
+	top : 0px;
+	width : 960px;
+	height : 540px;
+	background-color : #ffffff;
+}
+
+
+#SceneScene1 #lbTituloSistema{
+	position : absolute;
+	font-size : 30pt;
+	color : #fffbf0;
+	left : 320px;
+	top : 80px;
+	width : 317px;
+}
+
+#SceneScene1 #B_CargaProgramas{
+	position : absolute;
+	left : 200px;
+	top : 370px;
+	width : 109px;
+}
+
+#SceneScene1 #btnPresentacion{
+	position : absolute;
+	left : 480px;
+	top : 370px;
+	width : 122px;
+}
+
+#SceneScene1 #helpBar{
+	position : absolute;
+	left : 0px;
+	top : 506px;
+}
+
+#SceneScene1 #logo{
+	position : absolute;
+	left : 310px;
+	top : 220px;
+	width : 180px;
+	height : 130px;
+}
+
+
+
+
+#SceneScene1 #svecImage_HB5S{
+	position : absolute;
+	left : 0px;
+	top : 0px;
+	width : 960px;
+	height : 540px;
+}

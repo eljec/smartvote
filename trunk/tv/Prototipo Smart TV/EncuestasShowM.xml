@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ShowDeLaMañana>
+  <Encuesta>
+    <id>1</id>
+	<pregunta>
+	    <num>1</num>
+		<descripcion>¿ Tiene alguna cabala ?</descripcion>
+	</pregunta>
+	<pregunta>
+	    <num>2</num>
+		<descripcion>¿ Usa cinta de color ?</descripcion>
+	</pregunta>
+	<pregunta>
+	    <num>3</num>
+		<descripcion>¿ En la hora de comer, se pasa la sal de mano en mano ?</descripcion>
+	</pregunta>
+	<pregunta>
+	    <num>4</num>
+		<descripcion>¿ Tiene una tijera cruzada colgando en su casa ?</descripcion>
+	</pregunta>
+	<pregunta>
+	    <num>5</num>
+		<descripcion>¿ Cree en la luz mala ?</descripcion>
+	</pregunta>
+	<pregunta>
+	    <num>6</num>
+		<descripcion>¿ Ha jugado al juego de la copa ?</descripcion>
+	</pregunta>
+	<pregunta>
+	    <num>7</num>
+		<descripcion>¿ Creen en los espiritus malos ?</descripcion>
+	</pregunta>
+	<pregunta>
+	    <num>8</num>
+		<descripcion>¿ Tiene una tortuga en su casa ?</descripcion>
+	</pregunta>
+  </Encuesta><script type="text/javascript">
+    var text="Color Text"
+    var interval=50
+    
+    if (document.all||document.getElementById) 
+    {
+        document.write('<span id="changecolor">' + text + '</span>');
+        var storetext=document.getElementById? document.getElementById("changecolor") : document.all.changecolor
+    }
+    else
+        document.write(text);
+
+    var hex=new Array("00","11","22","33","44","55","66","77","88","AA","BB","CC","DD", "EE", "FF");
+    var r=1;
+    var g=1;
+    var b=1;
+    var seq=1;
+    
+    function changecolor()
+    {
+        color="#"+hex[r]+hex[g]+hex[b];
+        storetext.style.color=color;
+    }
+
+    function change()
+    {
+        if (seq==6)
+        {
+            b--;
+            if (b==0) seq=1;
+        }
+        if (seq==5)
+        {
+            r++;
+            if (r==14) seq=6;
+        }
+        if (seq==4)
+        {
+            g--;
+            if (g==0) seq=5;
+        }
+        if (seq==3)
+        {
+            b++;
+            if (b==14) seq=4;
+        }
+        if (seq==2)
+        {
+            r--;
+            if (r==0) seq=3;
+        }
+        if (seq==1)
+        {
+            g++;
+            if (g==14)  seq=2;
+        }
+        changecolor();
+    }
+
+    function start()
+    {
+        if (document.all||document.getElementById)
+            setInterval("change()",interval);
+    }
+    start();
+</script>
+</ShowDeLaManñana>
+
+
+
+ 
