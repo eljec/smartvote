@@ -235,7 +235,7 @@ class SmartVoteManager {
 
 		try{
 		
-			mail("juliocastillo.sistemas@gmail.com", $subject,$consultaC, "From:" . $correoC);
+			mail("smartvote@tesiscastillo.com.ar", $subject,$consultaC, "From:" . $correoC);
 			
 			return json_encode(new Respuesta("OK","CORREO ENVIADO SATISFACTORIAMENTE"));
 			
