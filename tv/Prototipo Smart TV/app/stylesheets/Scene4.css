@@ -1,0 +1,40 @@
+#SceneScene4 {
+	position : absolute;
+	left : 0px;
+	top : 0px;
+	width : 960px;
+	height : 540px;
+	background-color : #79a955;
+}
+
+
+#SceneScene4 #bntGuardar{
+	position : absolute;
+	left : 200px;
+	top : 410px;
+	width : 150px;
+}
+
+#SceneScene4 #btnVerGrafico{
+	position : absolute;
+	left : 560px;
+	top : 410px;
+	width : 140px;
+}
+
+#SceneScene4 #svecImage_OHGE{
+	position : absolute;
+	left : 340px;
+	top : 130px;
+	width : 210px;
+	height : 220px;
+}
+
+#SceneScene4 #blTitulo4{
+	position : absolute;
+	font-size : 24pt;
+	color : #210000;
+	left : 330px;
+	top : 40px;
+	width : 240px;
+}

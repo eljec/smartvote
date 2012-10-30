@@ -1,0 +1,48 @@
+#SceneScene3 {
+	position : absolute;
+	left : 0px;
+	top : 0px;
+	width : 960px;
+	height : 540px;
+	background-color : #79a955;
+}
+
+
+#SceneScene3 #lbTitulo{
+	position : absolute;
+	font-size : 10pt;
+	color : #210000;
+	left : 390px;
+	top : 20px;
+	width : 220px;
+}
+
+#SceneScene3 #lbNumP{
+	position : absolute;
+	font-size : 10pt;
+	color : #210000;
+	left : 440px;
+	top : 160px;
+	width : 130px;
+}
+
+#SceneScene3 #lbPregunta{
+	position : absolute;
+	font-size : 10pt;
+	color : #210000;
+	left : 290px;
+	top : 290px;
+	width : 550px;
+	white-space:pre-wrap;
+	height : 150px;
+	background-color : ##ffff00;
+}
+
+#SceneScene3 #lvHiden{
+	position : absolute;
+	font-size : 10pt;
+	color : #210000;
+	left : 80px;
+	top : 30px;
+	width : 90px;
+}
