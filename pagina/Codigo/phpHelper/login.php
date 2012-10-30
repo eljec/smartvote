@@ -6,7 +6,7 @@ session_start();
 
 /* Importo la clase que me permite conectarme con la base */
 
-include_once("conexion.php");
+include_once("SmartVoteDB.php");
 include_once("Respuesta.php");
 
 /* Variables por POST */
@@ -14,16 +14,10 @@ include_once("Respuesta.php");
  $user=$_POST["user"]; //obtengo el usuario del formulario   //nombres por defecto German contra 12345678 y Leopoldo contra 'holamundo'
  $pass=$_POST["pass"]; //obtengo la contraseña del formulario
 
- $user_escape = mysql_real_escape_string($user);
- $pass_escape = mysql_real_escape_string($pass);
- 
- $consulta="SELECT nombre FROM usuarios WHERE nombre='".$user_escape."' and contraseña='".$pass_escape."'";
-
- $base = new DBase();
-
- $respuesta = "";
+ $base = new SmartVoteDB();
  try{
-	$resultado = $base->consultar($consulta);
+	
+	$resultado = $base->LogIn($user, $pass);
 	
 	$count=mysql_num_rows($resultado);
 	

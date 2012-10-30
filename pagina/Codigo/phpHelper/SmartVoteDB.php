@@ -103,6 +103,32 @@ class SmartVoteDB {
 	
 	// ------------------------------- METODOS PUBLICOS ------------------------------------------------------>
 	
+	//---> LOG IN 
+	
+	public function LogIn($user,$pass)
+	{
+	   try{
+	   	
+			$this->conectar();
+			
+			$user_escape = mysql_real_escape_string($user);
+ 			$pass_escape = mysql_real_escape_string($pass);
+ 
+ 			$consulta="SELECT nombre FROM usuarios WHERE nombre='".$user_escape."' and contraseña='".$pass_escape."'";
+			
+			$resultado = mysql_query($consulta);
+		
+			mysql_close($this->db_conexion);
+			
+			return $resultado;
+		
+	   }catch(exception $e)
+	   {
+	   	 	mysql_close($this->db_conexion);
+			
+			throw new Exception('Error MySQL');
+	   }
+	}
 	//--->BUSCAR 
 	
 	public function BuscarProgramas()

@@ -5,7 +5,7 @@
 /* Importo la clase que me permite conectarme con la base */
 
 include("conexion.php");
-include("respuesta.php");
+include("Respuesta.php");
 
 /* Variables por GET */
 
