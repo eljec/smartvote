@@ -54,7 +54,7 @@
 					<br>
 					<br>
 					<form id="formContacto"action="contactanos.html" autocomplete="on">
-						<div id="alertaEmail" class="textoAlerta alert alert-error ocultar"><strong>Ups!! Ocurrió un error</strong><br>Intentelo las tarde.</div>
+						<div id="alertaEmail" class="textoAlerta alert ocultar"><strong>Ups!! Ocurrió un error</strong><br>Intentelo las tarde.</div>
 						<div id="bordeArribaAbajo">
 							<table align="center" CELLPADDING="20">
 								<tr>

@@ -161,13 +161,35 @@ class SmartVoteDB {
 	
 	public function BuscarProgramasAutoComplete($like)
 	{
-		$like_escape = mysql_real_escape_string($like);
+	
+		//$resultado = $this->buscar($queEmp);
 		
-		$queEmp = "SELECT * FROM programas as p where p.activo=1 and p.nombre like '%".$like_escape."%'";
+		try{
+		
+			$this->conectar();
+			
+			$like_escape = mysql_real_escape_string($like);
+		
+			$queEmp = "SELECT * FROM programas as p where p.activo=1 and p.nombre like '%".$like_escape."%'";
+			
+			$result = mysql_query($queEmp, $this->db_conexion);
+			
+			// Cierro la conexion //
 
-		$resultado = $this->buscar($queEmp);
+			mysql_close($this->db_conexion);
+
+			// Retorno la respuesta //
+			
+			return $result;	
+
+		}catch (Exception $e) {
+
+			mysql_close($this->db_conexion);
+			
+			throw new Exception('Error MySQL');
+		}
 		
-		return $resultado;
+		//return $resultado;
 				
 	}
 	

@@ -35,7 +35,7 @@ $(document).ready(function() {
 		
 		$('.gifLoading').show();
 		
-			$.post("phpHelper/1nologin.php",successLogon, "json").error(errorLogon);
+			$.post("phpHelper/nologin.php",successLogon, "json").error(errorLogon);
 		
 		}); // fin click log on 	
 			
