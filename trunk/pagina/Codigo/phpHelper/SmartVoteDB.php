@@ -527,8 +527,7 @@ class SmartVoteDB {
 	public function GraficoPreguntas($id_e)
 	{
 		//$arrayResultado = array();
-			
-			
+				
 		$cadenaConsulta = "SELECT count(calificacion) as cantidad from votos where calificacion=1 and id_e='".$id_e."'";
 		
 		$resultado = $this->buscar($cadenaConsulta);
@@ -584,10 +583,27 @@ class SmartVoteDB {
 	
 	        if ($flag) {
 	    
+				// Inserto en la Tabla de Encuestas Votadas //
+				
+				$cadenaInsertar="Insert into encuestasvotadas (id_tv,id_e,fecha) values ('".$idTv."','".$idEncuesta."','".$fecha_actual."')";
+
+				$flag = mysqli_query($this->db_conexionTran,$cadenaInsertar);
+				
+				if(!$flag)
+				{
+					// SI todo sale bien hago comit de transaccion //
+				
 	            mysqli_commit($this->db_conexionTran);
 	        
-	            return new Respuesta("OK","");
+	            return json_encode(new Respuesta("OK",""));
 	
+				}
+				else 
+				{
+					 mysqli_rollback($this->db_conexionTran);
+	
+	            	throw new Exception('Ocurrio un error ');
+				}
 	        } else
 	        {
 	            mysqli_rollback($this->db_conexionTran);
@@ -605,5 +621,49 @@ class SmartVoteDB {
 		}
 	}
 	
+	public function GuardarVotosAux($arrayIdPr,$arrayVotacion,$idEncuesta)
+	{
+		try{
+        
+	        $this->conectarTran();
+	        
+	        mysqli_autocommit($this->db_conexionTran, false);
+	
+	        $flag = true;
+	        
+	        $lengtArray = count($arrayIdPr);
+	
+	        $fecha_actual = date("Y-m-d");
+	        
+	        for($i=0;$i<$lengtArray;$i++)
+	        {
+	            $cadenaInsersion= "Insert into votosaux (id_pr, id_e, calificacion,fecha) values ('".$arrayIdPr[$i]."','".$idEncuesta."','".$arrayVotacion[$i]."','".$fecha_actual."')";
+	
+	            $flag = mysqli_query($this->db_conexionTran,$cadenaInsersion);
+	        }
+	
+	        if ($flag) {
+	   
+	            mysqli_commit($this->db_conexionTran);
+	        
+	            return json_encode(new Respuesta("OK",""));
+				
+	        } else
+	        {
+	            mysqli_rollback($this->db_conexionTran);
+	
+	            throw new Exception('Ocurrio un error ');
+	        }
+	
+	        mysqli_close($this->db_conexionTran);
+	
+	        return $retorno;
+
+		}catch (Exception $e) 
+		{
+    		throw new Exception('Ocurrio un error ');
+		}
+	}
+
 }
 ?>

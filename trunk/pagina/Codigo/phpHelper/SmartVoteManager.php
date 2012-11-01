@@ -284,7 +284,7 @@ class SmartVoteManager {
 	public function GuardarVotos($datos,$idEncuesta,$idTv)
 	{
 		//Split de los votos 
-
+		
 		$filas = explode(";", $datos);
 
 		$contador = -1;
@@ -300,7 +300,7 @@ class SmartVoteManager {
 		   $arrayPuntuacion[$contador] = $votosIds[1];
 
 		 }
-		
+
 		try{
 			$respuesta = $this->baseSmartVote->GuardarVotos($arrayIdPregunta,$arrayPuntuacion,$idEncuesta,$idTv);
 
@@ -314,6 +314,38 @@ class SmartVoteManager {
 		}
 	}
 
+	public function GuardarVotosAux($datos,$idEncuesta)
+	{
+		//Split de los votos 
+		
+		$filas = explode(";", $datos);
+
+		$contador = -1;
+
+		foreach($filas as &$fila)
+		{  
+		   $votosIds=explode("-", $fila);
+		   
+		   $contador = $contador + 1;
+		   
+		   $arrayIdPregunta[$contador] = $votosIds[0];
+		   
+		   $arrayPuntuacion[$contador] = $votosIds[1];
+
+		 }
+
+		try{
+			$respuesta = $this->baseSmartVote->GuardarVotosAux($arrayIdPregunta,$arrayPuntuacion,$idEncuesta);
+
+			return $respuesta;
+			
+		 }catch (Exception $e) {
+		 
+			$resp = new Respuesta("ERROR","NO SE PUDO HACER LA INSERSION");
+			
+			return json_encode($resp);
+		}
+	}
 	// ------------------------------    METODOS PRIVADOS  --------------------------------------------------  //
 
 	private function transformarDatosProgramas($datos)

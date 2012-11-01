@@ -75,7 +75,7 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 						<h2>Programas</h2>
 						<p>En esta seccion podra consultar informacion sobre sus programas, dar de alta, baja y modificacion de los mismos..</p>
 						<div align="center">
-							<p><a class="btn" href="#">Entrar</a></p>
+							<p><a class="btn" id="btnProgramas" href="#">Entrar</a></p>
 						</div>
 					</div>
                 </div>

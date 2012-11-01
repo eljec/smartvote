@@ -38,8 +38,29 @@ $(document).ready(function() {
 			$.post("phpHelper/nologin.php",successLogon, "json").error(errorLogon);
 		
 		}); // fin click log on 	
+		
+		
+		/*$('#testVotos').click(function(){
 			
+			var votos ="1-1;2-1;3-0;4-1;5-1";
+			var idEn = 3;
+			var idTVl = 567;
+			
+			$.post("phpHelper/SmartVoteServices.php",{ tipo:'votos',votos:votos,idE:idEn},function(data){
+				
+				var ju = "ema" ;
+				
+			}, "json").error(function(){
+				
+				var ema = "hola";
+			});
+			
+		});*/
+		
 		// Inicializo 
 		
+		$('#btnProgramas').attr('disabled', 'disabled');
+		
 		$('.label-important').addClass('ocultar');
+		
 }); // Fin ready 
