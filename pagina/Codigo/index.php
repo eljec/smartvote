@@ -70,6 +70,7 @@
         <script src="js/vendor/jquery-1.8.0.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
         <script src="js/main.js"></script>
+        <script src="js/jqueryCrypt.js"></script>
 		<script src="js/index.js"></script>
 		<script src="js/jquery-ui-1.9.0.custom.min.js"></script>
     </body>

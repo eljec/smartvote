@@ -112,7 +112,7 @@ $(document).ready(function() {
 		  else
 		  {
 			$('#gifLoadingIndex').show();
-		
+
 			$.post("phpHelper/login.php",{ user: $('#username').val(), pass:$('#password').val() },successAjaxs, "json").error(errorAjaxs);
 		  }
 		}

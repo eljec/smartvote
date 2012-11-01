@@ -11,7 +11,7 @@ include_once("Respuesta.php");
 
 /* Variables por POST */
 
- $user=$_POST["user"]; //obtengo el usuario del formulario   //nombres por defecto German contra 12345678 y Leopoldo contra 'holamundo'
+ $user=$_POST["user"]; //obtengo el usuario del formulario  
  $pass=$_POST["pass"]; //obtengo la contraseña del formulario
 
  $base = new SmartVoteDB();

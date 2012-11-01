@@ -209,8 +209,6 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 					<br>
 					<img id="gifLoadingPreguntas"src="img/ajax-loaderVerdeDos.gif" style="display: none;" alt="Loading..."/>
 					<br>
-					<div id="alertaPreguntas" class="alertBtnCrear alert ocultar">
-					</div>
 				</div>
 			</div>
 			<br>
@@ -228,11 +226,14 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 				<input id="btnOkNewItem" type="button" value="OK"/>
 				<input id="itemToInsert" type="hidden" name="" value="0"/>
 				<div align="center">
-					<img id="gifLoadingNewItem"src="img/ajax-loaderBlanco.gif" style="display: none;" alt="Loading..."/>
+					<img id="gifLoadingNewItem"src="img/ajax-loaderNegro.gif" style="display: none;" alt="Loading..."/>
 					<br>
 					<div id="alertNewItem" class="alert ocultar">
 					</div>
 				</div>
+			</div>
+			<div id="mensajeFinal">
+				
 			</div>
 	
         </div> <!-- /container -->
