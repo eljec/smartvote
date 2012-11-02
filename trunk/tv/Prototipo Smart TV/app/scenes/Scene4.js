@@ -57,23 +57,39 @@ function GuardarVotos()
 			   }
 			 });
 }
+
+
 SceneScene4.prototype.initialize = function () {
 	alert("SceneScene4.initialize()");
-	// this function will be called only once when the scene manager show this scene first time
-	// initialize the scene controls and styles, and initialize your variables here 
-	// scene HTML and CSS will be loaded before this function is called
+	
+	$('#lbTituloPreguntas').sfLabel({text:'Sección Preguntas', width:'500px'});
+	$('#hrlpBar4').sfKeyHelp({'RED':'NO','BLUE':'SI','return':'Return'});	
+}
+
+SceneScene4.prototype.handleShow = function () {
+	alert("SceneScene4.handleShow()");
+	// this function will be called when the scene manager show this scene 
+	
+	$('#lbTituloPreguntas').sfLabel({text:'Sección Preguntas', width:'500px'});
+	$('#hrlpBar4').sfKeyHelp({'RED':'NO','BLUE':'SI','return':'Return'});
+}
+
+SceneScene4.prototype.handleHide = function () {
+	alert("SceneScene4.handleHide()");
+	// this function will be called when the scene manager hide this scene  
+}
+
+SceneScene4.prototype.handleFocus = function () {
+	alert("SceneScene4.handleFocus()");
+	// this function will be called when the scene manager focus this scene
 	
 	var VariablesEscena3 = $.sfScene.get('Scene3');
 	this.EncuestaS = VariablesEscena3.EncuestaSeleccionada;
 	this.yaVoto=false;
 	
-	//var urlPrg = "http://localhost/Tesis/ServicioEncuesta.php?action=3&id_p=" + this.EncuestaS.getIdP()+"&id_e="+ this.EncuestaS.getId();
 
-	
 	var urlPrg = "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=3&id_p=" + this.EncuestaS.getIdP()+ "&id_e="+ this.EncuestaS.getId();
 	
-	$('#lbTituloPreguntas').sfLabel({text:'Sección Preguntas', width:'500px'});
-	$('#hrlpBar4').sfKeyHelp({'RED':'NO','BLUE':'SI','return':'Return'});
 	
 	/* Variables auiliares */
 	
@@ -166,24 +182,7 @@ SceneScene4.prototype.initialize = function () {
 	$('#signoPregunta2').sfImage({src:'images/interrogacion.png'});
 	
 	this.Votos = new Array();
-}
-
-
-
-
-SceneScene4.prototype.handleShow = function () {
-	alert("SceneScene4.handleShow()");
-	// this function will be called when the scene manager show this scene 
-}
-
-SceneScene4.prototype.handleHide = function () {
-	alert("SceneScene4.handleHide()");
-	// this function will be called when the scene manager hide this scene  
-}
-
-SceneScene4.prototype.handleFocus = function () {
-	alert("SceneScene4.handleFocus()");
-	// this function will be called when the scene manager focus this scene
+	
 }
 
 SceneScene4.prototype.handleBlur = function () {
