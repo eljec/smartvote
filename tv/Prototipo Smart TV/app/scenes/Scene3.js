@@ -33,21 +33,6 @@ function encuesta(id, idP, nombre, descripcion)
 
 SceneScene3.prototype.initialize = function () {
 	alert("SceneScene3.initialize()");
-	// this function will be called only once when the scene manager show this scene first time
-	// initialize the scene controls and styles, and initialize your variables here 
-	// scene HTML and CSS will be loaded before this function is called
-
-	// Tomo info de la anterior escena //
-	
-	var VariablesEscena2 = $.sfScene.get('Scene2');
-	this.programaSeleccionado = VariablesEscena2.ProgramaSeleccionado;
-	
-	// Formo lo url de consulta //
-
-	var urlBD = "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=2&paged=0&id_p=" +  this.programaSeleccionado.getId();
-	
-	var arrayEncuestas = new Array();
-	var arrayNombresEnc = new Array();
 	
 	$('#lbEncuesta').sfLabel({text:'SmartVote-Encuestas', width:'440px'});
 	$('#helpBar3').sfKeyHelp({'return':'Return'});
@@ -55,92 +40,6 @@ SceneScene3.prototype.initialize = function () {
 	$('#imagenError').sfImage({src:'images/Imagen1sin onfo.png'});
 	$('#imagenError').sfImage('hide');
 	
-	$.ajax({
-		type:"GET",
-		async:false,
-		dataType:"json",
-		url:urlBD,
-		success:function(data){
-			var tam = data.encuestas.length;
-
-			if(tam > 0)
-			{
-			   /* Tienen encuestas  */	
-			   
-				for(var i=0;i<tam;i++)
-				{
-					arrayNombresEnc.push(data.encuestas[i].nombre);
-					
-					/* Creo una nueva encuesta */
-					
-					var encuestaAux = new encuesta(data.encuestas[i].id,data.encuestas[i].idP,data.encuestas[i].nombre,data.encuestas[i].descripcion);
-					
-					arrayEncuestas.push(encuestaAux);
-					
-				}
-				  
-				/* Analisis del numero a mostrar */
-
-				if(tam>5)
-				{
-					$('#listaEncuestas').sfListbox2({data:arrayNombresEnc, width:'200', height:'31', itemsPerPage:'5', horizontal:'false'});	
-					$('#listaEncuestas').sfListbox2('focus');
-				}
-				else
-				{
-				   $('#listaEncuestas').sfListbox2({data:arrayNombresEnc, width:'200', height:'31', itemsPerPage:tam, horizontal:'false'});
-				   $('#listaEncuestas').sfListbox2('focus');
-				}
-			}
-			else
-			{
-			   /* No tiene encuetas, muestro popUp y cargo imagenes */
-
-				$('#imagenError').sfImage('show');
-			   
-				$('#popErrorE').sfPopup({text:'Este programa no tiene encuestas cargadas, elija otro de la lista', num:'1', callback:function(){
-			
-					$.sfScene.hide('Scene3');
-					$.sfScene.show('Scene2');
-					$.sfScene.focus('Scene2');
-			
-				}});
-				
-				$('#popErrorE').sfPopup('show');
-			   
-			}
-		
-		
-		},
-		error:function(jqXHR, textStatus, errorThrown){
-			this.error="Ocurrio un ERROR: ";
-			
-			if (jqXHR.status === 0) {
-				this.error=this.error + '\nNot connect.\n Verify Network.';
-			} else {
-				this.error= this.error + "\nIntentelo mas tarde.Gracias."
-			}
-			
-			
-			
-			$('#popErrorE').sfPopup({text:this.error, num:'1', callback:function(){
-			
-				$.sfScene.hide('Scene3');
-				$.sfScene.show('Scene2');
-				$.sfScene.focus('Scene2');
-			
-			}});
-			$('#popErrorE').sfPopup('show');
-		}
-	}); // fin ajax 
-	
-		this.Encuestas = arrayEncuestas;
-		
-		/* Pongo la primera descripcion */
-		
-		var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
-		var descripcion = this.Encuestas[seleccion].getDescripcion();
-		$('#lbDescripcionEncuestas').sfLabel({text:descripcion});
 
 } // fin initialize
 
@@ -150,6 +49,12 @@ SceneScene3.prototype.initialize = function () {
 SceneScene3.prototype.handleShow = function () {
 	alert("SceneScene3.handleShow()");
 	// this function will be called when the scene manager show this scene 
+	
+	$('#lbEncuesta').sfLabel({text:'SmartVote-Encuestas', width:'440px'});
+	$('#helpBar3').sfKeyHelp({'return':'Return'});
+	$('#lbDescripcionEncuestas').sfLabel({text:'label', width:'750px'});
+	$('#imagenError').sfImage({src:'images/Imagen1sin onfo.png'});
+	$('#imagenError').sfImage('hide');
 }
 
 SceneScene3.prototype.handleHide = function () {
@@ -173,14 +78,7 @@ SceneScene3.prototype.handleFocus = function () {
 	var arrayEncuestas = new Array();
 	var arrayNombresEnc = new Array();
 	
-	$('#lbEncuesta').sfLabel({text:'SmartVote-Encuestas', width:'440px'});
-	$('#helpBar3').sfKeyHelp({'return':'Return'});
-	$('#lbDescripcionEncuestas').sfLabel({text:'label', width:'750px'});
-	$('#imagenError').sfImage({src:'images/Imagen1sin onfo.png'});
-	$('#imagenError').sfImage('hide');
-	
-	
-	
+
 	$.ajax({
 	type:"GET",
 	async:false,
@@ -262,13 +160,13 @@ SceneScene3.prototype.handleFocus = function () {
 		}
 	}); 
 	
-		this.Encuestas = arrayEncuestas;
-		
-		/* Pongo la primera descripcion */
-		
-		var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
-		var descripcion = this.Encuestas[seleccion].getDescripcion();
-		$('#lbDescripcionEncuestas').sfLabel({text:descripcion});
+	this.Encuestas = arrayEncuestas;
+	
+	/* Pongo la primera descripcion */
+	
+	var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
+	var descripcion = this.Encuestas[seleccion].getDescripcion();
+	$('#lbDescripcionEncuestas').sfLabel({text:descripcion});
 }
 
 SceneScene3.prototype.handleBlur = function () {

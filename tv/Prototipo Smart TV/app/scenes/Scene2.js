@@ -163,9 +163,7 @@ SceneScene2.prototype.handleKeyDown = function (keyCode) {
 					$('#lbDescripcion').sfLabel({text:nombre});
 			   }
 			 }
-			 
-			 
-			 
+ 
 			break;
 		case $.sfKey.DOWN:
 		    var idx = $('#ListaProgramas').sfListbox2('getIndex');
