@@ -28,22 +28,35 @@ function programa(id, nombre, descripcion) {
 SceneScene2.prototype.initialize = function (aux) {
 	alert("SceneScene2.initialize()");
 
-	// this function will be called only once when the scene manager show this scene first time
-	// initialize the scene controls and styles, and initialize your variables here 
-	// scene HTML and CSS will be loaded before this function is called
-	
 	// Levatamos el archivo con los programas registrados //
 	
 	
 	$('#TituloProgramas').sfLabel({text:'SmartVote-Programas-', width:'790px'});
-	$('#helpBar2').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas','ENTER':'Enter','INFO':'Informacion del Sistema','return':'Rregresar al Hub'});
+	$('#helpBar2').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Informacion del Sistema','return':'Rregresar al Hub'});
 	$('#logo2').sfImage({src:'images/logoTres.png'});
 	$('#lbDescripcion').sfLabel({text:'Info del Programa', width:'430px'});
 	$('#lbTituloDescripcion').sfLabel({text:'Descripcion', width:'430px'});
-
-	$('#ListaProgramas').sfListbox2({data:arrayP, width:'200', height:'31', itemsPerPage:'5', horizontal:'false', data:arrayP, width:'200', height:'31', itemsPerPage:'5', horizontal:'false', data:arrayP, width:'200', height:'31', itemsPerPage:'tam', horizontal:'false'});
 	$('#lbLista').sfLabel({text:'Lista', width:'240px'});
+	$('#cargandoProgramas').sfLoading();
 	
+} // Fin initialize
+
+
+SceneScene2.prototype.handleShow = function () {
+	alert("SceneScene2.handleShow()");
+	// this function will be called when the scene manager show this scene 
+}
+
+SceneScene2.prototype.handleHide = function () {
+	alert("SceneScene2.handleHide()");
+	// this function will be called when the scene manager hide this scene  
+}
+
+SceneScene2.prototype.handleFocus = function () {
+	alert("SceneScene2.handleFocus()");
+	// this function will be called when the scene manager focus this scene
+	
+	$('#cargandoProgramas').sfLoading('show');
 	
 	var arrayPN = new Array();
 	var arrayP = new Array();
@@ -52,7 +65,7 @@ SceneScene2.prototype.initialize = function (aux) {
 	type:"GET",
 	async:false,
 	dataType:"json",
-	url:"http://localhost/Tesis/ServicioEncuesta.php?action=1",
+	url:"http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=1&paged=0",
 	success:function(data){
 		 
 			var tam = data.programas.length;
@@ -79,29 +92,22 @@ SceneScene2.prototype.initialize = function (aux) {
 			   $('#ListaProgramas').sfListbox2({data:arrayPN, width:'200', height:'31', itemsPerPage:tam, horizontal:'false'});	
 			}
 			
+			$('#cargandoProgramas').sfLoading('hide');
 		
 	  }, // fin success
-	 error:function(jqXHR, textStatus, errorThrown){
+	error:function(jqXHR, textStatus, errorThrown){
 	 
+			$('#cargandoProgramas').sfLoading('hide');
+			
 			this.error="Ocurrio un ERROR: ";
 			
 			if (jqXHR.status === 0) {
-                this.error=this.error + '\nNot connect.\n Verify Network.';
-            } else if (jqXHR.status == 404) {
-                this.error=this.error+'\nRequested page not found. [404]';
-            } else if (jqXHR.status == 500) {
-               this.error=this.error+'\nInternal Server Error [500].';
-            } else if (exception === 'parsererror') {
-                this.error=this.error+'\nRequested JSON parse failed.';
-            } else if (exception === 'timeout') {
-                this.error=this.error+'\nTime out error.';
-            } else if (exception === 'abort') {
-                this.error=this.error+'\nAjax request aborted.';
-            } else {
-                this.error=this.error+'\nUncaught Error.\n' + jqXHR.responseText;
+                this.error=this.error + '\n Verifique su Conexión a Internet .';
+            } 
+			else {
+				this.error= this.error + "\nIntentelo mas tarde.Gracias."
             }
-			
-			this.error= this.error + "\nIntentelo mas tarde.Gracias."
+
 			$('#popError').sfPopup({text:this.error, num:'1', callback:function(){
 			
 				$.sfScene.hide('Scene2');
@@ -118,23 +124,6 @@ SceneScene2.prototype.initialize = function (aux) {
  this.ProgramasObj=arrayP;
  this.activo=false;
  this.llamadoPH_S2=false;
-
-} // Fin initialize
-
-
-SceneScene2.prototype.handleShow = function () {
-	alert("SceneScene2.handleShow()");
-	// this function will be called when the scene manager show this scene 
-}
-
-SceneScene2.prototype.handleHide = function () {
-	alert("SceneScene2.handleHide()");
-	// this function will be called when the scene manager hide this scene  
-}
-
-SceneScene2.prototype.handleFocus = function () {
-	alert("SceneScene2.handleFocus()");
-	// this function will be called when the scene manager focus this scene
 }
 
 SceneScene2.prototype.handleBlur = function () {
@@ -147,6 +136,7 @@ SceneScene2.prototype.handleKeyDown = function (keyCode) {
 	// TODO : write an key event handler when this scene get focued
 	switch (keyCode) {
 		case $.sfKey.LEFT:
+			
 			break;
 		case $.sfKey.RIGHT:
 			break;

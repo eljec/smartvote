@@ -1,20 +1,29 @@
 function SceneScene3(options) {
 	this.options = options;
-	this.preguntas;
-	this.DescPreg;
-	this.numPregu;
-	this.yaVoto;
-	this.textoPopUp;
-	this.Votos;
+	this.programaSeleccionado;
+	this.Encuestas;
+	this.EncuestaSeleccionada;
+
 }
 
 
-function pregunta(id,descripcion) {
+function encuesta(id, idP, nombre, descripcion)
+ {
     this.id = id;
+	this.idP = idP;
+    this.nombre = nombre;
     this.descripcion = descripcion;
 
     this.getId = function getId(){
        return this.id;
+    }
+	
+	this.getIdP = function getIdP(){
+       return this.idP;
+    }
+
+    this.getNombre = function getNombre(){
+       return this.nombre;
     }
 	
 	this.getDescripcion = function getDescripcion(){
@@ -22,75 +31,125 @@ function pregunta(id,descripcion) {
     }
 }
 
-function voto(idP,voto) {
-    this.idP = idP;
-    this.voto = voto;
-
-    this.getIdP = function getIdP(){
-       return this.idP;
-    }
-	
-	this.getVoto = function getVoto(){
-       return this.voto;
-    }
-}
-
-
 SceneScene3.prototype.initialize = function () {
 	alert("SceneScene3.initialize()");
 	// this function will be called only once when the scene manager show this scene first time
 	// initialize the scene controls and styles, and initialize your variables here 
 	// scene HTML and CSS will be loaded before this function is called
-	
-	$('#lbTitulo').sfLabel({text:'Preguntas', width:'220px'});
-	$('#lbNumP').sfLabel({text:'Pregunta Numero:', width:'130px'});
-	$('#lbPregunta').sfLabel({text:'label', width:'550px'});
 
-	/* Hago la peticion */
+	// Tomo info de la anterior escena //
 	
-	var preguntas = new Array();
-	var DescPreguntas = new Array();
+	var VariablesEscena2 = $.sfScene.get('Scene2');
+	this.programaSeleccionado = VariablesEscena2.ProgramaSeleccionado;
 	
-	this.yaVoto=false;
+	// Formo lo url de consulta //
+
+	var urlBD = "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=2&paged=0&id_p=" +  this.programaSeleccionado.getId();
+	
+	var arrayEncuestas = new Array();
+	var arrayNombresEnc = new Array();
+	
+	$('#lbEncuesta').sfLabel({text:'SmartVote-Encuestas', width:'440px'});
+	$('#helpBar3').sfKeyHelp({'return':'Return'});
+	$('#lbDescripcionEncuestas').sfLabel({text:'label', width:'750px'});
+	$('#imagenError').sfImage({src:'images/Imagen1sin onfo.png'});
+	$('#imagenError').sfImage('hide');
 	
 	$.ajax({
-	type:"GET",
-	async:false,
-	dataType:"json",
-	url:"http://localhost:8000/test/ServicioEncuesta.php?action=3&id_p=1&id_e=3",
-	success:function(data){
-		 
-			var tam = data.preguntas.length;
-		 
-			for(var i=0;i<tam;i++)
+		type:"GET",
+		async:false,
+		dataType:"json",
+		url:urlBD,
+		success:function(data){
+			var tam = data.encuestas.length;
+
+			if(tam > 0)
 			{
-				DescPreguntas.push(data.preguntas[i].descripcion);
+			   /* Tienen encuestas  */	
+			   
+				for(var i=0;i<tam;i++)
+				{
+					arrayNombresEnc.push(data.encuestas[i].nombre);
+					
+					/* Creo una nueva encuesta */
+					
+					var encuestaAux = new encuesta(data.encuestas[i].id,data.encuestas[i].idP,data.encuestas[i].nombre,data.encuestas[i].descripcion);
+					
+					arrayEncuestas.push(encuestaAux);
+					
+				}
+				  
+				/* Analisis del numero a mostrar */
+
+				if(tam>5)
+				{
+					$('#listaEncuestas').sfListbox2({data:arrayNombresEnc, width:'200', height:'31', itemsPerPage:'5', horizontal:'false'});	
+					$('#listaEncuestas').sfListbox2('focus');
+				}
+				else
+				{
+				   $('#listaEncuestas').sfListbox2({data:arrayNombresEnc, width:'200', height:'31', itemsPerPage:tam, horizontal:'false'});
+				   $('#listaEncuestas').sfListbox2('focus');
+				}
+			}
+			else
+			{
+			   /* No tiene encuetas, muestro popUp y cargo imagenes */
+
+				$('#imagenError').sfImage('show');
+			   
+				$('#popErrorE').sfPopup({text:'Este programa no tiene encuestas cargadas, elija otro de la lista', num:'1', callback:function(){
+			
+					$.sfScene.hide('Scene3');
+					$.sfScene.show('Scene2');
+					$.sfScene.focus('Scene2');
+			
+				}});
 				
-				/* Creo un nuevo programa */
-				var preguntaAux = new pregunta(data.preguntas[i].id,data.preguntas[i].descripcion);
-				
-				preguntas.push(preguntaAux);
-				
-			}		
-			$('#lbTitulo').text('Ajax bien');
-	  } // fin success 
+				$('#popErrorE').sfPopup('show');
+			   
+			}
+		
+		
+		},
+		error:function(jqXHR, textStatus, errorThrown){
+			this.error="Ocurrio un ERROR: ";
+			
+			if (jqXHR.status === 0) {
+				this.error=this.error + '\nNot connect.\n Verify Network.';
+			} else {
+				this.error= this.error + "\nIntentelo mas tarde.Gracias."
+			}
+			
+			
+			
+			$('#popErrorE').sfPopup({text:this.error, num:'1', callback:function(){
+			
+				$.sfScene.hide('Scene3');
+				$.sfScene.show('Scene2');
+				$.sfScene.focus('Scene2');
+			
+			}});
+			$('#popErrorE').sfPopup('show');
+		}
 	}); // fin ajax 
 	
-	this.preguntas = preguntas;
-	this.DescPreg= DescPreguntas;
-	this.numPregu = 0;
-	$('#lbPregunta').text(this.DescPreg[this.numPregu]);
-	$('#popUpRevoto').sfPopup({text:'Puede volver a votar', num:'1', callback:'null'});
-	
-	this.Votos = new Array();
-	
-}	
+		this.Encuestas = arrayEncuestas;
+		
+		/* Pongo la primera descripcion */
+		
+		var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
+		var descripcion = this.Encuestas[seleccion].getDescripcion();
+		$('#lbDescripcionEncuestas').sfLabel({text:descripcion});
+
+} // fin initialize
+
+
 
 
 SceneScene3.prototype.handleShow = function () {
 	alert("SceneScene3.handleShow()");
 	// this function will be called when the scene manager show this scene 
-
 }
 
 SceneScene3.prototype.handleHide = function () {
@@ -101,6 +160,115 @@ SceneScene3.prototype.handleHide = function () {
 SceneScene3.prototype.handleFocus = function () {
 	alert("SceneScene3.handleFocus()");
 	// this function will be called when the scene manager focus this scene
+	
+	// Tomo info de la anterior escena //
+	
+	var VariablesEscena2 = $.sfScene.get('Scene2');
+	this.programaSeleccionado = VariablesEscena2.ProgramaSeleccionado;
+	
+	// Formo lo url de consulta //
+
+	var urlBD = "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=2&paged=0&id_p=" +  this.programaSeleccionado.getId();
+	
+	var arrayEncuestas = new Array();
+	var arrayNombresEnc = new Array();
+	
+	$('#lbEncuesta').sfLabel({text:'SmartVote-Encuestas', width:'440px'});
+	$('#helpBar3').sfKeyHelp({'return':'Return'});
+	$('#lbDescripcionEncuestas').sfLabel({text:'label', width:'750px'});
+	$('#imagenError').sfImage({src:'images/Imagen1sin onfo.png'});
+	$('#imagenError').sfImage('hide');
+	
+	
+	
+	$.ajax({
+	type:"GET",
+	async:false,
+	dataType:"json",
+	url:urlBD,
+	success:function(data){
+		 
+			var tam = data.encuestas.length;
+			
+			// Analizo si hay encuestas o no //
+			
+			if(tam > 0)
+			{
+			   /* Tienen encuestas  */	
+			   
+				for(var i=0;i<tam;i++)
+				{
+					arrayNombresEnc.push(data.encuestas[i].nombre);
+					
+					/* Creo una nueva encuesta */
+					
+					var encuestaAux = new encuesta(data.encuestas[i].id,data.encuestas[i].idP,data.encuestas[i].nombre,data.encuestas[i].descripcion);
+					
+					arrayEncuestas.push(encuestaAux);
+					
+				}
+				  
+				/* Analisis del numero a mostrar */
+
+				if(tam>5)
+				{
+					$('#listaEncuestas').sfListbox2({data:arrayNombresEnc, width:'200', height:'31', itemsPerPage:'5', horizontal:'false'});	
+					$('#listaEncuestas').sfListbox2('focus');
+				}
+				else
+				{
+				   $('#listaEncuestas').sfListbox2({data:arrayNombresEnc, width:'200', height:'31', itemsPerPage:tam, horizontal:'false'});
+				   $('#listaEncuestas').sfListbox2('focus');
+				}
+			}
+			else
+			{
+			   /* No tiene encuetas, muestro popUp y cargo imagenes */
+
+				$('#imagenError').sfImage('show');
+			   
+			   	$('#popErrorE').sfPopup({text:'Este programa no tiene encuestas cargadas, elija otro de la lista', num:'1', callback:function(){
+			
+					$.sfScene.hide('Scene3');
+					$.sfScene.show('Scene2');
+					$.sfScene.focus('Scene2');
+			
+				}});
+				
+			    $('#popErrorE').sfPopup('show');
+			   
+			}
+						
+	}, // fin success
+	error:function(jqXHR, textStatus, errorThrown){
+			this.error="Ocurrio un ERROR: ";
+			
+			if (jqXHR.status === 0) {
+				this.error=this.error + '\nNot connect.\n Verify Network.';
+			} else {
+				this.error= this.error + "\nIntentelo mas tarde.Gracias."
+			}
+			
+			
+			
+			$('#popErrorE').sfPopup({text:this.error, num:'1', callback:function(){
+			
+				$.sfScene.hide('Scene3');
+				$.sfScene.show('Scene2');
+				$.sfScene.focus('Scene2');
+			
+			}});
+			$('#popErrorE').sfPopup('show');
+		}
+	}); 
+	
+		this.Encuestas = arrayEncuestas;
+		
+		/* Pongo la primera descripcion */
+		
+		var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
+		var descripcion = this.Encuestas[seleccion].getDescripcion();
+		$('#lbDescripcionEncuestas').sfLabel({text:descripcion});
 }
 
 SceneScene3.prototype.handleBlur = function () {
@@ -115,73 +283,72 @@ SceneScene3.prototype.handleKeyDown = function (keyCode) {
 		case $.sfKey.LEFT:
 			break;
 		case $.sfKey.RIGHT:
-				/* Analizo si voto */
-				if(this.yaVoto==true)
-				{
-					this.numPregu= this.numPregu +1;
-					if(this.numPregu < this.DescPreg.length)
-					{
-						$('#lbPregunta').text(this.DescPreg[this.numPregu]);
-						this.yaVoto=false;
-					}
-					else
-					{
-					   /* No Hay Mas preguntas */
-						this.textoPopUp= "No hya mas preguntas"
-					   $('#popUpAvisoVoto').sfPopup({text:this.textoPopUp, num:'1', callback:function()
-					   {
-							$.sfScene.hide('Scene3');
-							$.sfScene.show('Scene4');
-							$.sfScene.focus('Scene4');
-					   }
-					   });
-					   $('#popUpAvisoVoto').sfPopup('show');   
-					}
-				}else
-				{
-					this.textoPopUp= "Debe elegir una opcion.."
-					$('#popUpAvisoVoto').sfPopup({text:this.textoPopUp, num:'1', callback:null});
-					$('#popUpAvisoVoto').sfPopup('show');
-				}
-				
 			break;
 		case $.sfKey.UP:
+			
+			var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
+			
+			if(seleccion == 0)
+			   break;
+			$('#listaEncuestas').sfListbox2('prev');
+			
+			/* Muestro la descripcion en el cuadro de al lado */
+			
+			var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
+			
+			 var indice=0;
+			 
+			 for(indice=0;indice<=this.Encuestas.length;indice++)
+			 {
+			   if ( indice == seleccion)
+			   {
+					/*Obtengo el nombre */
+					
+					var descripcion = this.Encuestas[indice].getDescripcion();
+					
+					$('#lbDescripcionEncuestas').sfLabel({text:descripcion});
+			   }
+			 }
 			break;
 		case $.sfKey.DOWN:
+			
+			var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
+			
+			if(seleccion == this.Encuestas.length)
+			   break;
+			$('#listaEncuestas').sfListbox2('next');
+			
+			/* Muestro la descripcion en el cuadro de al lado */
+			
+			 var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
+			 
+			 var indice=0;
+			 
+			 for(indice=0;indice<=this.Encuestas.length;indice++)
+			 {
+			   if ( indice == seleccion)
+			   {
+					/*Obtengo el nombre */
+					
+					var descripcion = this.Encuestas[indice].getDescripcion();
+					
+					$('#lbDescripcionEncuestas').sfLabel({text:descripcion});
+			   }
+			 }
 			break;
-		case $.sfKey.ENTER:		
-				var ju = $('#valorAux').val();	
-			break;
-		case $.sfKey.BLUE:
-			/* Votos */
-			if(this.yaVoto==false)
-			{
-				var texto = $('#lbPregunta').text();
-				
-				for(var i=0;i<this.preguntas.length;i++)
-				{
-				   if(this.preguntas[i].getDescripcion()==texto)
-				   {
-				      votoAux= new voto(this.preguntas[i].getId(),"1");
-					  this.Votos.push(votoAux);
-					  
-					  var idP = votoAux.getIdP();
-					  var vottacion= votoAux.getVoto();
-					  
-					  $('#lbTitulo').text("idPr:"+idP+"**"+"voto:"+vottacion);
-				   }
-				}
-				
-				this.yaVoto=true;
-			}
-			else
-			{
-			   	this.textoPopUp= "Ya Voto !!!"
-				$('#popUpAvisoVoto').sfPopup({text:this.textoPopUp, num:'1', callback:null});
-				$('#popUpAvisoVoto').sfPopup('show');
-			}
-			break;
-		case $.sfKey.RED:
+
+		case $.sfKey.ENTER:
+		
+			 var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
+			 
+			/* Me paso a la proxima escena  */
+			
+			this.EncuestaSeleccionada = this.Encuestas[seleccion];
+			
+			$.sfScene.hide('Scene3');
+			$.sfScene.show('Scene4');
+			$.sfScene.focus('Scene4');
+
 			break;
 	}
 }

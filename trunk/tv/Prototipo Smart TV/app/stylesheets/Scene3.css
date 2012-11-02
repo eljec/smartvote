@@ -8,41 +8,46 @@
 }
 
 
-#SceneScene3 #lbTitulo{
+#SceneScene3 #lbEncuesta{
 	position : absolute;
-	font-size : 10pt;
+	font-size : 20pt;
 	color : #210000;
-	left : 390px;
+	left : 250px;
 	top : 20px;
-	width : 220px;
+	width : 440px;
+	text-align:center;
 }
 
-#SceneScene3 #lbNumP{
+#SceneScene3 #listaEncuestas{
 	position : absolute;
-	font-size : 10pt;
-	color : #210000;
-	left : 440px;
-	top : 160px;
-	width : 130px;
+	left : 360px;
+	top : 120px;
+	width : 240px;
+	height : 190px;
 }
 
-#SceneScene3 #lbPregunta{
+#SceneScene3 #helpBar3{
 	position : absolute;
-	font-size : 10pt;
+	left : 0px;
+	top : 506px;
+}
+
+#SceneScene3 #lbDescripcionEncuestas{
+	position : absolute;
+	font-size : 16pt;
 	color : #210000;
-	left : 290px;
-	top : 290px;
-	width : 550px;
+	left : 100px;
+	top : 340px;
+	width : 750px;
 	white-space:pre-wrap;
 	height : 150px;
-	background-color : ##ffff00;
+	background-color :#ffff00
 }
 
-#SceneScene3 #lvHiden{
+#SceneScene3 #imagenError{
 	position : absolute;
-	font-size : 10pt;
-	color : #210000;
-	left : 80px;
-	top : 30px;
-	width : 90px;
+	left : 400px;
+	top : 120px;
+	width : 170px;
+	height : 160px;
 }

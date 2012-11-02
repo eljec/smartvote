@@ -12,8 +12,8 @@
 	position : absolute;
 	font-size : 20pt;
 	color : #210000;
-	left : 40px;
-	top : 40px;
+	left : 50px;
+	top : 20px;
 	width : 790px;
 	text-align:center;
 }
@@ -77,4 +77,10 @@
 }
 .descripcion{
 	background-color :#ffff00;
+}
+
+#SceneScene2 #cargandoProgramas{
+	position : absolute;
+	left : 300px;
+	top : 190px;
 }
