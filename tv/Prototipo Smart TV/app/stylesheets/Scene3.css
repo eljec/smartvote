@@ -4,18 +4,17 @@
 	top : 0px;
 	width : 960px;
 	height : 540px;
-	background-color : #79a955;
+	background-color : #D3D6DE;
 }
 
 
 #SceneScene3 #lbEncuesta{
 	position : absolute;
-	font-size : 20pt;
+	font-size : 26pt;
 	color : #210000;
 	left : 250px;
 	top : 20px;
 	width : 440px;
-	text-align:center;
 }
 
 #SceneScene3 #listaEncuestas{
@@ -44,10 +43,9 @@
 	background-color :#ffff00
 }
 
-#SceneScene3 #imagenError{
+
+#SceneScene3 #cargandoEncuestas{
 	position : absolute;
 	left : 400px;
 	top : 120px;
-	width : 170px;
-	height : 160px;
 }

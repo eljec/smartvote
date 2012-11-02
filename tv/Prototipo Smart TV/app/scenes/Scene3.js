@@ -34,11 +34,13 @@ function encuesta(id, idP, nombre, descripcion)
 SceneScene3.prototype.initialize = function () {
 	alert("SceneScene3.initialize()");
 	
-	$('#lbEncuesta').sfLabel({text:'SmartVote-Encuestas', width:'440px'});
+	$('#lbEncuesta').sfLabel({text:'Sección Encuestas', width:'440px'});
 	$('#helpBar3').sfKeyHelp({'return':'Return'});
 	$('#lbDescripcionEncuestas').sfLabel({text:'label', width:'750px'});
-	$('#imagenError').sfImage({src:'images/Imagen1sin onfo.png'});
 	$('#imagenError').sfImage('hide');
+	
+	$('#cargandoEncuestas').sfLoading('show');
+	
 	
 
 } // fin initialize
@@ -105,7 +107,9 @@ SceneScene3.prototype.handleFocus = function () {
 					arrayEncuestas.push(encuestaAux);
 					
 				}
-				  
+				 
+				$('#cargandoEncuestas').sfLoading('hide');
+				 
 				/* Analisis del numero a mostrar */
 
 				if(tam>5)
@@ -123,8 +127,6 @@ SceneScene3.prototype.handleFocus = function () {
 			{
 			   /* No tiene encuetas, muestro popUp y cargo imagenes */
 
-				$('#imagenError').sfImage('show');
-			   
 			   	$('#popErrorE').sfPopup({text:'Este programa no tiene encuestas cargadas, elija otro de la lista', num:'1', callback:function(){
 			
 					$.sfScene.hide('Scene3');
@@ -139,6 +141,7 @@ SceneScene3.prototype.handleFocus = function () {
 						
 	}, // fin success
 	error:function(jqXHR, textStatus, errorThrown){
+			
 			this.error="Ocurrio un ERROR: ";
 			
 			if (jqXHR.status === 0) {
@@ -147,7 +150,7 @@ SceneScene3.prototype.handleFocus = function () {
 				this.error= this.error + "\nIntentelo mas tarde.Gracias."
 			}
 			
-			
+			$('#cargandoEncuestas').sfLoading('hide');
 			
 			$('#popErrorE').sfPopup({text:this.error, num:'1', callback:function(){
 			
@@ -179,6 +182,17 @@ SceneScene3.prototype.handleKeyDown = function (keyCode) {
 	// TODO : write an key event handler when this scene get focued
 	switch (keyCode) {
 		case $.sfKey.LEFT:
+			
+			$('#popUpRegresoEncuesta').sfPopup({text:'¿ Seguro desea regresar a la pantalla anterior ?', num:'2', callback:function(data){
+			
+				if(data)
+				{
+					$.sfScene.hide('Scene3');
+					$.sfScene.show('Scene2');
+					$.sfScene.focus('Scene2');
+				}
+			}});
+				
 			break;
 		case $.sfKey.RIGHT:
 			break;

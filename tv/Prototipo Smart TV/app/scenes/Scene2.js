@@ -25,19 +25,28 @@ function programa(id, nombre, descripcion) {
     }
 }
 
+function regresoEncuesta(respuesta)
+{
+	if(respuesta)
+	{
+		$.sfScene.hide('Scene2');
+		$.sfScene.show('Scene1');
+		$.sfScene.focus('Scene1');
+	}
+}
+
+
 SceneScene2.prototype.initialize = function (aux) {
 	alert("SceneScene2.initialize()");
 
-	// Levatamos el archivo con los programas registrados //
+	// Levatamos el archivo con los programas registrados //	
 	
-	
-	$('#TituloProgramas').sfLabel({text:'SmartVote-Programas-', width:'790px'});
+	$('#TituloProgramas').sfLabel({text:'Sección Programas', width:'880px'});
 	$('#helpBar2').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Informacion del Sistema','return':'Rregresar al Hub'});
-	$('#logo2').sfImage({src:'images/logoTres.png'});
 	$('#lbDescripcion').sfLabel({text:'Info del Programa', width:'430px'});
 	$('#lbTituloDescripcion').sfLabel({text:'Descripcion', width:'430px'});
 	$('#lbLista').sfLabel({text:'Lista', width:'240px'});
-	$('#cargandoProgramas').sfLoading();
+	$('#cargandoProgramas').sfLoading('show');
 	
 } // Fin initialize
 
@@ -45,6 +54,13 @@ SceneScene2.prototype.initialize = function (aux) {
 SceneScene2.prototype.handleShow = function () {
 	alert("SceneScene2.handleShow()");
 	// this function will be called when the scene manager show this scene 
+	
+	$('#TituloProgramas').sfLabel({text:'Sección Programas', width:'410px'});
+	$('#helpBar2').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Informacion del Sistema','return':'Rregresar al Hub'});
+	$('#lbDescripcion').sfLabel({text:'Info del Programa', width:'430px'});
+	$('#lbTituloDescripcion').sfLabel({text:'Descripcion', width:'430px'});
+	$('#lbLista').sfLabel({text:'Lista', width:'240px'});
+	$('#cargandoProgramas').sfLoading('show');
 }
 
 SceneScene2.prototype.handleHide = function () {
@@ -56,7 +72,7 @@ SceneScene2.prototype.handleFocus = function () {
 	alert("SceneScene2.handleFocus()");
 	// this function will be called when the scene manager focus this scene
 	
-	$('#cargandoProgramas').sfLoading('show');
+	//$('#cargandoProgramas').sfLoading('show');
 	
 	var arrayPN = new Array();
 	var arrayP = new Array();
@@ -136,7 +152,8 @@ SceneScene2.prototype.handleKeyDown = function (keyCode) {
 	// TODO : write an key event handler when this scene get focued
 	switch (keyCode) {
 		case $.sfKey.LEFT:
-			
+				$('#popUpRegresoPaginaE').sfPopup({text:'¿ Seguro desea regresar a la pantalla anterior ?', num:'2', callback: regresoEncuesta});
+				$('#popUpRegresoPaginaE').sfPopup('show');
 			break;
 		case $.sfKey.RIGHT:
 			break;

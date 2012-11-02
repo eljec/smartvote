@@ -4,18 +4,19 @@
 	top : 0px;
 	width : 960px;
 	height : 540px;
-	background-color : #79a955;
+	background-color : #D3D6DE;
 }
 
 
 #SceneScene2 #TituloProgramas{
 	position : absolute;
-	font-size : 20pt;
+	font-size : 26pt;
 	color : #210000;
-	left : 50px;
+	left : 40px;
 	top : 20px;
-	width : 790px;
+	width : 880px;
 	text-align:center;
+	background-color:#9793A7;
 }
 
 #SceneScene2 #ListaProgramas{
@@ -34,14 +35,6 @@
 }
 
 
-#SceneScene2 #logo2{
-	position : absolute;
-	left : 848px;
-	top : 10px;
-	width : 112px;
-	height : 105px;
-}
-
 #SceneScene2 #lbDescripcion{
 	position : absolute;
 	font-size : 16pt;
@@ -50,37 +43,41 @@
 	top : 220px;
 	width : 430px;
 	white-space:pre-wrap;
-	height : 250px;
+	/*height : 150px;*/
 }
 
 #SceneScene2 #lbTituloDescripcion{
 	position : absolute;
 	font-size : 22pt;
-	color : #ffff00;
+	color : #210000;
 	left : 430px;
 	top : 160px;
 	width : 430px;
 	text-align:center;
-	border: 3px double   #ffffff;
+	background-color: #A9A9A9;
+	border: 3px solid #000000;
 }
 
 #SceneScene2 #lbLista{
 	position : absolute;
-	font-size : 20pt;
+	font-size : 22pt;
 	color : #210000;
 	left : 40px;
 	top : 160px;
 	width : 240px;
 	text-align:center;
-	background-color :#ffff00;
+	background-color: #A9A9A9;
 	border: 3px solid #000000;
 }
 .descripcion{
-	background-color :#ffff00;
+	background-color :#928AAB;
+	text-align:center;
+	padding-top:25px;
+	padding-bottom:25px;
 }
 
 #SceneScene2 #cargandoProgramas{
 	position : absolute;
-	left : 300px;
-	top : 190px;
+	left : 370px;
+	top : 170px;
 }
