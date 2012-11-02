@@ -1,5 +1,6 @@
 function SceneScene1(options) {
 	this.options = options;
+	this.btnIniciar;
 	
 
 }
@@ -10,12 +11,16 @@ SceneScene1.prototype.initialize = function () {
 	// initialize the scene controls and styles, and initialize your variables here 
 	// scene HTML and CSS will be loaded before this function is called
 	
+	$('#lbTituloSistema').sfLabel({text:'Smart Vote', width:'320px'});
 	$('#B_CargaProgramas').sfButton({text:'Iniciar', width:'109px'});
     $('#B_CargaProgramas').sfButton('focus');
-	$('#btnPresentacion').sfButton({text:'Presentacion', width:'122px'});
+	$('#btnPresentacion').sfButton({text:'Configuración', width:'122px'});
+	$('#logo').sfImage({src:'images/logoTV.png'});
 	$('#helpBar').sfKeyHelp({'return':'Return'});
-	$('#logo').sfImage({src:'images/logoPP2.png'});
-	$('#svecImage_HB5S').sfImage({src:'images/fondo2 como objeto inteligente-1.jpg'});
+	
+	this.btnIniciar = true;
+	
+	
 }
 
 
@@ -45,14 +50,44 @@ SceneScene1.prototype.handleKeyDown = function (keyCode) {
 	alert("SceneScene1.handleKeyDown(" + keyCode + ")");
 	// TODO : write an key event handler when this scene get focued
 	switch (keyCode) {
+	
+		case $.sfKey.LEFT:
+			
+			if(!this.btnIniciar)
+			{
+				$('#B_CargaProgramas').sfButton('focus');
+				$('#btnPresentacion').sfButton('blur');
+				this.btnIniciar = true;
+			}
+
+			break;
+		case $.sfKey.RIGHT:
+			
+			if(this.btnIniciar)
+			{
+				$('#B_CargaProgramas').sfButton('blur');
+				$('#btnPresentacion').sfButton('focus');
+				this.btnIniciar = false;
+			}
+
+			break;
 
 		case $.sfKey.ENTER:
 		
-			$.sfScene.hide('Scene1');
-			$.sfScene.show('Scene3');
-			$.sfScene.focus('Scene3');
-			
-			break;
+			if(this.btnIniciar)
+			{
+				$.sfScene.hide('Scene1');
+				$.sfScene.show('Scene2');
+				$.sfScene.focus('Scene2');
+			}
+			else
+			{
+				$.sfScene.hide('Scene1');
+				$.sfScene.show('Scene5');
+				$.sfScene.focus('Scene5');
+			}
+
+		break;
 	}
 }
 
