@@ -162,6 +162,23 @@
 							errorParametros("LA URL NO CONTIENE ALGUNO DE LOS PARAMETRO id_p O nombre");
 						} 
 					break;
+					
+					case 5:  // Validar votacion de una encuesta //
+						
+						if(isset($_GET["id_e"], $_GET["idTV"]))
+						{
+							$idEncuesta=$_GET["id_e"];
+						 
+							$idTv=$_GET["idTV"];
+						 
+							$respuesta = $adminServicio->ValidarVotoEncuesta($idEncuesta,$idTv);
+						}
+						else
+						{
+							errorParametros("LA URL NO CONTIENE ALGUNO DE LOS PARAMETRO id_E O IDtV");
+						} 
+						
+					break;
 				}
 				
 				echo $respuesta;

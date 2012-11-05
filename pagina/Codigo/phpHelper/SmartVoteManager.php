@@ -346,6 +346,22 @@ class SmartVoteManager {
 			return json_encode($resp);
 		}
 	}
+	
+	public function ValidarVotoEncuesta($idEncuesta,$idTv)
+	{
+		try{
+			
+			$respuesta = $this->baseSmartVote->ValidarVotoEncuesta($idEncuesta, $idTv);
+			
+			return $respuesta;
+			
+		}catch(exception $E)
+		{
+			$resp = new Respuesta("ERROR","");
+			
+			return json_encode($resp);
+		}
+	}
 	// ------------------------------    METODOS PRIVADOS  --------------------------------------------------  //
 
 	private function transformarDatosProgramas($datos)
