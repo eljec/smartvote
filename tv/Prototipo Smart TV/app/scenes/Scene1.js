@@ -1,6 +1,7 @@
 function SceneScene1(options) {
 	this.options = options;
 	this.btnIniciar;
+	this.configuracion;
 	
 
 }
@@ -79,12 +80,16 @@ SceneScene1.prototype.handleKeyDown = function (keyCode) {
 				$.sfScene.hide('Scene1');
 				$.sfScene.show('Scene2');
 				$.sfScene.focus('Scene2');
+				
+				this.configuracion = false;
 			}
 			else
 			{
 				$.sfScene.hide('Scene1');
 				$.sfScene.show('Scene5');
 				$.sfScene.focus('Scene5');
+				
+				this.configuracion = true;
 			}
 
 		break;

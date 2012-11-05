@@ -12,9 +12,11 @@
 	position : absolute;
 	font-size : 26pt;
 	color : #210000;
-	left : 250px;
+	left : 40px;
 	top : 20px;
-	width : 440px;
+	width : 880px;
+	text-align:center;
+	background-color:#9793A7;
 }
 
 #SceneScene3 #listaEncuestas{
@@ -36,11 +38,8 @@
 	font-size : 16pt;
 	color : #210000;
 	left : 100px;
-	top : 340px;
+	top : 350px;
 	width : 750px;
-	white-space:pre-wrap;
-	height : 150px;
-	background-color :#ffff00
 }
 
 
@@ -48,4 +47,41 @@
 	position : absolute;
 	left : 400px;
 	top : 120px;
+}
+
+#SceneScene3 #lbTituloDescripcionEncuesta{
+	position : absolute;
+	font-size : 26pt;
+	color : #210000;
+	left : 100px;
+	top : 300px;
+	width : 200px;
+}
+
+#SceneScene3 #fotoREncuesta{
+	position : absolute;
+	left : 100px;
+	top : 130px;
+	width : 150px;
+	height : 130px;
+}
+
+#SceneScene3 #svecImage_XY3F{
+	position : absolute;
+	left : 700px;
+	top : 130px;
+	width : 150px;
+	height : 130px;
+}
+
+.descripcion{
+	background-color :#928AAB;
+	text-align:center;
+	padding-top:25px;
+	padding-bottom:25px;
+}
+.tutilo{
+	text-align:center;
+	background-color: #A9A9A9;
+	/*border: 3px solid #000000;*/
 }

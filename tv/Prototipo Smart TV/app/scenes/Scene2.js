@@ -35,7 +35,6 @@ function regresoEncuesta(respuesta)
 	}
 }
 
-
 SceneScene2.prototype.initialize = function (aux) {
 	alert("SceneScene2.initialize()");
 
