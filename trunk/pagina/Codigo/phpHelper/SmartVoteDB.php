@@ -621,6 +621,26 @@ class SmartVoteDB {
 		}
 	}
 	
+	public function ValidarVotoEncuesta($idEncuesta,$idTv)
+	{
+		$cadenaConsulta = "SELECT count(*) as cantidad from encuestasvotadas where id_tv='".$idTv."' and id_e='".$idEncuesta."'";
+		
+		$resultado = $this->buscar($cadenaConsulta);
+		
+		$row = mysql_fetch_array($resultado);
+		
+		$cantidad = $row['cantidad'];
+		
+		if($cantidad > 0)
+		{
+			return json_encode(new Respuesta("ERROR","REPETIDO"));
+		}
+		else {
+			return json_encode(new Respuesta("OK",""));
+		}
+	}
+	
+	
 	public function GuardarVotosAux($arrayIdPr,$arrayVotacion,$idEncuesta)
 	{
 		try{
@@ -665,5 +685,6 @@ class SmartVoteDB {
 		}
 	}
 
+	
 }
 ?>
