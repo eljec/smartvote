@@ -13,6 +13,10 @@ function respuestaPopUp(data)
 {
 	if(data)
 	{
+		
+		this.configuracionAvisos = false;
+		this.configuracionIdentificadorUnico = true;
+		
 		$.sfScene.hide('Scene5');
 		$.sfScene.show('Scene2');
 		$.sfScene.focus('Scene2');
@@ -31,7 +35,7 @@ SceneScene5.prototype.initialize = function () {
 	$('#checkIdentificador').sfCheckBox('focus');
 	$('#checkAvisos').sfCheckBox();
 	$('#lbAVisos').sfLabel({text:'Habilitar avisos', width:'380px'});
-	$('#btnIniciarPantallaConf').sfButton({text:'Guardar Configuracion e Iniciar', width:'150px'});
+	$('#btnIniciarPantallaConf').sfButton({text:'Guardar e Iniciar', width:'160px'});
 		
 }
 
@@ -48,7 +52,7 @@ SceneScene5.prototype.handleShow = function () {
 	$('#checkIdentificador').sfCheckBox('focus');
 	$('#checkAvisos').sfCheckBox();
 	$('#lbAVisos').sfLabel({text:'Habilitar avisos', width:'380px'});
-	$('#btnIniciarPantallaConf').sfButton({text:'Guardar Configuracion e Iniciar', width:'150px'});
+	//$('#btnIniciarPantallaConf').sfButton({text:'Guardar Configuracion e Iniciar', width:'150px'});
 	
 	
 	
@@ -70,6 +74,12 @@ SceneScene5.prototype.handleFocus = function () {
 	this.estaMarcadoIdentificador=false;
 	
 	this.btnIniciar=false;
+	
+	// Valores por defecto 
+	
+	this.configuracionAvisos = false;
+	this.configuracionIdentificadorUnico = true;
+
 }
 
 SceneScene5.prototype.handleBlur = function () {

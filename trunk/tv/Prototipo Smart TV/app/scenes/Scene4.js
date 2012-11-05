@@ -64,6 +64,8 @@ SceneScene4.prototype.initialize = function () {
 	
 	$('#lbTituloPreguntas').sfLabel({text:'Sección Preguntas', width:'500px'});
 	$('#hrlpBar4').sfKeyHelp({'RED':'NO','BLUE':'SI','return':'Return'});	
+	$('#cargaPreguntas_Votos').sfLoading();
+	$('#popUpRegresoPreguntas').sfPopup({text:'popup text', num:'2', callback:null});
 }
 
 SceneScene4.prototype.handleShow = function () {
@@ -176,7 +178,7 @@ SceneScene4.prototype.handleFocus = function () {
 	
 	this.numeroPregunta=0;
 		
-	$('#lbTituloPregunta').sfLabel({text:'Pregunta: "+this.numeroPregunta', width:'210px'});
+	$('#lbTituloPregunta').sfLabel({text:'Pregunta: '+this.numeroPregunta', width:'210px'});
 	$('#lbPregunta').sfLabel({text:des, width:'500px'});
 	$('#signoPregunta').sfImage({src:'images/interrogacion.png'});
 	$('#signoPregunta2').sfImage({src:'images/interrogacion.png'});

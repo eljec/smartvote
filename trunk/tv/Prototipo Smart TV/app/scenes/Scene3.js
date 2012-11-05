@@ -3,6 +3,12 @@ function SceneScene3(options) {
 	this.programaSeleccionado;
 	this.Encuestas;
 	this.EncuestaSeleccionada;
+	
+	this.variableConfAviso;
+	this.variableConfIdentificador;
+	
+	this.configuro;
+	
 
 }
 
@@ -31,32 +37,190 @@ function encuesta(id, idP, nombre, descripcion)
     }
 }
 
+function validarPoderVotar(idEncuesta)
+{
+	if(this.configuro)
+	{
+		// Analizo varibles de configuracion //
+		
+		if(this.variableConfIdentificador)
+		{
+			var idTV = '123';
+			var idEncuesta = this.EncuestaSeleccionada.getIdP();
+			
+			var urlValidar = "http://localhost/smartvote/phpHelper/SmartVoteServices.php?action=5&id_e="+idEncuesta+"&idTV="+idTV+""
+			
+			// Consulto si ya voto //
+			
+			$('#cargandoEncuestas').sfLoading('show');
+			
+			$.ajax({
+			type:"GET",
+			async:true,
+			dataType:"json",
+			url:urlValidar,
+			success:function(data)
+			{
+				if(data.tipo == 'ERROR')
+				{
+					if(data.desc== 'REPETIDO')
+					{
+						this.error="Usted ya voto esta encuesta..";
+						
+						$('#popErrorE').sfPopup({text:this.error, num:'1', callback:function(){
+					
+						$.sfScene.hide('Scene3');
+						$.sfScene.show('Scene2');
+						$.sfScene.focus('Scene2');
+					
+						}});
+						
+						$('#popErrorE').sfPopup('show');
+					}
+				}
+				else
+				{
+					$.sfScene.hide('Scene3');
+					$.sfScene.show('Scene4');
+					$.sfScene.focus('Scene4');
+				}
+								
+			}, 
+			error:function(jqXHR, textStatus, errorThrown){
+					
+					this.error="Ocurrio un ERROR: ";
+					
+					if (jqXHR.status === 0) {
+						this.error=this.error + '\nNot connect.\n Verify Network.';
+					} else {
+						this.error= this.error + "\nIntentelo mas tarde.Gracias."
+					}
+					
+					$('#cargandoEncuestas').sfLoading('hide');
+					
+					$('#popErrorE').sfPopup({text:this.error, num:'1', callback:function(){
+					
+						$.sfScene.hide('Scene3');
+						$.sfScene.show('Scene2');
+						$.sfScene.focus('Scene2');
+					
+					}});
+					$('#popErrorE').sfPopup('show');
+				}
+			}); 
+		}
+		else
+		{
+		  // COnsulto variable local //
+		  
+		}
+	}
+	else
+	{
+		// Mando asi nomas //
+		
+		var idTV = '123';
+
+		var urlValidar = "http://localhost/smartvote/phpHelper/SmartVoteServices.php?action=5&id_e="+idEncuesta+"&idTV="+idTV+""
+		
+		// Consulto si ya voto //
+		
+		//$('#cargandoEncuestas').sfLoading('show');
+		
+		var ema = 3;
+		
+		$.ajax({
+		type:"GET",
+		async:true,
+		dataType:"json",
+		url:urlValidar,
+		success:function(data)
+		{
+			if(data.tipo == 'ERROR')
+			{
+				if(data.desc== 'REPETIDO')
+				{
+					this.error="Usted ya voto esta encuesta..";
+					
+					$('#popErrorE').sfPopup({text:this.error, num:'1', callback:function(){
+				
+					$.sfScene.hide('Scene3');
+					$.sfScene.show('Scene2');
+					$.sfScene.focus('Scene2');
+				
+					}});
+					
+					$('#popErrorE').sfPopup('show');
+				}
+			}
+			else
+			{
+				$.sfScene.hide('Scene3');
+				$.sfScene.show('Scene4');
+				$.sfScene.focus('Scene4');
+			}
+							
+		}, 
+		error:function(jqXHR, textStatus, errorThrown){
+				
+				this.error="Ocurrio un ERROR: ";
+				
+				if (jqXHR.status === 0) {
+					this.error=this.error + '\nNot connect.\n Verify Network.';
+				} else {
+					this.error= this.error + "\nIntentelo mas tarde.Gracias."
+				}
+				
+				$('#cargandoEncuestas').sfLoading('hide');
+				
+				$('#popErrorE').sfPopup({text:this.error, num:'1', callback:function(){
+				
+					$.sfScene.hide('Scene3');
+					$.sfScene.show('Scene2');
+					$.sfScene.focus('Scene2');
+				
+				}});
+				$('#popErrorE').sfPopup('show');
+			}
+		}); 
+	}
+	
+	
+}
+
 SceneScene3.prototype.initialize = function () {
 	alert("SceneScene3.initialize()");
 	
 	$('#lbEncuesta').sfLabel({text:'Sección Encuestas', width:'440px'});
-	$('#helpBar3').sfKeyHelp({'return':'Return'});
+	$('#helpBar3').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Informacion del Sistema','return':'Rregresar al Hub'});
 	$('#lbDescripcionEncuestas').sfLabel({text:'label', width:'750px'});
-	$('#imagenError').sfImage('hide');
 	
 	$('#cargandoEncuestas').sfLoading('show');
-	
-	
+	$('#lbTituloDescripcionEncuesta').sfLabel({text:'Desccipción', width:'200px'});
+	$('#fotoREncuesta').sfImage({src:'images/survey-checkboxes.jpg'});
+	$('#svecImage_XY3F').sfImage({src:'images/encuestas-265x300.jpg'});
+		
 
 } // fin initialize
-
-
-
 
 SceneScene3.prototype.handleShow = function () {
 	alert("SceneScene3.handleShow()");
 	// this function will be called when the scene manager show this scene 
 	
-	$('#lbEncuesta').sfLabel({text:'SmartVote-Encuestas', width:'440px'});
-	$('#helpBar3').sfKeyHelp({'return':'Return'});
+	$('#helpBar3').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Informacion del Sistema','return':'Rregresar al Hub'});
 	$('#lbDescripcionEncuestas').sfLabel({text:'label', width:'750px'});
-	$('#imagenError').sfImage({src:'images/Imagen1sin onfo.png'});
-	$('#imagenError').sfImage('hide');
+	
+	$('#popUpRegresoEncuesta').sfPopup({text:'¿ Seguro desea regresar a la pantalla anterior ?', num:'2', callback:function(data){
+			
+				if(data)
+				{
+					$.sfScene.hide('Scene3');
+					$.sfScene.show('Scene2');
+					$.sfScene.focus('Scene2');
+				}
+	}});
+	
+	
 }
 
 SceneScene3.prototype.handleHide = function () {
@@ -68,10 +232,21 @@ SceneScene3.prototype.handleFocus = function () {
 	alert("SceneScene3.handleFocus()");
 	// this function will be called when the scene manager focus this scene
 	
+	$('#cargandoEncuestas').sfLoading('show');
+	
 	// Tomo info de la anterior escena //
 	
 	var VariablesEscena2 = $.sfScene.get('Scene2');
 	this.programaSeleccionado = VariablesEscena2.ProgramaSeleccionado;
+
+	var VariablesEscena1 = $.sfScene.get('Scene1');
+	this.configuro  = VariablesEscena1.configuracion;
+	
+	if(this.configuro)
+	{
+		var VariablesEscena5 = $.sfScene.get('Scene5');
+		this.variableConfIdentificador = VariablesEscena5.configuracionIdentificadorUnico;
+	}
 	
 	// Formo lo url de consulta //
 
@@ -80,10 +255,9 @@ SceneScene3.prototype.handleFocus = function () {
 	var arrayEncuestas = new Array();
 	var arrayNombresEnc = new Array();
 	
-
 	$.ajax({
 	type:"GET",
-	async:false,
+	async:true,
 	dataType:"json",
 	url:urlBD,
 	success:function(data){
@@ -91,6 +265,8 @@ SceneScene3.prototype.handleFocus = function () {
 			var tam = data.encuestas.length;
 			
 			// Analizo si hay encuestas o no //
+			
+			$('#cargandoEncuestas').sfLoading('hide');
 			
 			if(tam > 0)
 			{
@@ -107,9 +283,7 @@ SceneScene3.prototype.handleFocus = function () {
 					arrayEncuestas.push(encuestaAux);
 					
 				}
-				 
-				$('#cargandoEncuestas').sfLoading('hide');
-				 
+ 
 				/* Analisis del numero a mostrar */
 
 				if(tam>5)
@@ -183,15 +357,7 @@ SceneScene3.prototype.handleKeyDown = function (keyCode) {
 	switch (keyCode) {
 		case $.sfKey.LEFT:
 			
-			$('#popUpRegresoEncuesta').sfPopup({text:'¿ Seguro desea regresar a la pantalla anterior ?', num:'2', callback:function(data){
-			
-				if(data)
-				{
-					$.sfScene.hide('Scene3');
-					$.sfScene.show('Scene2');
-					$.sfScene.focus('Scene2');
-				}
-			}});
+			$('#popUpRegresoEncuesta').sfPopup('show');
 				
 			break;
 		case $.sfKey.RIGHT:
@@ -257,9 +423,11 @@ SceneScene3.prototype.handleKeyDown = function (keyCode) {
 			
 			this.EncuestaSeleccionada = this.Encuestas[seleccion];
 			
-			$.sfScene.hide('Scene3');
-			$.sfScene.show('Scene4');
-			$.sfScene.focus('Scene4');
+			var aux = this.EncuestaSeleccionada;
+			
+			var idE = aux.getId();
+
+			validarPoderVotar(idE);
 
 			break;
 	}
