@@ -129,6 +129,7 @@ class SmartVoteDB {
 			throw new Exception('Error MySQL');
 	   }
 	}
+	
 	//--->BUSCAR 
 	
 	public function BuscarProgramas()
@@ -580,7 +581,9 @@ class SmartVoteDB {
 	
 	            $flag = mysqli_query($this->db_conexionTran,$cadenaInsersion);
 	        }
-	
+			
+			echo $flag;
+			
 	        if ($flag) {
 	    
 				// Inserto en la Tabla de Encuestas Votadas //
@@ -589,13 +592,15 @@ class SmartVoteDB {
 
 				$flag = mysqli_query($this->db_conexionTran,$cadenaInsertar);
 				
-				if(!$flag)
+				if($flag)
 				{
 					// SI todo sale bien hago comit de transaccion //
+					
+				echo $flag;
 				
-	            mysqli_commit($this->db_conexionTran);
+	            /*mysqli_commit($this->db_conexionTran);
 	        
-	            return json_encode(new Respuesta("OK",""));
+	            return json_encode(new Respuesta("OK",""));*/
 	
 				}
 				else 

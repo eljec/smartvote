@@ -40,13 +40,13 @@ $(document).ready(function() {
 		}); // fin click log on 	
 		
 		
-		/*$('#testVotos').click(function(){
+		$('#btnProgramas').click(function(){
 			
 			var votos ="1-1;2-1;3-0;4-1;5-1";
 			var idEn = 3;
 			var idTVl = 567;
 			
-			$.post("phpHelper/SmartVoteServices.php",{ tipo:'votos',votos:votos,idE:idEn},function(data){
+			$.post("phpHelper/SmartVoteServices.php",{ tipo:'votos',votos:votos,idE:idEn, idTv:idTVl},function(data){
 				
 				var ju = "ema" ;
 				
@@ -55,11 +55,11 @@ $(document).ready(function() {
 				var ema = "hola";
 			});
 			
-		});*/
+		});
 		
 		// Inicializo 
 		
-		$('#btnProgramas').attr('disabled', 'disabled');
+		//$('#btnProgramas').attr('disabled', 'disabled');
 		
 		$('.label-important').addClass('ocultar');
 		
