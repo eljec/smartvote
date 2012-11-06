@@ -5,11 +5,10 @@ function SceneScene3(options) {
 	this.EncuestaSeleccionada;
 	
 	this.variableConfAviso;
-	this.variableConfIdentificador;
+	this.variableConfvarLocal;
 	
 	this.configuro;
 	
-
 }
 
 
@@ -37,18 +36,11 @@ function encuesta(id, idP, nombre, descripcion)
     }
 }
 
-function validarPoderVotar(idEncuesta)
+function validarPoderVotarConfigurado(idEncuesta,valorConfiguracion,idTV)
 {
-	if(this.configuro)
-	{
-		// Analizo varibles de configuracion //
-		
-		if(this.variableConfIdentificador)
+	if(valorConfiguracion == false)
 		{
-			var idTV = '123';
-			var idEncuesta = this.EncuestaSeleccionada.getIdP();
-			
-			var urlValidar = "http://localhost/smartvote/phpHelper/SmartVoteServices.php?action=5&id_e="+idEncuesta+"&idTV="+idTV+""
+			var urlValidar = "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=5&id_e="+idEncuesta+"&idTV="+idTV+""
 			
 			// Consulto si ya voto //
 			
@@ -59,21 +51,17 @@ function validarPoderVotar(idEncuesta)
 			async:true,
 			dataType:"json",
 			url:urlValidar,
-			success:function(data)
-			{
+			success:function(data){
+				
+				$('#cargandoEncuestas').sfLoading('hide');
+				
 				if(data.tipo == 'ERROR')
 				{
 					if(data.desc== 'REPETIDO')
 					{
 						this.error="Usted ya voto esta encuesta..";
 						
-						$('#popErrorE').sfPopup({text:this.error, num:'1', callback:function(){
-					
-						$.sfScene.hide('Scene3');
-						$.sfScene.show('Scene2');
-						$.sfScene.focus('Scene2');
-					
-						}});
+						$('#popErrorE').sfPopup({text:this.error, num:'1', callback:null});
 						
 						$('#popErrorE').sfPopup('show');
 					}
@@ -87,6 +75,8 @@ function validarPoderVotar(idEncuesta)
 								
 			}, 
 			error:function(jqXHR, textStatus, errorThrown){
+					
+					$('#cargandoEncuestas').sfLoading('hide');
 					
 					this.error="Ocurrio un ERROR: ";
 					
@@ -111,44 +101,41 @@ function validarPoderVotar(idEncuesta)
 		}
 		else
 		{
-		  // COnsulto variable local //
+		  // Consulto variable local //
 		  
+			this.error="La autenticaciòn local aun esta sin desarrollar, cambie su configuraciòn";
+			
+			$('#popErrorE').sfPopup({text:this.error, num:'1', callback:null});
+			
+			$('#popErrorE').sfPopup('show');
 		}
-	}
-	else
-	{
-		// Mando asi nomas //
-		
-		var idTV = '123';
+}
 
-		var urlValidar = "http://localhost/smartvote/phpHelper/SmartVoteServices.php?action=5&id_e="+idEncuesta+"&idTV="+idTV+""
+function validarPoderVotarSinConfiguracion(idEncuesta,idTV)
+{
+		
+		var urlValidar = "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=5&id_e="+idEncuesta+"&idTV="+idTV+""
 		
 		// Consulto si ya voto //
 		
-		//$('#cargandoEncuestas').sfLoading('show');
-		
-		var ema = 3;
+		$('#cargandoEncuestas').sfLoading('show');
 		
 		$.ajax({
 		type:"GET",
 		async:true,
 		dataType:"json",
 		url:urlValidar,
-		success:function(data)
-		{
+		success:function(data){
+			
+			$('#cargandoEncuestas').sfLoading('hide');
+			
 			if(data.tipo == 'ERROR')
 			{
 				if(data.desc== 'REPETIDO')
 				{
-					this.error="Usted ya voto esta encuesta..";
+					this.error="Usted ya voto esta encuesta, seleccone otra.";
 					
-					$('#popErrorE').sfPopup({text:this.error, num:'1', callback:function(){
-				
-					$.sfScene.hide('Scene3');
-					$.sfScene.show('Scene2');
-					$.sfScene.focus('Scene2');
-				
-					}});
+					$('#popErrorE').sfPopup({text:this.error, num:'1', callback:null});
 					
 					$('#popErrorE').sfPopup('show');
 				}
@@ -183,9 +170,6 @@ function validarPoderVotar(idEncuesta)
 				$('#popErrorE').sfPopup('show');
 			}
 		}); 
-	}
-	
-	
 }
 
 SceneScene3.prototype.initialize = function () {
@@ -240,12 +224,14 @@ SceneScene3.prototype.handleFocus = function () {
 	this.programaSeleccionado = VariablesEscena2.ProgramaSeleccionado;
 
 	var VariablesEscena1 = $.sfScene.get('Scene1');
-	this.configuro  = VariablesEscena1.configuracion;
+	var configuracionOK = VariablesEscena1.configuracion;
 	
-	if(this.configuro)
+	this.configuro = configuracionOK;
+	
+	if(configuracionOK)
 	{
 		var VariablesEscena5 = $.sfScene.get('Scene5');
-		this.variableConfIdentificador = VariablesEscena5.configuracionIdentificadorUnico;
+		this.variableConfvarLocal = VariablesEscena5.configuracionVariableLocal;
 	}
 	
 	// Formo lo url de consulta //
@@ -417,7 +403,7 @@ SceneScene3.prototype.handleKeyDown = function (keyCode) {
 
 		case $.sfKey.ENTER:
 		
-			 var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
+			var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
 			 
 			/* Me paso a la proxima escena  */
 			
@@ -425,9 +411,20 @@ SceneScene3.prototype.handleKeyDown = function (keyCode) {
 			
 			var aux = this.EncuestaSeleccionada;
 			
+			// Parametros para validar //
+			
 			var idE = aux.getId();
-
-			validarPoderVotar(idE);
+			
+			var idTV = '123';
+			
+			if(this.configuro)
+			{
+				validarPoderVotarConfigurado(idE,this.variableConfvarLocal,idTV);
+			}
+			else
+			{
+				validarPoderVotarSinConfiguracion(idE,idTV);
+			}
 
 			break;
 	}

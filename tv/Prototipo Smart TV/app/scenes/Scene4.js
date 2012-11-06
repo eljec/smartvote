@@ -7,6 +7,11 @@ function SceneScene4(options) {
 	this.yaVoto;
 	this.textoPopUp;
 	this.Votos;
+	
+	this.votoCadena;
+	
+	this.configuro;
+	this.variableConfvarLocal;
 	this.error;
 
 }
@@ -36,62 +41,89 @@ function VotoPregunta(idP, voto) {
     }
 }
 
-function GuardarVotos()
-{
+function GuardarVotos(votos,idEn)
+{  
+   var arrayVotos = votos;
 
-   /*Armo la url segun los votos que tengo */
-   
    // Peticion Ajax
 			
 			$.ajax({
-			   type: "GET",
-			   async:false,
-			   url: "http://localhost/Tesis/Insercion1.php",
+			   type: "POST",
+			   async:true,
+			   url: "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php",
+			   data:{ tipo:'votos',votos:arrayVotos,idE:idEn},
 			   dataType: "json",
 			   success: function(data)
 			   {				
 				 $('#loadingVotos').sfLoading('hide');
 				 
-				 $('#lbTituloPreguntas').text(data);
-				 
+				 if(data.tipo == "OK")
+				 {
+					$.sfScene.hide('Scene4');
+					$.sfScene.show('Scene3');
+					$.sfScene.focus('Scene3');
+				 } 
 			   }
 			 });
+}
+
+function GuardarVotosConfiguracionOK(votos,idEn,idTV,varConfiguracion)
+{
+	var ema = 123;
+	var arrayVotos = votos;
+	
+	if(varConfiguracion == false)
+	{
+		var ema2 = 123;
+		
+		$.ajax({
+			   type: "POST",
+			   async:true,
+			   url: "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php",
+			   data:{ tipo:'votos',votos:arrayVotos,idE:idEn,idTv:idTV},
+			   dataType: "json",
+			   success: function(data)
+			   {				
+				 //$('#loadingVotos').sfLoading('hide');
+				 
+				 var ju = 123;
+				 
+				 if(data.tipo == "OK")
+				 {
+					/*$.sfScene.hide('Scene4');
+					$.sfScene.show('Scene3');
+					$.sfScene.focus('Scene3');*/
+				 } 
+			   }
+			 });
+	}
+	else
+	{
+		// Consulto variable local //
+	  
+		this.error="La autenticaciòn local aun esta sin desarrollar, cambie su configuraciòn";
+		
+		$('#popErrorP').sfPopup({text:this.error, num:'1', callback:null});
+		
+		$('#popErrorE').sfPopup('show');
+	}
 }
 
 
 SceneScene4.prototype.initialize = function () {
 	alert("SceneScene4.initialize()");
-	
-	$('#lbTituloPreguntas').sfLabel({text:'Sección Preguntas', width:'500px'});
-	$('#hrlpBar4').sfKeyHelp({'RED':'NO','BLUE':'SI','return':'Return'});	
-	$('#cargaPreguntas_Votos').sfLoading();
-	$('#popUpRegresoPreguntas').sfPopup({text:'popup text', num:'2', callback:null});
-}
-
-SceneScene4.prototype.handleShow = function () {
-	alert("SceneScene4.handleShow()");
-	// this function will be called when the scene manager show this scene 
-	
-	$('#lbTituloPreguntas').sfLabel({text:'Sección Preguntas', width:'500px'});
-	$('#hrlpBar4').sfKeyHelp({'RED':'NO','BLUE':'SI','return':'Return'});
-}
-
-SceneScene4.prototype.handleHide = function () {
-	alert("SceneScene4.handleHide()");
-	// this function will be called when the scene manager hide this scene  
-}
-
-SceneScene4.prototype.handleFocus = function () {
-	alert("SceneScene4.handleFocus()");
-	// this function will be called when the scene manager focus this scene
+	// this function will be called only once when the scene manager show this scene first time
+	// initialize the scene controls and styles, and initialize your variables here 
+	// scene HTML and CSS will be loaded before this function is called
 	
 	var VariablesEscena3 = $.sfScene.get('Scene3');
 	this.EncuestaS = VariablesEscena3.EncuestaSeleccionada;
 	this.yaVoto=false;
 	
+	var urlPrg = "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=3&id_p=" + this.EncuestaS.getIdP()+"&id_e="+ this.EncuestaS.getId();
 
-	var urlPrg = "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=3&id_p=" + this.EncuestaS.getIdP()+ "&id_e="+ this.EncuestaS.getId();
-	
+	$('#lbTituloPreguntas').sfLabel({text:'SmartVote-Preguntas-', width:'500px'});
+	$('#hrlpBar4').sfKeyHelp({'RED':'NO','BLUE':'SI','return':'Return'});
 	
 	/* Variables auiliares */
 	
@@ -103,71 +135,52 @@ SceneScene4.prototype.handleFocus = function () {
 	/* Consulto sobre las preguntas */
 	
 	$.ajax({
-		type:"GET",
-		async:false,
-		dataType:"json",
-		url:urlPrg,
-		success:function(data){
-			 
-				var tam = data.preguntas.length;
-				
-				// Analizo si hay preguntas o no //
-				
-				if(tam > 0)
+	type:"GET",
+	async:false,
+	dataType:"json",
+	url:urlPrg,
+	success:function(data){
+		 
+			var tam = data.preguntas.length;
+			
+			// Analizo si hay preguntas o no //
+			
+			if(tam > 0)
+			{
+			   // Tienen preguntas  	
+			   
+				for(var i=0;i<tam;i++)
 				{
-				   // Tienen preguntas  	
-				   
-					for(var i=0;i<tam;i++)
-					{
-						arrayPreguntasNombre.push(data.preguntas[i].descripcion);
-						
-						// Creo una nueva encuesta 
-						
-						var preguntaAux = new pregunta(data.preguntas[i].id,data.preguntas[i].descripcion);
-						
-						arrayPreguntas.push(preguntaAux);
-						
-					}
-				}
-				else
-				{
-				   // No tiene encuetas, muestro popUp y cargo imagenes 
-
-					$('#imagenError').sfImage('show');
-				   
-					$('#popErrorP').sfPopup({text:'Esta encuesta no tiene preguntas cargadas, elija otra de la lista', num:'1', callback:function(){
-				
-						$.sfScene.hide('Scene4');
-						$.sfScene.show('Scene3');
-						$.sfScene.focus('Scene3');
-				
-					}});
+					arrayPreguntasNombre.push(data.preguntas[i].descripcion);
 					
-					$('#popErrorP').sfPopup('show');
-				   
+					// Creo una nueva encuesta 
+					
+					var preguntaAux = new pregunta(data.preguntas[i].id,data.preguntas[i].descripcion);
+					
+					arrayPreguntas.push(preguntaAux);
+					
 				}
-							
-		},
-		error:function(jqXHR, textStatus, errorThrown){
-			this.error="Ocurrio un ERROR: ";
-			
-			if (jqXHR.status === 0) {
-				this.error=this.error + '\nNot connect.\n Verify Network.';
-			} else {
-				this.error= this.error + "\nIntentelo mas tarde.Gracias."
 			}
+			else
+			{
+			   // No tiene encuetas, muestro popUp y cargo imagenes 
+
+				$('#imagenError').sfImage('show');
+			   
+			   	$('#popErrorP').sfPopup({text:'Esta encuesta no tiene preguntas cargadas, elija otra de la lista', num:'1', callback:function(){
 			
+					$.sfScene.hide('Scene4');
+					$.sfScene.show('Scene3');
+					$.sfScene.focus('Scene3');
 			
-			
-			$('#popErrorP').sfPopup({text:this.error, num:'1', callback:function(){
-			
-				$.sfScene.hide('Scene3');
-				$.sfScene.show('Scene2');
-				$.sfScene.focus('Scene2');
-			
-			}});
-			$('#popErrorP').sfPopup('show');
-		}
+				}});
+				
+			    $('#popErrorP').sfPopup('show');
+			   
+			}
+						
+	}
+	
 	}); // fin ajax 
 	
 	
@@ -178,13 +191,44 @@ SceneScene4.prototype.handleFocus = function () {
 	
 	this.numeroPregunta=0;
 		
-	$('#lbTituloPregunta').sfLabel({text:'Pregunta: '+this.numeroPregunta', width:'210px'});
+	$('#lbTituloPregunta').sfLabel({text:"Pregunta: "+this.numeroPregunta, width:'210px'});
 	$('#lbPregunta').sfLabel({text:des, width:'500px'});
 	$('#signoPregunta').sfImage({src:'images/interrogacion.png'});
 	$('#signoPregunta2').sfImage({src:'images/interrogacion.png'});
 	
 	this.Votos = new Array();
+	this.votoCadena = "";
+}
+
+
+
+
+SceneScene4.prototype.handleShow = function () {
+	alert("SceneScene4.handleShow()");
+	// this function will be called when the scene manager show this scene 
+}
+
+SceneScene4.prototype.handleHide = function () {
+	alert("SceneScene4.handleHide()");
+	// this function will be called when the scene manager hide this scene  
+}
+
+SceneScene4.prototype.handleFocus = function () {
+	alert("SceneScene4.handleFocus()");
+	// this function will be called when the scene manager focus this scene
 	
+	this.error = "";
+	
+	var VariablesEscena1 = $.sfScene.get('Scene1');
+	var configuracionOK = VariablesEscena1.configuracion;
+	
+	this.configuro = configuracionOK;
+	
+	if(configuracionOK)
+	{
+		var VariablesEscena5 = $.sfScene.get('Scene5');
+		this.variableConfvarLocal = VariablesEscena5.configuracionVariableLocal;
+	}
 }
 
 SceneScene4.prototype.handleBlur = function () {
@@ -210,17 +254,24 @@ SceneScene4.prototype.handleKeyDown = function (keyCode) {
 					}
 					else
 					{
-					    
-					   $('#loadingVotos').sfLoading('show');
-					   
-					   /* Guardo los votos */ 
-					   
-					    //GuardarVotos();
+						// No Hay Mas preguntas 
 						
-						/* No Hay Mas preguntas */
-						this.textoPopUp= "Se han terminado las preguntas. EL sistema registro sus votos.";
+						$('#loadingVotos').sfLoading('show');
+						
+						/*this.textoPopUp= "Se han terminado las preguntas. EL sistema registrara sus votos. Espere un momento";
 					   $('#popUpAvisoGral').sfPopup({text:this.textoPopUp, num:'1', callback:null});
-					   $('#popUpAvisoGral').sfPopup('show'); 
+					   $('#popUpAvisoGral').sfPopup('show'); */
+					   
+						if(this.configuro)
+						{
+							var idTelevisor = '123';
+							
+							GuardarVotosConfiguracionOK(this.votoCadena,this.EncuestaS.getId(),idTelevisor,this.variableConfvarLocal);
+						}
+						else
+						{
+							GuardarVotos(this.votoCadena,this.EncuestaS.getId());
+						}
 					   
 					}
 				}else
@@ -238,7 +289,6 @@ SceneScene4.prototype.handleKeyDown = function (keyCode) {
 			break;
 		case $.sfKey.RED:
 		
-				/* Votos */	
 			if(this.yaVoto==false)
 			{
 				var texto = $('#lbPregunta').text();
@@ -247,9 +297,15 @@ SceneScene4.prototype.handleKeyDown = function (keyCode) {
 				{
 				   if(this.Preguntas[i].getDescripcion()==texto)
 				   {
-						votoAux= new VotoPregunta(this.Preguntas[i].getId(),1);
-						this.Votos.push(votoAux);
-
+						if(this.votoCadena == "")
+						{
+							this.votoCadena =this.votoCadena + this.Preguntas[i].getId() + "-"+"1" ;
+						}
+						else
+						{
+							this.votoCadena =this.votoCadena + ";" + this.Preguntas[i].getId() +"-"+"1" ;
+						}
+						
 						this.textoPopUp= "Gracias !!!";
 						$('#popUpAvisoGral').sfPopup({text:this.textoPopUp, num:'1', callback:null});
 						$('#popUpAvisoGral').sfPopup('show');
@@ -266,7 +322,7 @@ SceneScene4.prototype.handleKeyDown = function (keyCode) {
 			}
 			break;
 		case $.sfKey.BLUE:
-				/* Votos */	
+
 			if(this.yaVoto==false)
 			{
 				var texto = $('#lbPregunta').text();
@@ -275,10 +331,16 @@ SceneScene4.prototype.handleKeyDown = function (keyCode) {
 				{
 				   if(this.Preguntas[i].getDescripcion()==texto)
 				   {
-						votoAux= new VotoPregunta(this.Preguntas[i].getId(),1);
-						this.Votos.push(votoAux);
+						if(this.votoCadena == "")
+						{
+							this.votoCadena =this.votoCadena + this.Preguntas[i].getId() + "-"+"0" ;
+						}
+						else
+						{
+							this.votoCadena =this.votoCadena + ";" + this.Preguntas[i].getId() +"-"+"0" ;
+						}
 
-						this.textoPopUp= "Su voto se registro !!!";
+						this.textoPopUp= "Gracias !!!";
 						$('#popUpAvisoGral').sfPopup({text:this.textoPopUp, num:'1', callback:null});
 						$('#popUpAvisoGral').sfPopup('show');
 				   }
