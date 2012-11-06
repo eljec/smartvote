@@ -2,10 +2,13 @@ function SceneScene5(options) {
 	this.options = options;
 	this.chkIdentificador;
 	this.listo;
+	
 	this.configuracionAvisos;
-	this.configuracionIdentificadorUnico;
+	this.configuracionVariableLocal;
+	
 	this.estaMarcadoAvisos;
 	this.estaMarcadoIdentificador;
+	
 	this.btnIniciar;
 }
 
@@ -15,7 +18,7 @@ function respuestaPopUp(data)
 	{
 		
 		this.configuracionAvisos = false;
-		this.configuracionIdentificadorUnico = true;
+		this.configuracionVariableLocal = false;
 		
 		$.sfScene.hide('Scene5');
 		$.sfScene.show('Scene2');
@@ -30,7 +33,7 @@ SceneScene5.prototype.initialize = function () {
 	// scene HTML and CSS will be loaded before this function is called
 	
 	$('#lbTituloConfiguracion').sfLabel({text:'Configuraciòn', width:'340px'});
-	$('#lbModoLpgueo').sfLabel({text:'Identificador Unico', width:'380px'});
+	$('#lbModoLpgueo').sfLabel({text:'Variable Local', width:'380px'});
 	$('#imagenConfiguracion').sfImage({src:'images/configuracion2.jpg'});
 	$('#checkIdentificador').sfCheckBox('focus');
 	$('#checkAvisos').sfCheckBox();
@@ -47,14 +50,12 @@ SceneScene5.prototype.handleShow = function () {
 	// this function will be called when the scene manager show this scene 
 	
 	$('#lbTituloConfiguracion').sfLabel({text:'Configuraciòn', width:'340px'});
-	$('#lbModoLpgueo').sfLabel({text:'Identificador Unico', width:'380px'});
+	$('#lbModoLpgueo').sfLabel({text:'Variable Local', width:'380px'});
 	$('#imagenConfiguracion').sfImage({src:'images/configuracion2.jpg'});
 	$('#checkIdentificador').sfCheckBox('focus');
 	$('#checkAvisos').sfCheckBox();
 	$('#lbAVisos').sfLabel({text:'Habilitar avisos', width:'380px'});
-	//$('#btnIniciarPantallaConf').sfButton({text:'Guardar Configuracion e Iniciar', width:'150px'});
-	
-	
+	//$('#btnIniciarPantallaConf').sfButton({text:'Guardar Configuracion e Iniciar', width:'150px'});	
 	
 }
 
@@ -78,7 +79,7 @@ SceneScene5.prototype.handleFocus = function () {
 	// Valores por defecto 
 	
 	this.configuracionAvisos = false;
-	this.configuracionIdentificadorUnico = true;
+	this.configuracionVariableLocal = false;
 
 }
 
@@ -146,7 +147,7 @@ SceneScene5.prototype.handleKeyDown = function (keyCode) {
 				{
 					if(this.estaMarcadoIdentificador)
 					{
-						this.listo = true ;
+						this.listo = true;
 					}
 					else
 					{
@@ -157,8 +158,8 @@ SceneScene5.prototype.handleKeyDown = function (keyCode) {
 				
 				if(this.listo)
 				{
-					$('#popUpAvisoConfiguracion').sfPopup({text:'Su configuracion fue guardada. Gracias.', num:'1', callback:'null'});
-					$('#popUpAvisoConfiguracion').sfPopup('show');
+					//$('#popUpAvisoConfiguracion').sfPopup({text:'Su configuracion fue guardada. Gracias.', num:'1', callback:'null'});
+					//$('#popUpAvisoConfiguracion').sfPopup('show');
 					
 					$.sfScene.hide('Scene5');
 					$.sfScene.show('Scene2');
@@ -178,13 +179,13 @@ SceneScene5.prototype.handleKeyDown = function (keyCode) {
 					if(!this.estaMarcadoIdentificador)
 					{
 						$('#checkIdentificador').sfCheckBox('check');
-						this.configuracionIdentificadorUnico = true;
+						this.configuracionVariableLocal = true;
 						this.estaMarcadoIdentificador = true;
 					}
 					else
 					{
 						$('#checkIdentificador').sfCheckBox('uncheck');
-						this.configuracionIdentificadorUnico = false;
+						this.configuracionVariableLocal = false;
 						this.estaMarcadoIdentificador=false;
 					}
 				}
