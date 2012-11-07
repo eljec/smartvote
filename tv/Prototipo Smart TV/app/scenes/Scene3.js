@@ -86,7 +86,7 @@ function validarPoderVotarConfigurado(idEncuesta,valorConfiguracion,idTV)
 						this.error= this.error + "\nIntentelo mas tarde.Gracias."
 					}
 					
-					$('#cargandoEncuestas').sfLoading('hide');
+					//$('#cargandoEncuestas').sfLoading('hide');
 					
 					$('#popErrorE').sfPopup({text:this.error, num:'1', callback:function(){
 					
@@ -103,9 +103,17 @@ function validarPoderVotarConfigurado(idEncuesta,valorConfiguracion,idTV)
 		{
 		  // Consulto variable local //
 		  
-			this.error="La autenticaciòn local aun esta sin desarrollar, cambie su configuraciòn";
+			this.error="La autenticaciòn local aun esta sin desarrollar, cambie su configuraciòn.\n ¿ Desea hacerlo ahora ?";
 			
-			$('#popErrorE').sfPopup({text:this.error, num:'1', callback:null});
+			$('#popErrorE').sfPopup({text:this.error, num:'2', callback:function(data){
+			
+				if(data)
+				{
+					$.sfScene.hide('Scene3');
+					$.sfScene.show('Scene5');
+					$.sfScene.focus('Scene5');
+				}
+			}});
 			
 			$('#popErrorE').sfPopup('show');
 		}
@@ -183,8 +191,17 @@ SceneScene3.prototype.initialize = function () {
 	$('#lbTituloDescripcionEncuesta').sfLabel({text:'Desccipción', width:'200px'});
 	$('#fotoREncuesta').sfImage({src:'images/survey-checkboxes.jpg'});
 	$('#svecImage_XY3F').sfImage({src:'images/encuestas-265x300.jpg'});
-		
-
+	
+	$('#popUpRegresoEncuesta').sfPopup({text:'¿ Seguro desea regresar a la pantalla anterior ?', num:'2', callback:function(data){
+			
+				if(data)
+				{
+					$.sfScene.hide('Scene3');
+					$.sfScene.show('Scene2');
+					$.sfScene.focus('Scene2');
+				}
+	}});
+	
 } // fin initialize
 
 SceneScene3.prototype.handleShow = function () {
@@ -193,17 +210,7 @@ SceneScene3.prototype.handleShow = function () {
 	
 	$('#helpBar3').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Informacion del Sistema','return':'Rregresar al Hub'});
 	$('#lbDescripcionEncuestas').sfLabel({text:'label', width:'750px'});
-	
-	/*$('#popUpRegresoEncuesta').sfPopup({text:'¿ Seguro desea regresar a la pantalla anterior ?', num:'2', callback:function(data){
-			
-				if(data)
-				{
-					$.sfScene.hide('Scene3');
-					$.sfScene.show('Scene2');
-					$.sfScene.focus('Scene2');
-				}
-	}});*/
-	
+
 	$('#popUpRegresoEncuesta').sfPopup('hide');
 	
 }
