@@ -44,7 +44,7 @@ $(document).ready(function() {
 			
 			var votos ="1-1;2-1;3-0;4-1;5-1";
 			var idEn = 3;
-			var idTVl = 567;
+			var idTVl = 56712;
 			
 			$.post("phpHelper/SmartVoteServices.php",{ tipo:'votos',votos:votos,idE:idEn, idTv:idTVl},function(data){
 				
