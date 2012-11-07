@@ -581,11 +581,9 @@ class SmartVoteDB {
 	
 	            $flag = mysqli_query($this->db_conexionTran,$cadenaInsersion);
 	        }
-			
-			echo $flag;
-			
+
 	        if ($flag) {
-	    
+	    		
 				// Inserto en la Tabla de Encuestas Votadas //
 				
 				$cadenaInsertar="Insert into encuestasvotadas (id_tv,id_e,fecha) values ('".$idTv."','".$idEncuesta."','".$fecha_actual."')";
@@ -595,31 +593,32 @@ class SmartVoteDB {
 				if($flag)
 				{
 					// SI todo sale bien hago comit de transaccion //
-					
-				echo $flag;
-				
-	            /*mysqli_commit($this->db_conexionTran);
+
+	            mysqli_commit($this->db_conexionTran);
 	        
-	            return json_encode(new Respuesta("OK",""));*/
+				mysqli_close($this->db_conexionTran);
+				
+	            return json_encode(new Respuesta("OK",""));
 	
 				}
 				else 
 				{
 					 mysqli_rollback($this->db_conexionTran);
+					 
+					 mysqli_close($this->db_conexionTran);
 	
 	            	throw new Exception('Ocurrio un error ');
 				}
-	        } else
-	        {
+	        } 
+	        else{
+
 	            mysqli_rollback($this->db_conexionTran);
+	            
+				mysqli_close($this->db_conexionTran);
 	
 	            throw new Exception('Ocurrio un error ');
 	        }
 	
-	        mysqli_close($this->db_conexionTran);
-	
-	        return $retorno;
-
 		}catch (Exception $e) 
 		{
     		throw new Exception('Ocurrio un error ');
