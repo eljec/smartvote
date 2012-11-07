@@ -1,5 +1,5 @@
 {
-	"scenes" : [ "Scene1", "Scene2", "Scene3", "Scene4", "Scene5", "Scene6" ],
+	"scenes" : [ "Scene1", "Scene2", "Scene3", "Scene4", "Scene5", "Scene7", "Scene6" ],
 	"files" : [],
 	"changeSource" : true, 
 	"theme" : "base"
