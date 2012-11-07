@@ -597,5 +597,6 @@ class SmartVoteManager {
 	
 	
 	
+	
 	}
 ?>
