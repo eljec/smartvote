@@ -194,7 +194,7 @@ SceneScene3.prototype.handleShow = function () {
 	$('#helpBar3').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Informacion del Sistema','return':'Rregresar al Hub'});
 	$('#lbDescripcionEncuestas').sfLabel({text:'label', width:'750px'});
 	
-	$('#popUpRegresoEncuesta').sfPopup({text:'¿ Seguro desea regresar a la pantalla anterior ?', num:'2', callback:function(data){
+	/*$('#popUpRegresoEncuesta').sfPopup({text:'¿ Seguro desea regresar a la pantalla anterior ?', num:'2', callback:function(data){
 			
 				if(data)
 				{
@@ -202,8 +202,9 @@ SceneScene3.prototype.handleShow = function () {
 					$.sfScene.show('Scene2');
 					$.sfScene.focus('Scene2');
 				}
-	}});
+	}});*/
 	
+	$('#popUpRegresoEncuesta').sfPopup('hide');
 	
 }
 

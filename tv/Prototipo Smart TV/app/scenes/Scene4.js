@@ -53,17 +53,39 @@ function GuardarVotos(votos,idEn)
 			   url: "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php",
 			   data:{ tipo:'votos',votos:arrayVotos,idE:idEn},
 			   dataType: "json",
-			   success: function(data)
-			   {				
+			   success: function(data){				
 				 $('#loadingVotos').sfLoading('hide');
 				 
 				 if(data.tipo == "OK")
 				 {
-					$.sfScene.hide('Scene4');
-					$.sfScene.show('Scene3');
-					$.sfScene.focus('Scene3');
+					$.sfScene.hide('Scene7');
+					$.sfScene.show('Scene4');
+					$.sfScene.focus('Scene4');
 				 } 
-			   }
+			   },
+			   error:function(jqXHR, textStatus, errorThrown){
+					
+					$('#loadingVotos').sfLoading('hide');
+					
+					this.error="Ocurrio un ERROR: ";
+					
+					if (jqXHR.status === 0) {
+						this.error=this.error + '\nNot connect.\n Verify Network.';
+					} else {
+						this.error= this.error + "\nIntentelo mas tarde.Gracias."
+					}
+					
+					$('#cargandoEncuestas').sfLoading('hide');
+					
+					$('#popErrorP').sfPopup({text:this.error, num:'1', callback:function(){
+					
+						$.sfScene.hide('Scene4');
+						$.sfScene.show('Scene3');
+						$.sfScene.focus('Scene3');
+					
+					}});
+					$('#popErrorP').sfPopup('show');
+				}
 			 });
 }
 
@@ -77,24 +99,47 @@ function GuardarVotosConfiguracionOK(votos,idEn,idTV,varConfiguracion)
 		var ema2 = 123;
 		
 		$.ajax({
-			   type: "POST",
-			   async:true,
-			   url: "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php",
-			   data:{ tipo:'votos',votos:arrayVotos,idE:idEn,idTv:idTV},
-			   dataType: "json",
-			   success: function(data)
-			   {				
-				 //$('#loadingVotos').sfLoading('hide');
+				type:"POST",
+				async:false,
+				url: "http://www.tesiscastillo.com.ar/smartvote/phpHelper/1SmartVoteServices.php",
+				data:{ tipo:'votos',votos:arrayVotos,idE:idEn,idTv:idTV},
+				dataType: "json",
+				success: function(data){				
 				 
-				 var ju = 123;
+					$('#loadingVotos').sfLoading('hide');
 				 
-				 if(data.tipo == "OK")
-				 {
-					/*$.sfScene.hide('Scene4');
-					$.sfScene.show('Scene3');
-					$.sfScene.focus('Scene3');*/
-				 } 
-			   }
+					var ju = 123;
+				 
+					if(data.tipo == 'OK')
+					{
+						$.sfScene.hide('Scene4');
+						$.sfScene.show('Scene7');
+						$.sfScene.focus('Scene7');
+					}
+				}, 
+				error:function(jqXHR, textStatus, errorThrown){
+					
+					$('#loadingVotos').sfLoading('hide');
+					
+					this.error="Ocurrio un ERROR: ";
+					
+					if (jqXHR.status === 0) {
+						this.error=this.error + '\nNot connect.\n Verify Network.';
+					} else {
+						this.error= this.error + "\nIntentelo mas tarde.Gracias."
+					}
+					
+					$('#cargandoEncuestas').sfLoading('hide');
+					
+					$('#popErrorP').sfPopup({text:this.error, num:'1', callback:function(){
+					
+						$.sfScene.hide('Scene4');
+						$.sfScene.show('Scene3');
+						$.sfScene.focus('Scene3');
+					
+					}});
+					$('#popErrorP').sfPopup('show');
+				}
 			 });
 	}
 	else
@@ -105,7 +150,7 @@ function GuardarVotosConfiguracionOK(votos,idEn,idTV,varConfiguracion)
 		
 		$('#popErrorP').sfPopup({text:this.error, num:'1', callback:null});
 		
-		$('#popErrorE').sfPopup('show');
+		$('#popErrorP').sfPopup('show');
 	}
 }
 
@@ -259,12 +304,12 @@ SceneScene4.prototype.handleKeyDown = function (keyCode) {
 						$('#loadingVotos').sfLoading('show');
 						
 						/*this.textoPopUp= "Se han terminado las preguntas. EL sistema registrara sus votos. Espere un momento";
-					   $('#popUpAvisoGral').sfPopup({text:this.textoPopUp, num:'1', callback:null});
-					   $('#popUpAvisoGral').sfPopup('show'); */
+						$('#popUpAvisoGral').sfPopup({text:this.textoPopUp, num:'1', callback:null});
+						$('#popUpAvisoGral').sfPopup('show'); */
 					   
 						if(this.configuro)
 						{
-							var idTelevisor = '123';
+							var idTelevisor = 11;
 							
 							GuardarVotosConfiguracionOK(this.votoCadena,this.EncuestaS.getId(),idTelevisor,this.variableConfvarLocal);
 						}
