@@ -10,6 +10,8 @@ function SceneScene5(options) {
 	this.estaMarcadoIdentificador;
 	
 	this.btnIniciar;
+	
+	this.per;
 }
 
 function respuestaPopUp(data)
@@ -28,10 +30,7 @@ function respuestaPopUp(data)
 
 SceneScene5.prototype.initialize = function () {
 	alert("SceneScene5.initialize()");
-	// this function will be called only once when the scene manager show this scene first time
-	// initialize the scene controls and styles, and initialize your variables here 
-	// scene HTML and CSS will be loaded before this function is called
-	
+
 	$('#lbTituloConfiguracion').sfLabel({text:'Configuraciòn', width:'340px'});
 	$('#lbModoLpgueo').sfLabel({text:'Variable Local', width:'380px'});
 	$('#imagenConfiguracion').sfImage({src:'images/configuracion2.jpg'});
@@ -39,7 +38,8 @@ SceneScene5.prototype.initialize = function () {
 	$('#checkAvisos').sfCheckBox();
 	$('#lbAVisos').sfLabel({text:'Habilitar avisos', width:'380px'});
 	$('#btnIniciarPantallaConf').sfButton({text:'Guardar e Iniciar', width:'160px'});
-		
+	
+	this.per = 1;
 }
 
 
@@ -54,8 +54,7 @@ SceneScene5.prototype.handleShow = function () {
 	$('#imagenConfiguracion').sfImage({src:'images/configuracion2.jpg'});
 	$('#checkIdentificador').sfCheckBox('focus');
 	$('#checkAvisos').sfCheckBox();
-	$('#lbAVisos').sfLabel({text:'Habilitar avisos', width:'380px'});
-	//$('#btnIniciarPantallaConf').sfButton({text:'Guardar Configuracion e Iniciar', width:'150px'});	
+	$('#lbAVisos').sfLabel({text:'Habilitar avisos', width:'380px'});	
 	
 }
 
@@ -74,6 +73,7 @@ SceneScene5.prototype.handleFocus = function () {
 	this.estaMarcadoAvisos=false;
 	this.estaMarcadoIdentificador=false;
 	
+	$('#btnIniciarPantallaConf').sfButton('blur');
 	this.btnIniciar=false;
 	
 	// Valores por defecto 
@@ -160,6 +160,8 @@ SceneScene5.prototype.handleKeyDown = function (keyCode) {
 				{
 					//$('#popUpAvisoConfiguracion').sfPopup({text:'Su configuracion fue guardada. Gracias.', num:'1', callback:'null'});
 					//$('#popUpAvisoConfiguracion').sfPopup('show');
+					
+					this.per = 2;
 					
 					$.sfScene.hide('Scene5');
 					$.sfScene.show('Scene2');

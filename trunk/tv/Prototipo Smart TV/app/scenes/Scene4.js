@@ -75,7 +75,7 @@ function GuardarVotos(votos,idEn)
 						this.error= this.error + "\nIntentelo mas tarde.Gracias."
 					}
 					
-					$('#cargandoEncuestas').sfLoading('hide');
+					//$('#cargandoEncuestas').sfLoading('hide');
 					
 					$('#popErrorP').sfPopup({text:this.error, num:'1', callback:function(){
 					
@@ -129,7 +129,7 @@ function GuardarVotosConfiguracionOK(votos,idEn,idTV,varConfiguracion)
 						this.error= this.error + "\nIntentelo mas tarde.Gracias."
 					}
 					
-					$('#cargandoEncuestas').sfLoading('hide');
+					//$('#cargandoEncuestas').sfLoading('hide');
 					
 					$('#popErrorP').sfPopup({text:this.error, num:'1', callback:function(){
 					
