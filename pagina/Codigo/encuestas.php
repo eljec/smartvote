@@ -22,6 +22,11 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
                 padding-bottom: 40px;
 				background-color:#EDEDED;
             }
+
+			.ui-dialog-titlebar-close{
+    			display: none;
+			}
+
         </style>
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
         <link rel="stylesheet" href="css/common.css">
@@ -71,7 +76,8 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 							<image class="tamImage" src="img/programaTV.jpg"/> 
 							<br>
 							<br>
-							<select id="listaProgramas"></select>
+							<!--<select id="listaProgramas"></select>-->
+							<div id="listaProgramas"></div>
 							<br>
 							<input id="newPrograma" type="button" class="btn tamBoton" value="Nuevo"/>
 							<br>
@@ -207,7 +213,7 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 				<div class="span6 offset3 negro bordeRedondoGral" align="center">
 					<input id="crear" type="button" class="btn" value="Crear"/>
 					<br>
-					<img id="gifLoadingPreguntas"src="img/ajax-loaderVerdeDos.gif" style="display: none;" alt="Loading..."/>
+					<img id="gifLoadingPreguntas"src="img/ajax-loaderNegro.gif" style="display: none;" alt="Loading..."/>
 					<br>
 				</div>
 			</div>
@@ -226,7 +232,7 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 				<input id="btnOkNewItem" type="button" value="OK"/>
 				<input id="itemToInsert" type="hidden" name="" value="0"/>
 				<div align="center">
-					<img id="gifLoadingNewItem"src="img/ajax-loaderNegro.gif" style="display: none;" alt="Loading..."/>
+					<img id="gifLoadingNewItem"src="img/ajax-loaderBlanco.gif" style="display: none;" alt="Loading..."/>
 					<br>
 					<div id="alertNewItem" class="alert ocultar">
 					</div>
@@ -243,5 +249,8 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
         <script src="js/main.js"></script>
 		<script src="js/encuesta.js"></script>
 		<script src="js/jquery-ui-1.9.0.custom.min.js"></script>
+		
+		<script type="text/javascript" src="js/ddslick.js"></script>
+		
     </body>
 </html>
