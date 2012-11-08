@@ -228,7 +228,12 @@ function llenaListaProgramas()
 
 	$('#gifLoading').show();
 	
-	$.getJSON('phpHelper/SmartVoteServices.php?action=1&paged=0', function(data) {
+	$('#newPrograma').attr('disabled','disabled');
+	
+	$('#listaProgramas').attr('disabled','disabled');
+	
+	
+	/*$.getJSON('phpHelper/SmartVoteServices.php?action=1&paged=0', function(data) {
 		  
 			$('#gifLoading').hide();
 			
@@ -241,7 +246,42 @@ function llenaListaProgramas()
 		 
 			document.getElementById("listaProgramas").innerHTML=stringSelect;
 		 
+	});*/
+	
+	$.getJSON('phpHelper/SmartVoteServices.php?action=1&paged=0', function(data) {
+		  
+			$('#gifLoading').hide();
+			
+			$('#newPrograma').removeAttr('disabled','disabled');
+			
+			$('#listaProgramas').removeAttr('disabled','disabled');
+			
+			var nuevoObjeto;
+			var ddData = new Array();
+			
+			for(var i=0;i<data.programas.length;i++)
+			{
+				
+				nuevoObjeto = { text:data.programas[i].nombre,
+								value:data.programas[i].id,
+								}
+				
+				ddData[i] = nuevoObjeto;
+			}
+		 
+		 	$('#listaProgramas').ddslick('destroy');
+		 	
+		 	$('#listaProgramas').ddslick({
+			    data:ddData,
+			    width:230,
+			    selectText: "Seleccione un programa",
+			    onSelected: function(selectedData){
+						activarPanelEncuesta();
+			    }   
+			});
+		 
 	});
+	
 }
 				
 function ocultarPanelesPreguntas()
@@ -389,6 +429,8 @@ function activarPanelEncuesta()
 	
 	$( "#btnOkNewItem").button();
 	
+	//$('#btnOkNewItem').attr('disabled', 'disabled');
+	
 	// Dialog Nuevo programa
 	
 	$('#dialogNewItem').dialog({
@@ -418,13 +460,13 @@ function activarPanelEncuesta()
 		width: 400,
 		modal: true,
 		title: "Resultado creación",
-		buttons: {						
+		/*buttons: {						
 			"OK": function() {
 				//$(this).dialog("close");
 				window.location = "portada.php";
 			}
 			
-		}
+		}*/
 	});
 	
 	$('.foco').focus(function() {
@@ -524,7 +566,11 @@ function activarPanelEncuesta()
 		
 		$('#alertaEncuestas').addClass('ocultar');
 
-		var idPrograma = $("#listaProgramas option:selected").val();
+		//var idPrograma = $("#listaProgramas option:selected").val();
+		
+		var ddData = $('#listaProgramas').data('ddslick');
+		
+		var idPrograma = ddData.selectedData.value; 
 		
 		var nombreNuevaEncuesta = $("#nameNuevaEncuesta").val();
 		
@@ -595,11 +641,17 @@ function activarPanelEncuesta()
 		
 			var arrayPreguntasDatos = formarDatos();
 			
-			$('#gifLoadingPreguntas').show();
+			//$('#gifLoadingPreguntas').show();
 			
-			var idEncuesta = $("#listaEncuestas option:selected").val();
+			$('#mensajeFinal').dialog('open');
 			
-			var idPrograma = $("#listaProgramas option:selected").val();
+			//var idEncuesta = $("#listaEncuestas option:selected").val();
+			
+			var ddData = $('#listaProgramas').data('ddslick');
+		
+			var idPrograma = ddData.selectedData.value; 
+			
+			//var idPrograma = $("#listaProgramas option:selected").val();
 			
 			var nombreNuevaEncuesta = $("#nameNuevaEncuesta").val();
 		
@@ -607,7 +659,7 @@ function activarPanelEncuesta()
 			
 			// Creo encuesta y Pregunta Juntas 
 
-			$.post("phpHelper/1SmartVoteServices.php",{ tipo:'encuesta',nombreE: nombreNuevaEncuesta, descE:descNuevaEncuesta, id_p: idPrograma,Arr_preguntas: arrayPreguntasDatos}, successEncuesta, "json").error(errorEncuesta);
+			//$.post("phpHelper/SmartVoteServices.php",{ tipo:'encuesta',nombreE: nombreNuevaEncuesta, descE:descNuevaEncuesta, id_p: idPrograma,Arr_preguntas: arrayPreguntasDatos}, successEncuesta, "json").error(errorEncuesta);
 			
 		}
 	});
