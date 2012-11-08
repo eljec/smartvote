@@ -13,6 +13,8 @@ function SceneScene4(options) {
 	this.configuro;
 	this.variableConfvarLocal;
 	this.error;
+	
+	this.ArrayNumeroPreguntas;
 
 }
 
@@ -163,7 +165,7 @@ SceneScene4.prototype.initialize = function () {
 	
 	var urlPrg = "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=3&id_p=" + this.EncuestaS.getIdP()+"&id_e="+ this.EncuestaS.getId();
 
-	$('#lbTituloPreguntas').sfLabel({text:'Secciòn Preguntas', width:'500px'});
+	$('#lbTituloPreguntas').sfLabel({text:'Sección Preguntas', width:'500px'});
 	$('#hrlpBar4').sfKeyHelp({'RED':'NO','BLUE':'SI','return':'Return'});
 	$('#signoPregunta').sfImage({src:'images/interrogacion.png'});
 	$('#signoPregunta2').sfImage({src:'images/interrogacion.png'});
@@ -174,6 +176,15 @@ SceneScene4.prototype.initialize = function () {
 	var arrayPreguntasNombre = new Array();
 	
 	var arrayPreguntas= new Array();
+	
+	var numros = new Array();
+	
+	for(var i = 1; i<6; i++)
+	{
+		numros.push(i);
+	}
+	
+	this.ArrayNumeroPreguntas = numros;
 	
 	
 	/* Consulto sobre las preguntas */
@@ -252,7 +263,7 @@ SceneScene4.prototype.initialize = function () {
 	
 	this.numeroPregunta=0;
 		
-	$('#lbTituloPregunta').sfLabel({text:"Pregunta: "+this.numeroPregunta +1, width:'210px'});
+	$('#lbTituloPregunta').sfLabel({text:"Pregunta: "+this.ArrayNumeroPreguntas[this.numeroPregunta], width:'210px'});
 	$('#lbPregunta').sfLabel({text:des, width:'500px'});
 	
 	this.Votos = new Array();
@@ -309,6 +320,7 @@ SceneScene4.prototype.handleKeyDown = function (keyCode) {
 					if(this.numeroPregunta < this.DescripcionPreguntas.length)
 					{
 						$('#lbPregunta').text(this.DescripcionPreguntas[this.numeroPregunta]);
+						$('#lbTituloPregunta').text("Pregunta: "+this.ArrayNumeroPreguntas[this.numeroPregunta]);
 						this.yaVoto=false;
 					}
 					else
