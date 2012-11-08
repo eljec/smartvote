@@ -41,7 +41,7 @@ function VotoPregunta(idP, voto) {
     }
 }
 
-function GuardarVotos(votos,idEn)
+function GuardarVotos(votos,idEn,idTV)
 {  
    var arrayVotos = votos;
 
@@ -51,16 +51,16 @@ function GuardarVotos(votos,idEn)
 			   type: "POST",
 			   async:true,
 			   url: "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php",
-			   data:{ tipo:'votos',votos:arrayVotos,idE:idEn},
+			   data:{ tipo:'votos',votos:arrayVotos,idE:idEn,idTv:idTV},
 			   dataType: "json",
 			   success: function(data){				
 				 $('#loadingVotos').sfLoading('hide');
 				 
 				 if(data.tipo == "OK")
 				 {
-					$.sfScene.hide('Scene7');
-					$.sfScene.show('Scene4');
-					$.sfScene.focus('Scene4');
+					$.sfScene.hide('Scene4');
+					$.sfScene.show('Scene7');
+					$.sfScene.focus('Scene7');
 				 } 
 			   },
 			   error:function(jqXHR, textStatus, errorThrown){
@@ -74,17 +74,15 @@ function GuardarVotos(votos,idEn)
 					} else {
 						this.error= this.error + "\nIntentelo mas tarde.Gracias."
 					}
-					
-					//$('#cargandoEncuestas').sfLoading('hide');
-					
-					$('#popErrorP').sfPopup({text:this.error, num:'1', callback:function(){
+										
+					$('#popErrorPregunta').sfPopup({text:this.error, num:'1', callback:function(){
 					
 						$.sfScene.hide('Scene4');
 						$.sfScene.show('Scene3');
 						$.sfScene.focus('Scene3');
 					
 					}});
-					$('#popErrorP').sfPopup('show');
+					$('#popErrorPregunta').sfPopup('show');
 				}
 			 });
 }
@@ -100,8 +98,8 @@ function GuardarVotosConfiguracionOK(votos,idEn,idTV,varConfiguracion)
 		
 		$.ajax({
 				type:"POST",
-				async:false,
-				url: "http://www.tesiscastillo.com.ar/smartvote/phpHelper/1SmartVoteServices.php",
+				async:true,
+				url: "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php",
 				data:{ tipo:'votos',votos:arrayVotos,idE:idEn,idTv:idTV},
 				dataType: "json",
 				success: function(data){				
@@ -127,18 +125,16 @@ function GuardarVotosConfiguracionOK(votos,idEn,idTV,varConfiguracion)
 						this.error=this.error + '\nNot connect.\n Verify Network.';
 					} else {
 						this.error= this.error + "\nIntentelo mas tarde.Gracias."
-					}
+					}					
 					
-					//$('#cargandoEncuestas').sfLoading('hide');
-					
-					$('#popErrorP').sfPopup({text:this.error, num:'1', callback:function(){
+					$('#popErrorPregunta').sfPopup({text:this.error, num:'1', callback:function(){
 					
 						$.sfScene.hide('Scene4');
 						$.sfScene.show('Scene3');
 						$.sfScene.focus('Scene3');
 					
 					}});
-					$('#popErrorP').sfPopup('show');
+					$('#popErrorPregunta').sfPopup('show');
 				}
 			 });
 	}
@@ -167,8 +163,11 @@ SceneScene4.prototype.initialize = function () {
 	
 	var urlPrg = "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=3&id_p=" + this.EncuestaS.getIdP()+"&id_e="+ this.EncuestaS.getId();
 
-	$('#lbTituloPreguntas').sfLabel({text:'SmartVote-Preguntas-', width:'500px'});
+	$('#lbTituloPreguntas').sfLabel({text:'Secciòn Preguntas', width:'500px'});
 	$('#hrlpBar4').sfKeyHelp({'RED':'NO','BLUE':'SI','return':'Return'});
+	$('#signoPregunta').sfImage({src:'images/interrogacion.png'});
+	$('#signoPregunta2').sfImage({src:'images/interrogacion.png'});
+	
 	
 	/* Variables auiliares */
 	
@@ -210,9 +209,7 @@ SceneScene4.prototype.initialize = function () {
 			{
 			   // No tiene encuetas, muestro popUp y cargo imagenes 
 
-				$('#imagenError').sfImage('show');
-			   
-			   	$('#popErrorP').sfPopup({text:'Esta encuesta no tiene preguntas cargadas, elija otra de la lista', num:'1', callback:function(){
+			   	$('#popErrorPregunta').sfPopup({text:'Esta encuesta no tiene preguntas cargadas, elija otra de la lista', num:'1', callback:function(){
 			
 					$.sfScene.hide('Scene4');
 					$.sfScene.show('Scene3');
@@ -220,11 +217,30 @@ SceneScene4.prototype.initialize = function () {
 			
 				}});
 				
-			    $('#popErrorP').sfPopup('show');
+			    $('#popErrorPregunta').sfPopup('show');
 			   
 			}
 						
-	}
+	},
+	error:function(jqXHR, textStatus, errorThrown){
+					
+			this.error="Ocurrio un ERROR: ";
+			
+			if (jqXHR.status === 0) {
+				this.error=this.error + '\nNot connect.\n Verify Network.';
+			} else {
+				this.error= this.error + "\nIntentelo mas tarde.Gracias."
+			}
+					
+			$('#popErrorPregunta').sfPopup({text:this.error, num:'1', callback:function(){
+			
+				$.sfScene.hide('Scene4');
+				$.sfScene.show('Scene3');
+				$.sfScene.focus('Scene3');
+			
+			}});
+			$('#popErrorPregunta').sfPopup('show');
+		}
 	
 	}); // fin ajax 
 	
@@ -236,10 +252,8 @@ SceneScene4.prototype.initialize = function () {
 	
 	this.numeroPregunta=0;
 		
-	$('#lbTituloPregunta').sfLabel({text:"Pregunta: "+this.numeroPregunta, width:'210px'});
+	$('#lbTituloPregunta').sfLabel({text:"Pregunta: "+this.numeroPregunta +1, width:'210px'});
 	$('#lbPregunta').sfLabel({text:des, width:'500px'});
-	$('#signoPregunta').sfImage({src:'images/interrogacion.png'});
-	$('#signoPregunta2').sfImage({src:'images/interrogacion.png'});
 	
 	this.Votos = new Array();
 	this.votoCadena = "";
@@ -307,15 +321,17 @@ SceneScene4.prototype.handleKeyDown = function (keyCode) {
 						$('#popUpAvisoGral').sfPopup({text:this.textoPopUp, num:'1', callback:null});
 						$('#popUpAvisoGral').sfPopup('show'); */
 					   
+						var idTelevisor = getIdentificador();
+					   
 						if(this.configuro)
 						{
-							var idTelevisor = 11;
+							
 							
 							GuardarVotosConfiguracionOK(this.votoCadena,this.EncuestaS.getId(),idTelevisor,this.variableConfvarLocal);
 						}
 						else
 						{
-							GuardarVotos(this.votoCadena,this.EncuestaS.getId());
+							GuardarVotos(this.votoCadena,this.EncuestaS.getId(),idTelevisor);
 						}
 					   
 					}

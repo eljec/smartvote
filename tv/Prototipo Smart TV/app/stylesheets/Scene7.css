@@ -66,3 +66,9 @@ text-align:center;
 .ocultar{
 	display:none;
 }
+
+#SceneScene7 #cargaGrafico{
+	position : absolute;
+	left : 410px;
+	top : 230px;
+}

@@ -12,10 +12,11 @@
 	position : absolute;
 	font-size : 26pt;
 	color : #210000;
-	left : 240px;
-	top : 40px;
-	width : 500px;
+	left : 40px;
+	top : 20px;
+	width : 880px;
 	text-align:center;
+	background-color:#9793A7;
 }
 
 #SceneScene4 #hrlpBar4{
@@ -73,4 +74,10 @@
 	position : absolute;
 	left : 410px;
 	top : 140px;
+}
+
+.tutilo{
+	text-align:center;
+	background-color: #A9A9A9;
+	border: 3px solid #000000;
 }

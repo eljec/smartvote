@@ -9,21 +9,22 @@ function SceneScene7(options) {
 	this.no;
 	this.si;
 	
-
+	this.primeraVez;
+	
+	this.EncuestaS;
 }
 
-function graficoConIdentificador(idEncuesta)
+function graficoConIdentificador(idEncuesta,primeravez)
 {
 		var ema = 1;
 	
 		$.ajax({
-			   type: "POST",
-			   async:true,
-			   url: "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php",
-			   data:{tipo:'grafico',de:'preguntas',id_e: idEncuesta},
-			   dataType: "json",
-			   success: function(data)
-			   {				
+				type: "POST",
+				async:true,
+				url: "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php",
+				data:{tipo:'grafico',de:'preguntas',id_e: idEncuesta},
+				dataType: "json",
+				success: function(data){				
 
 					var datos = data.datosgrafico;
 				 
@@ -31,6 +32,8 @@ function graficoConIdentificador(idEncuesta)
 		
 					if(cantidad == 0)
 					{
+						$('#cargaGrafico').sfLoading('hide');
+						
 						this.error="Upss Vuelva a intentarlo...";
 					
 						$('#popErrorG').sfPopup({text:this.error, num:'1', callback:null});
@@ -51,13 +54,51 @@ function graficoConIdentificador(idEncuesta)
 
 						var dataGrafico = [$.gchart.series('Encuesta', [SI, NO])]; 
 					
+						var ema = this.primeraVez;
 						
-						$('#defaultChart').gchart({type: 'pie', series: dataGrafico, legend: 'right', 
-							dataLabels: ['SI', 'NO'], 
-							extension: {chdl: 'SI|NO'}});
+					
+						$('#svecImage_4PVJ').sfImage('hide');
+				
+						$('#defaultChart').removeClass('ocultar');
+					
+						if(primeravez)
+						{
+							$('#defaultChart').gchart({type: 'pie', series: dataGrafico, legend: 'right', 
+									dataLabels: ['SI', 'NO'], 
+									extension: {chdl: 'SI|NO'}
+							});
+							
+							$('#cargaGrafico').sfLoading('hide');
+						}
+						else
+						{
+							var data2 = [$.gchart.series('Encuesta', [50, 50])]; 
+							
+							$('#defaultChart').gchart('change', {series:data2});
+							
+							$('#cargaGrafico').sfLoading('hide');
+						}
+						
 					}
-				} // Fin success
-			 });
+				},
+				error:function(jqXHR, textStatus, errorThrown){
+
+					$('#cargaGrafico').sfLoading('hide');
+					
+					this.error="Ocurrio un ERROR: ";
+					
+					if (jqXHR.status === 0) {
+						this.error=this.error + '\nVerifique su conexiòn a Internet.';
+					} else {
+						this.error= this.error + "\nIntentelo mas tarde.Gracias."
+					}
+					
+					$('#popErrorG').sfPopup({text:this.error, num:'1', callback:'null'});
+					$('#popErrorG').sfPopup('show');
+					
+					// Oculto el Grafico y Pongo la Imagen de Nuevo //
+				}
+		});
 }
 
 SceneScene7.prototype.initialize = function () {
@@ -76,7 +117,11 @@ SceneScene7.prototype.initialize = function () {
 	this.no=0;
 	this.si=0;
 	
+	this.primeraVez=true;
+	
 	$('#btnVolverVotar').sfButton('focus');
+
+	$('#cargaGrafico').sfLoading();
 }
 
 
@@ -95,7 +140,20 @@ SceneScene7.prototype.handleHide = function () {
 SceneScene7.prototype.handleFocus = function () {
 	alert("SceneScene7.handleFocus()");
 	// this function will be called when the scene manager focus this scene
-
+	
+	// Aca pongo la Imagen y oculto el panel de grafico y pongo foco en el boton vovler 
+	
+	this.botonVolver = true;
+	$('#btnVolverVotar').sfButton('focus');
+	
+	$('#svecImage_4PVJ').sfImage('show');
+				
+	$('#defaultChart').addClass('ocultar');
+	
+	// Tomo los datos de la escena de encustas 
+	
+	var VariablesEscena3 = $.sfScene.get('Scene3');
+	this.EncuestaS = VariablesEscena3.EncuestaSeleccionada;
 }
 
 SceneScene7.prototype.handleBlur = function () {
@@ -138,21 +196,20 @@ SceneScene7.prototype.handleKeyDown = function (keyCode) {
 			if(this.botonVolver)
 			{
 				$.sfScene.hide('Scene7');
-				$.sfScene.show('Scene2');
-				$.sfScene.focus('Scene2');
+				$.sfScene.show('Scene1');
+				$.sfScene.focus('Scene1');
 			}
 			else
 			{
-				$('#svecImage_4PVJ').sfImage('hide');
-				$('#defaultChart').removeClass('ocultar');
+				$('#cargaGrafico').sfLoading('show');
 				
-				/* falta ver cuando apriete ver grafico por primera vez, 
-				ya que si regresa se debe implementar el metodo change de grafico.
-				 vamos bien*/
-				 
-				 
-				graficoConIdentificador(3);
+				var idE = this.EncuestaS.getId();
 				
+				//graficoConIdentificador(idE,this.primeraVez);
+				
+				graficoConIdentificador(3,this.primeraVez);
+				
+				this.primeraVez = false;
 			}
 			
 			break;
