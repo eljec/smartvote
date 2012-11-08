@@ -5,6 +5,9 @@ function SceneScene2(options) {
 	this.activo;
 	this.llamadoPH_S2;
 	this.error;
+	
+	this.indiceSeleccionado;
+	
 }
 
 function programa(id, nombre, descripcion) {
@@ -25,8 +28,7 @@ function programa(id, nombre, descripcion) {
     }
 }
 
-function regresoEncuesta(respuesta)
-{
+function regresoEncuesta(respuesta){
 	if(respuesta)
 	{
 		$.sfScene.hide('Scene2');
@@ -38,28 +40,28 @@ function regresoEncuesta(respuesta)
 SceneScene2.prototype.initialize = function (aux) {
 	alert("SceneScene2.initialize()");
 
-	// Levatamos el archivo con los programas registrados //	
+	// Se ejecuta una sola vez, cuando se crea la pagina por primera vez. NADA MAS 
 	
 	$('#TituloProgramas').sfLabel({text:'Sección Programas', width:'880px'});
 	$('#helpBar2').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Informacion del Sistema','return':'Rregresar al Hub'});
 	$('#lbDescripcion').sfLabel({text:'Info del Programa', width:'430px'});
 	$('#lbTituloDescripcion').sfLabel({text:'Descripcion', width:'430px'});
 	$('#lbLista').sfLabel({text:'Lista', width:'240px'});
-	$('#cargandoProgramas').sfLoading('show');
+	//$('#cargandoProgramas').sfLoading('show');
 	
-} // Fin initialize
+} 
 
 
 SceneScene2.prototype.handleShow = function () {
 	alert("SceneScene2.handleShow()");
 	// this function will be called when the scene manager show this scene 
 	
-	$('#TituloProgramas').sfLabel({text:'Sección Programas', width:'410px'});
+	/*$('#TituloProgramas').sfLabel({text:'Sección Programas', width:'410px'});
 	$('#helpBar2').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Informacion del Sistema','return':'Rregresar al Hub'});
 	$('#lbDescripcion').sfLabel({text:'Info del Programa', width:'430px'});
 	$('#lbTituloDescripcion').sfLabel({text:'Descripcion', width:'430px'});
-	$('#lbLista').sfLabel({text:'Lista', width:'240px'});
-	$('#cargandoProgramas').sfLoading('show');
+	$('#lbLista').sfLabel({text:'Lista', width:'240px'});*/
+	//$('#cargandoProgramas').sfLoading('show');
 }
 
 SceneScene2.prototype.handleHide = function () {
@@ -71,46 +73,46 @@ SceneScene2.prototype.handleFocus = function () {
 	alert("SceneScene2.handleFocus()");
 	// this function will be called when the scene manager focus this scene
 	
-	//$('#cargandoProgramas').sfLoading('show');
+	$('#cargandoProgramas').sfLoading('show');
 	
 	var arrayPN = new Array();
 	var arrayP = new Array();
 	
 	$.ajax({
-	type:"GET",
-	async:false,
-	dataType:"json",
-	url:"http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=1&paged=0",
-	success:function(data){
-		 
-			var tam = data.programas.length;
-		 
-			for(var i=0;i<tam;i++)
-			{
-				arrayPN.push(data.programas[i].nombre);
+		type:"GET",
+		async:true,
+		dataType:"json",
+		url:"http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=1&paged=0",
+		success:function(data){
+			 
+				var tam = data.programas.length;
+			 
+				for(var i=0;i<tam;i++)
+				{
+					arrayPN.push(data.programas[i].nombre);
+					
+					/* Creo un nuevo programa */
+					var programaAux = new programa(data.programas[i].id,data.programas[i].nombre,data.programas[i].descripcion);
+					
+					arrayP.push(programaAux);
+					
+				}
 				
-				/* Creo un nuevo programa */
-				var programaAux = new programa(data.programas[i].id,data.programas[i].nombre,data.programas[i].descripcion);
-				
-				arrayP.push(programaAux);
-				
-			}
-			
-			/* Analisis del numero a mostrar */
+				/* Analisis del numero a mostrar */
 
-			if(tam>5)
-			{
-				$('#ListaProgramas').sfListbox2({data:arrayPN, width:'200', height:'31', itemsPerPage:'5', horizontal:'false'});	
-			}
-			else
-			{
-			   $('#ListaProgramas').sfListbox2({data:arrayPN, width:'200', height:'31', itemsPerPage:tam, horizontal:'false'});	
-			}
+				if(tam>5)
+				{
+					$('#ListaProgramas').sfListbox2({data:arrayPN, width:'200', height:'31', itemsPerPage:'5', horizontal:'false'});	
+				}
+				else
+				{
+				   $('#ListaProgramas').sfListbox2({data:arrayPN, width:'200', height:'31', itemsPerPage:tam, horizontal:'false'});	
+				}
+				
+				$('#cargandoProgramas').sfLoading('hide');
 			
-			$('#cargandoProgramas').sfLoading('hide');
-		
-	  }, // fin success
-	error:function(jqXHR, textStatus, errorThrown){
+		  }, // fin success
+		error:function(jqXHR, textStatus, errorThrown){
 	 
 			$('#cargandoProgramas').sfLoading('hide');
 			
@@ -132,13 +134,15 @@ SceneScene2.prototype.handleFocus = function () {
 			}});
 			$('#popError').sfPopup('show');
 	 }
-	}); // fin ajax 
+	}); 
 
 
- this.Programas=arrayPN;
- this.ProgramasObj=arrayP;
- this.activo=false;
- this.llamadoPH_S2=false;
+	 this.Programas=arrayPN;
+	 this.ProgramasObj=arrayP;
+	 this.activo=false;
+	 this.llamadoPH_S2=false;
+	 
+	$('#lbDescripcion').sfLabel({text:'Info del Programa'});
 }
 
 SceneScene2.prototype.handleBlur = function () {
@@ -212,6 +216,9 @@ SceneScene2.prototype.handleKeyDown = function (keyCode) {
 		  {
 			 var seleccion = $('#ListaProgramas').sfListbox2('getIndex');
 			 var indice=0;
+			 
+			 this.indiceSeleccionado = seleccion;
+			 
 			 for(indice=0;indice<=this.Programas.length;indice++)
 			 {
 			   if ( indice == seleccion)

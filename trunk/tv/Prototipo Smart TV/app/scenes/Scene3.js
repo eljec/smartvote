@@ -12,8 +12,7 @@ function SceneScene3(options) {
 }
 
 
-function encuesta(id, idP, nombre, descripcion)
- {
+function encuesta(id, idP, nombre, descripcion){
     this.id = id;
 	this.idP = idP;
     this.nombre = nombre;
@@ -36,8 +35,8 @@ function encuesta(id, idP, nombre, descripcion)
     }
 }
 
-function validarPoderVotarConfigurado(idEncuesta,valorConfiguracion,idTV)
-{
+function validarPoderVotarConfigurado(idEncuesta,valorConfiguracion,idTV){
+	
 	if(valorConfiguracion == false)
 		{
 			var urlValidar = "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=5&id_e="+idEncuesta+"&idTV="+idTV+""
@@ -119,8 +118,7 @@ function validarPoderVotarConfigurado(idEncuesta,valorConfiguracion,idTV)
 		}
 }
 
-function validarPoderVotarSinConfiguracion(idEncuesta,idTV)
-{
+function validarPoderVotarSinConfiguracion(idEncuesta,idTV){
 		
 		var urlValidar = "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=5&id_e="+idEncuesta+"&idTV="+idTV+""
 		
@@ -183,9 +181,12 @@ function validarPoderVotarSinConfiguracion(idEncuesta,idTV)
 SceneScene3.prototype.initialize = function () {
 	alert("SceneScene3.initialize()");
 	
+	
+	// Se ejecuta una sola vez, al principio 
+	
+	
 	$('#lbEncuesta').sfLabel({text:'Sección Encuestas', width:'440px'});
 	$('#helpBar3').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Informacion del Sistema','return':'Rregresar al Hub'});
-	$('#lbDescripcionEncuestas').sfLabel({text:'label', width:'750px'});
 	
 	$('#cargandoEncuestas').sfLoading('show');
 	$('#lbTituloDescripcionEncuesta').sfLabel({text:'Desccipción', width:'200px'});
@@ -207,9 +208,8 @@ SceneScene3.prototype.initialize = function () {
 SceneScene3.prototype.handleShow = function () {
 	alert("SceneScene3.handleShow()");
 	// this function will be called when the scene manager show this scene 
-	
-	$('#helpBar3').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Informacion del Sistema','return':'Rregresar al Hub'});
-	$('#lbDescripcionEncuestas').sfLabel({text:'label', width:'750px'});
+
+	$('#lbDescripcionEncuestas').sfLabel({text:'Info Encuesta', width:'750px'});
 
 	$('#popUpRegresoEncuesta').sfPopup('hide');
 	
@@ -423,7 +423,7 @@ SceneScene3.prototype.handleKeyDown = function (keyCode) {
 			
 			var idE = aux.getId();
 			
-			var idTV = '123';
+			var idTV = getIdentificador();
 			
 			if(this.configuro)
 			{

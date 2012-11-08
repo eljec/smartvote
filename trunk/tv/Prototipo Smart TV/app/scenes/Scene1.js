@@ -8,18 +8,16 @@ function SceneScene1(options) {
 
 SceneScene1.prototype.initialize = function () {
 	alert("SceneScene1.initialize()");
-	// this function will be called only once when the scene manager show this scene first time
-	// initialize the scene controls and styles, and initialize your variables here 
-	// scene HTML and CSS will be loaded before this function is called
+	
+	// Se llama cuando se Crea por Primera Vez--Nada Mas  
 	
 	$('#lbTituloSistema').sfLabel({text:'Smart Vote', width:'320px'});
 	$('#B_CargaProgramas').sfButton({text:'Iniciar', width:'109px'});
-    $('#B_CargaProgramas').sfButton('focus');
 	$('#btnPresentacion').sfButton({text:'Configuración', width:'122px'});
 	$('#logo').sfImage({src:'images/logoTV.png'});
 	$('#helpBar').sfKeyHelp({'return':'Return'});
 	
-	this.btnIniciar = true;
+	//this.btnIniciar = true;
 	
 	
 }
@@ -29,7 +27,8 @@ SceneScene1.prototype.initialize = function () {
 
 SceneScene1.prototype.handleShow = function () {
 	alert("SceneScene1.handleShow()");
-	// this function will be called when the scene manager show this scene 
+	
+	// Se llama cuando se hace Foco, a als cosas que pongo o defino aca se les ejecuta su metodo show.
 }
 
 SceneScene1.prototype.handleHide = function () {
@@ -40,6 +39,10 @@ SceneScene1.prototype.handleHide = function () {
 SceneScene1.prototype.handleFocus = function () {
 	alert("SceneScene1.handleFocus()");
 	// this function will be called when the scene manager focus this scene
+	
+	this.btnIniciar = true;
+	$('#B_CargaProgramas').sfButton('focus');
+	$('#btnPresentacion').sfButton('blur');
 }
 
 SceneScene1.prototype.handleBlur = function () {
