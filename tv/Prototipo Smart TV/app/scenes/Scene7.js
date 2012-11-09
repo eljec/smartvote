@@ -205,9 +205,9 @@ SceneScene7.prototype.handleKeyDown = function (keyCode) {
 				
 				var idE = this.EncuestaS.getId();
 				
-				//graficoConIdentificador(idE,this.primeraVez);
+				graficoConIdentificador(idE,this.primeraVez);
 				
-				graficoConIdentificador(3,this.primeraVez);
+				//graficoConIdentificador(3,this.primeraVez);
 				
 				this.primeraVez = false;
 			}

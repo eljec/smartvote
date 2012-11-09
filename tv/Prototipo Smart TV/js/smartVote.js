@@ -1,5 +1,5 @@
 
 function getIdentificador()
 {
-	return 12345;
+	return "2TV" ;
 }
