@@ -152,6 +152,9 @@ function validarPoderVotarSinConfiguracion(idEncuesta,idTV){
 				$.sfScene.hide('Scene3');
 				$.sfScene.show('Scene4');
 				$.sfScene.focus('Scene4');
+				
+				//$.sfScene.show('Scene7');
+				//$.sfScene.focus('Scene7');
 			}
 							
 		}, 
@@ -199,6 +202,7 @@ SceneScene3.prototype.initialize = function () {
 				if(data)
 				{
 					$.sfScene.hide('Scene3');
+	$('#svecImage_RX85').sfImage({src:'images/estrella.jpg'});
 					$.sfScene.show('Scene2');
 					$.sfScene.focus('Scene2');
 				}
@@ -374,7 +378,7 @@ SceneScene3.prototype.handleKeyDown = function (keyCode) {
 			   break;
 			$('#listaEncuestas').sfListbox2('prev');
 			
-			/* Muestro la descripcion en el cuadro de al lado */
+			/* Muestro la descripcion en el cuadro de abajo */
 			
 			var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
 			

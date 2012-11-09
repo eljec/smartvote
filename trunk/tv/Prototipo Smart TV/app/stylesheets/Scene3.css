@@ -85,3 +85,11 @@
 	background-color: #A9A9A9;
 	/*border: 3px solid #000000;*/
 }
+
+#SceneScene3 #svecImage_RX85{
+	position : absolute;
+	left : 560px;
+	top : 200px;
+	width : 130px;
+	height : 140px;
+}
