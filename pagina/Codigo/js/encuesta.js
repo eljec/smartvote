@@ -47,8 +47,6 @@ function successProgram(data)
 
 function successEncuesta(data)
 {
-	$('#gifLoadingPreguntas').hide();
-	
 	if(data.tipo == "OK"){
 	
 		// Redirecciono a la pagina de Portada
@@ -90,13 +88,12 @@ function successEncuesta(data)
 		});
 	}
 
+	$("#mensajeFinal" ).dialog( "option", "title", "Resultado de la creación" );
 	$('#mensajeFinal').dialog('open');
 }
 
 function errorEncuesta(jqXHR, textStatus, errorThrown)
 {
-	$('#gifLoadingPreguntas').hide();
-	
 	var textToShow="";
 	
 	if (jqXHR.status === 0) {
@@ -117,6 +114,7 @@ function errorEncuesta(jqXHR, textStatus, errorThrown)
 			}
 	});
 	
+	$("#mensajeFinal" ).dialog( "option", "title", "Resultado de la creación" );
 	$('#mensajeFinal').dialog('open');
 }
 
@@ -429,8 +427,6 @@ function activarPanelEncuesta()
 	
 	$( "#btnOkNewItem").button();
 	
-	//$('#btnOkNewItem').attr('disabled', 'disabled');
-	
 	// Dialog Nuevo programa
 	
 	$('#dialogNewItem').dialog({
@@ -459,21 +455,13 @@ function activarPanelEncuesta()
 		autoOpen: false,
 		width: 400,
 		modal: true,
-		title: "Resultado creación",
-		/*buttons: {						
-			"OK": function() {
-				//$(this).dialog("close");
-				window.location = "portada.php";
-			}
-			
-		}*/
+		title: "Procesando"
 	});
 	
 	$('.foco').focus(function() {
 		$('.control-group').removeClass('error');
 		$('.help-inline').hide();
 	});
-	
 	
 	// Dialog Boton nuevo programa
 	
@@ -530,36 +518,6 @@ function activarPanelEncuesta()
 	}); // fin click boton nuevo elelento
 	
 	
-	
-	
-	// Cambio en el combo de programas...
-	
-	$('#listaProgramas').change(function(){
-	
-		$('#alertaProgramas').addClass("ocultar");
-		
-		var op = $("#listaProgramas option:selected").val();
-		
-		if(op==0)
-		{
-			$('#gifLoading').hide();
-			$('#alertaProgramas').html("<strong>Warning!</strong>  Falta seleccionar un programa...");
-			$('#alertaProgramas').removeClass('ocultar');
-			
-			ocultarPanelEncuesta();
-			
-			
-		}
-		else
-		{
-			activarPanelEncuesta();
-		}
-		
-		ocultarPanelesPreguntas();
-	});	
-
-	
-	
 	// Boton Validar Encuesta 
 	
 	$('#validarEncuesta').click(function(){
@@ -614,7 +572,6 @@ function activarPanelEncuesta()
 	});
 	
 	
-	
 	// Boton Log on 
 	
 	$('#btnLogOn').click(function(){
@@ -625,7 +582,6 @@ function activarPanelEncuesta()
 		
 	}); // fin click log on 
 
-	
 
     // Click boton Crear nuevas preguntas para encuesta
 	
@@ -641,25 +597,22 @@ function activarPanelEncuesta()
 		
 			var arrayPreguntasDatos = formarDatos();
 			
-			//$('#gifLoadingPreguntas').show();
-			
+			var textToShow="<div align='center'><img id='gifLoadingPreguntas2'src='img/ajax-loaderBlanco.gif' alt='Loading...'/></div>";
+			$('#mensajeFinal').html(textToShow);
+			$("#mensajeFinal" ).dialog( "option", "title", "Procesando");
 			$('#mensajeFinal').dialog('open');
-			
-			//var idEncuesta = $("#listaEncuestas option:selected").val();
-			
+
 			var ddData = $('#listaProgramas').data('ddslick');
 		
 			var idPrograma = ddData.selectedData.value; 
-			
-			//var idPrograma = $("#listaProgramas option:selected").val();
-			
+
 			var nombreNuevaEncuesta = $("#nameNuevaEncuesta").val();
 		
 			var descNuevaEncuesta = $("#textAreaNuevaEncuesta").val();
 			
 			// Creo encuesta y Pregunta Juntas 
 
-			//$.post("phpHelper/SmartVoteServices.php",{ tipo:'encuesta',nombreE: nombreNuevaEncuesta, descE:descNuevaEncuesta, id_p: idPrograma,Arr_preguntas: arrayPreguntasDatos}, successEncuesta, "json").error(errorEncuesta);
+			$.post("phpHelper/SmartVoteServices.php",{ tipo:'encuesta',nombreE: nombreNuevaEncuesta, descE:descNuevaEncuesta, id_p: idPrograma,Arr_preguntas: arrayPreguntasDatos}, successEncuesta, "json").error(errorEncuesta);
 			
 		}
 	});
