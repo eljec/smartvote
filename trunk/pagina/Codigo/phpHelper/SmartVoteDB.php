@@ -95,7 +95,7 @@ class SmartVoteDB {
 	
 	public function ValidarExistencia($idPrograma,$nombre)
 	{
-		$cadenaConsulta = "SELECT * FROM encuestas WHERE id_p='".$idPrograma."' and nombre='".$nombre."'";
+		$cadenaConsulta = "SELECT * FROM encuestas WHERE id_p='".$idPrograma."' and nombre='".utf8_decode($nombre)."'";
 
 		return $this->validarRepetido($cadenaConsulta);
 	}
@@ -313,8 +313,8 @@ class SmartVoteDB {
 	
 	public function InsertarPrograma($nombre,$desc)
 	{
-		$cadenaInsertar="Insert into programas (id, nombre, descripcion,Activo) values ( '','".$nombre."','".$desc."',1)";
-		$cadenaValidar ="SELECT * FROM programas WHERE nombre='".$nombre."'";
+		$cadenaInsertar="Insert into programas (id, nombre, descripcion,Activo) values ( '','".utf8_decode($nombre)."','".utf8_decode($desc)."',1)";
+		$cadenaValidar ="SELECT * FROM programas WHERE nombre='".utf8_decode($nombre)."'";
 		
 		try{
 
@@ -418,7 +418,7 @@ class SmartVoteDB {
 
 			// Creo la Encuesta y Obtengo su Id--> En caso de error regreso todo al estado anterior 
 			
-			$cadenaInsertar="Insert into encuestas (id,id_p,nombre,descripcion,fechainicio,fechafin,activo) values ('','".$id_p."','".$nombre."','".$desc."','".$fecha_actual."','',1)";
+			$cadenaInsertar="Insert into encuestas (id,id_p,nombre,descripcion,fechainicio,fechafin,activo) values ('','".$id_p."','".utf8_decode($nombre)."','".utf8_decode($desc)."','".$fecha_actual."', NULL,1)";
 
 			$flag = mysqli_query($this->db_conexionTran,$cadenaInsertar);
 			
@@ -434,7 +434,7 @@ class SmartVoteDB {
 			else
 			{
 				
-				$queEmp = "Select e.id as Id from encuestas as e where e.nombre='".$nombre."' and e.id_p='".$id_p."'";
+				$queEmp = "Select e.id as Id from encuestas as e where e.nombre='".utf8_decode($nombre)."' and e.id_p='".$id_p."'";
 				
 				$resultado = mysqli_query($this->db_conexionTran,$queEmp);
 				
@@ -452,14 +452,13 @@ class SmartVoteDB {
 					$idEncuestaFetch = mysqli_fetch_array($resultado);
 
 					$idEncuesta= $idEncuestaFetch['Id'];
-					
-				
+
 					$lengtArray = count($arrayNumPreguntas);
 
 					$i=0;
 					while ($i < $lengtArray and $flag = true):
 
-						$cadenaValidar ="SELECT * FROM preguntas WHERE id_e='".$idEncuesta."' and descripcion='".$arrayDescPreguntas[$i]."'";
+						$cadenaValidar ="SELECT * FROM preguntas WHERE id_e='".$idEncuesta."' and descripcion='".utf8_decode($arrayDescPreguntas[$i])."'";
 
 						$existe = $this->validarRepetido($cadenaValidar);
 
@@ -470,7 +469,7 @@ class SmartVoteDB {
 						}
 						else
 						{
-								$cadenaInsersion= "Insert into preguntas (id,id_e,descripcion,orden) values ( '','".$idEncuesta."','".$arrayDescPreguntas[$i]."','".$arrayNumPreguntas[$i]."')";
+								$cadenaInsersion= "Insert into preguntas (id,id_e,descripcion,orden) values ( '','".$idEncuesta."','".utf8_decode($arrayDescPreguntas[$i])."','".$arrayNumPreguntas[$i]."')";
 
 								$flag = mysqli_query($this->db_conexionTran,$cadenaInsersion);
 						}
@@ -519,7 +518,7 @@ class SmartVoteDB {
 	public function GraficoEncuesta($nombre_p)
 	{
 
-		$cadenaConsulta = "SELECT e.nombre,COUNT(*)as cantidad FROM encuestasvotadas as ev, encuestas as e, programas as p WHERE e.id_p = p.id and e.id=ev.id_e and p.nombre='".utf8_decode($nombre_p)."' GROUP BY ev.id_e";
+		$cadenaConsulta = "SELECT e.nombre,COUNT(*)as cantidad FROM encuestasvotadas as ev, encuestas as e, programas as p WHERE e.id_p = p.id and e.id=ev.id_e and p.nombre='".$nombre_p."' GROUP BY ev.id_e";
 		
 		return $resultado = $this->buscar($cadenaConsulta);
 
@@ -546,14 +545,14 @@ class SmartVoteDB {
 		
 		$cantidadNO = $row['cantidad'];
 		
-		if($cantidadNO >0  && $cantidadSI >0)
+		if($cantidadNO ==0 && $cantidadSI ==0)
 		{
-			$arrayResultado[0] = $cantidadSI;
-			$arrayResultado[1] = $cantidadNO;
+			$arrayResultado = array();	
 		}
 		else 
 		{
-			$arrayResultado = array();
+			$arrayResultado[0] = $cantidadSI;
+			$arrayResultado[1] = $cantidadNO;
 		}
 
 		return $arrayResultado;

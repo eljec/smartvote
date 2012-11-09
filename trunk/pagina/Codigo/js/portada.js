@@ -59,7 +59,7 @@ $(document).ready(function() {
 		
 		// Inicializo 
 		
-		//$('#btnProgramas').attr('disabled', 'disabled');
+		$('#btnProgramas').attr('disabled', 'disabled');
 		
 		$('.label-important').addClass('ocultar');
 		

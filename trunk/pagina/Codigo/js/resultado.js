@@ -53,7 +53,7 @@ $(document).ready(function() {
 			{
 				// Muetro alertas de que no hay programas con ese nombre //
 				
-  				$('#alertaCragaDatos').html('<strong>No Existe un programa con ese nombre</strong>');
+  				$('#alertaCragaDatos').html('<strong>No Existe este programa o no se ha votado ninguna de sus encustas</strong>');
   				$('#alertaCragaDatos').removeClass('ocultar');
 			}	
 			else
