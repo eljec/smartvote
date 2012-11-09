@@ -1,5 +1,5 @@
 
 function getIdentificador()
 {
-	return "2TV" ;
+	return "3TV" ;
 }
