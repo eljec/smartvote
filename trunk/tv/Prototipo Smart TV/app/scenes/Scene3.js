@@ -8,6 +8,7 @@ function SceneScene3(options) {
 	this.variableConfvarLocal;
 	
 	this.configuro;
+	this.activo;
 	
 }
 
@@ -226,6 +227,8 @@ SceneScene3.prototype.handleFocus = function () {
 	
 	$('#cargandoEncuestas').sfLoading('show');
 	
+	this.activo=false;
+	
 	// Tomo info de la anterior escena //
 	
 	var VariablesEscena2 = $.sfScene.get('Scene2');
@@ -283,12 +286,12 @@ SceneScene3.prototype.handleFocus = function () {
 				if(tam>5)
 				{
 					$('#listaEncuestas').sfListbox2({data:arrayNombresEnc, width:'200', height:'31', itemsPerPage:'5', horizontal:'false'});	
-					$('#listaEncuestas').sfListbox2('focus');
+					//$('#listaEncuestas').sfListbox2('focus');
 				}
 				else
 				{
 				   $('#listaEncuestas').sfListbox2({data:arrayNombresEnc, width:'200', height:'31', itemsPerPage:tam, horizontal:'false'});
-				   $('#listaEncuestas').sfListbox2('focus');
+				   //$('#listaEncuestas').sfListbox2('focus');
 				}
 			}
 			else
@@ -333,11 +336,17 @@ SceneScene3.prototype.handleFocus = function () {
 	
 	this.Encuestas = arrayEncuestas;
 	
+	
+	
 	/* Pongo la primera descripcion */
 	
-	var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
+	/*var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
+	
+	var ema = seleccion;
+	
 	var descripcion = this.Encuestas[seleccion].getDescripcion();
-	$('#lbDescripcionEncuestas').sfLabel({text:descripcion});
+	
+	$('#lbDescripcionEncuestas').sfLabel({text:descripcion});*/
 }
 
 SceneScene3.prototype.handleBlur = function () {
@@ -357,7 +366,8 @@ SceneScene3.prototype.handleKeyDown = function (keyCode) {
 		case $.sfKey.RIGHT:
 			break;
 		case $.sfKey.UP:
-			
+		
+			this.activo = true;
 			var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
 			
 			if(seleccion == 0)
@@ -383,7 +393,8 @@ SceneScene3.prototype.handleKeyDown = function (keyCode) {
 			 }
 			break;
 		case $.sfKey.DOWN:
-			
+		
+			this.activo = true;
 			var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
 			
 			if(seleccion == this.Encuestas.length)
@@ -411,27 +422,36 @@ SceneScene3.prototype.handleKeyDown = function (keyCode) {
 
 		case $.sfKey.ENTER:
 		
-			var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
-			 
-			/* Me paso a la proxima escena  */
-			
-			this.EncuestaSeleccionada = this.Encuestas[seleccion];
-			
-			var aux = this.EncuestaSeleccionada;
-			
-			// Parametros para validar //
-			
-			var idE = aux.getId();
-			
-			var idTV = getIdentificador();
-			
-			if(this.configuro)
+			if( this.activo==false)
 			{
-				validarPoderVotarConfigurado(idE,this.variableConfvarLocal,idTV);
+				this.error = "Seleccione alguna encuesta de la lista";
+				$('#popErrorE').sfPopup({text:this.error, num:'1', callback:'null'});
+				$('#popErrorE').sfPopup('show');
 			}
 			else
 			{
-				validarPoderVotarSinConfiguracion(idE,idTV);
+				var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
+				 
+				/* Me paso a la proxima escena  */
+				
+				this.EncuestaSeleccionada = this.Encuestas[seleccion];
+				
+				var aux = this.EncuestaSeleccionada;
+				
+				// Parametros para validar //
+				
+				var idE = aux.getId();
+				
+				var idTV = getIdentificador();
+				
+				if(this.configuro)
+				{
+					validarPoderVotarConfigurado(idE,this.variableConfvarLocal,idTV);
+				}
+				else
+				{
+					validarPoderVotarSinConfiguracion(idE,idTV);
+				}
 			}
 
 			break;
