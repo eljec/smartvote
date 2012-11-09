@@ -72,7 +72,7 @@ function graficoConIdentificador(idEncuesta,primeravez)
 						}
 						else
 						{
-							var data2 = [$.gchart.series('Encuesta', [50, 50])]; 
+							var data2 = [$.gchart.series('Encuesta', [SI, NO])]; 
 							
 							$('#defaultChart').gchart('change', {series:data2});
 							
