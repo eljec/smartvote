@@ -362,6 +362,40 @@ class SmartVoteManager {
 			return json_encode($resp);
 		}
 	}
+	
+	// USUARIO 
+	
+	public function CrearUsuario($nombreU,$contraU,$programaU,$descPU)
+	{
+		try{
+			
+			$respuesta = $this->baseSmartVote->CrearUsuario($nombreU,$contraU,$programaU,$descPU);
+			
+			return $respuesta;
+			
+		}catch(exception $E)
+		{
+			$resp = new Respuesta("ERROR","EJECUCION");
+			
+			return json_encode($resp);
+		}
+	}
+	
+	public function BajaEncuesta($id_e)
+	{
+		try{
+			
+			$respuesta = $this->baseSmartVote->BajaEncuesta($id_e);
+			
+			return $respuesta;
+			
+		}catch(exception $E)
+		{
+			$resp = new Respuesta("ERROR","EJECUCION");
+			
+			return json_encode($resp);
+		}
+	} 
 	// ------------------------------    METODOS PRIVADOS  --------------------------------------------------  //
 
 	private function transformarDatosProgramas($datos)

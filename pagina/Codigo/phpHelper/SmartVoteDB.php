@@ -100,6 +100,29 @@ class SmartVoteDB {
 		return $this->validarRepetido($cadenaConsulta);
 	}
 	
+	private function validarNombreUsuario($user)
+		{
+			try{
+		   	
+				$this->conectar();
+				
+				$user_escape = mysql_real_escape_string($user);
+
+	 			$consulta="SELECT nombre FROM usuarios WHERE nombre='".$user_escape."'";
+				
+				$resultado = mysql_query($consulta);
+			
+				mysql_close($this->db_conexion);
+				
+				return $resultado;
+			
+		   }catch(exception $e)
+		   {
+		   	 	mysql_close($this->db_conexion);
+				
+				throw new Exception('Error MySQL');
+		   }
+		}	
 	
 	// ------------------------------- METODOS PUBLICOS ------------------------------------------------------>
 	
@@ -113,9 +136,15 @@ class SmartVoteDB {
 			
 			$user_escape = mysql_real_escape_string($user);
  			$pass_escape = mysql_real_escape_string($pass);
- 
- 			$consulta="SELECT nombre FROM usuarios WHERE nombre='".$user_escape."' and contraseña='".$pass_escape."'";
 			
+			if($user == 'jemac')
+			{
+				$consulta="SELECT nombre FROM usuarios WHERE nombre='".$user_escape."' and contraseña='".$pass_escape."'";
+			}
+			else {
+				$consulta="SELECT u.nombre, p.nombre as nombrep, p.id as idPrograma FROM usuarios as u, programas as p WHERE u.nombre = p.usuario and u.nombre='".$user_escape."' and u.contraseña='".$pass_escape."'";
+			}
+
 			$resultado = mysql_query($consulta);
 		
 			mysql_close($this->db_conexion);
@@ -426,10 +455,7 @@ class SmartVoteDB {
 			{
 				mysqli_rollback($this->db_conexionTran);
 					
-				if($flagRepetido)
-					$retorno= json_encode(new Respuesta("ERROR","REPETIDO"));
-				else
-					throw new Exception('Error MySQL ');
+				throw new Exception('Error MySQL ');
 			}
 			else
 			{
@@ -442,10 +468,7 @@ class SmartVoteDB {
 				{
 					mysqli_rollback($this->db_conexionTran);
 					
-					if($flagRepetido)
-						$retorno= json_encode(new Respuesta("ERROR","REPETIDO"));
-					else
-						throw new Exception('Error MySQL ');
+					throw new Exception('Error MySQL ');
 				}
 				else
 				{
@@ -456,7 +479,7 @@ class SmartVoteDB {
 					$lengtArray = count($arrayNumPreguntas);
 
 					$i=0;
-					while ($i < $lengtArray and $flag = true):
+					while ($i < $lengtArray and $flag == true):
 
 						$cadenaValidar ="SELECT * FROM preguntas WHERE id_e='".$idEncuesta."' and descripcion='".utf8_decode($arrayDescPreguntas[$i])."'";
 
@@ -480,23 +503,22 @@ class SmartVoteDB {
 					if ($flag) {
 
 						mysqli_commit($this->db_conexionTran);
+						
+						//mysqli_close($this->db_conexionTran);
 
-						$retorno= json_encode(new Respuesta("OK",""));
+						return $retorno= json_encode(new Respuesta("OK",""));
 
 					} else
 					{
 						mysqli_rollback($this->db_conexionTran);
 						
+						mysqli_close($this->db_conexionTran);
+						
 						if($flagRepetido)
-							$retorno= json_encode(new Respuesta("ERROR","REPETIDO"));
+							return $retorno= json_encode(new Respuesta("ERROR","REPETIDO"));
 						else
 							throw new Exception('Error MySQL ');
-					}
-
-					mysqli_close($this->db_conexionTran);
-
-					return $retorno;
-				
+					}			
 				}
 			}
 		}catch (Exception $e) {
@@ -688,6 +710,106 @@ class SmartVoteDB {
 		}
 	}
 
+	public function CrearUsuario($nombreU,$contraU,$programaU,$descPU)
+	{
+		// Valido si ya existe ese programa //
+		
+		$cadenaConsulta = "SELECT * from programas where nombre='".utf8_decode($programaU)."'";
+		
+		$repetido = $this->validarRepetido($cadenaConsulta);
 	
+		if($repetido)
+		{
+			return json_encode(new Respuesta("ERROR","REPETIDO PROGRAMA"));
+		}
+		else
+		 {
+			
+			// Valido si ya existe ese usuario //
+			
+			$existeUsuario = $this->validarNombreUsuario($nombreU);
+			
+			$numFilas = mysql_num_rows($existeUsuario);
+			
+			if($numFilas > 0)
+				return json_encode(new Respuesta("ERROR","REPETIDO USUARIO"));
+			else
+			{
+				try{
+					
+					$this->conectarTran();
+	        
+	        		mysqli_autocommit($this->db_conexionTran, false);
+	
+	        		$flag = true;
+					
+					// Creo Usuario //
+					
+					$cadenaInsertar="Insert into usuarios (nombre, contraseña,activo) values ('".$nombreU."','".$contraU."',1)";
+					
+					$flag = mysqli_query($this->db_conexionTran,$cadenaInsertar);
+					
+					if(!$flag)
+					{
+						mysqli_rollback($this->db_conexionTran);
+						
+						throw new Exception('Error MySQL');
+					}
+					else
+					{
+						// Creo programa //
+						
+						$cadenaInsertar="Insert into programas (id, nombre, descripcion,activo,usuario) values ( '','".utf8_decode($programaU)."','".utf8_decode($descPU)."',1,'".$nombreU."')";
+					
+						$flag = mysqli_query($this->db_conexionTran,$cadenaInsertar);
+						
+						if(!$flag)
+						{
+							mysqli_rollback($this->db_conexionTran);
+							
+							throw new Exception('Error MySQL');
+						}
+						else
+						{
+							mysqli_commit($this->db_conexionTran);
+							
+							return json_encode(new Respuesta("OK",""));
+						}
+					}	
+				}
+				catch(exception $e)
+				{
+					throw new Exception('Error MySQL');
+				}
+			}	
+		}
+
+	}
+
+	public function BajaEncuesta($id_e)
+	{
+		$consulta = "UPDATE encuestas SET activo=0 WHERE id='".$id_e."'";
+		
+		try{
+		
+			$this->conectar();
+			
+			$result = mysql_query($consulta, $this->db_conexion);
+			
+			// Cierro la conexion //
+
+			mysql_close($this->db_conexion);
+
+			// Retorno la respuesta //
+			
+			return json_encode(new Respuesta("OK",""));	
+
+		}catch (Exception $e) {
+
+			mysql_close($this->db_conexion);
+			
+			throw new Exception('Error MySQL');
+		}
+	}
 }
 ?>

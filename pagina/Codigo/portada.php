@@ -2,7 +2,10 @@
 session_start();
 $reg=$_SESSION['user'];
 if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de login
-    header("Location: index.php")
+    header("Location: index.php");
+
+if($reg == 'jemac')
+	header("Location: adminportada.php");
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -72,19 +75,19 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
             <div class="row">
                 <div class="span6 gris bordeRedondoGral">
 					<div class="espacioPadin">
-						<h2>Programas</h2>
-						<p>En esta seccion podra consultar informacion sobre sus programas, dar de alta, baja y modificacion de los mismos..</p>
-						<div align="center">
-							<p><a class="btn" id="btnProgramas" href="#">Entrar</a></p>
-						</div>
-					</div>
-                </div>
-                <div class="span6 gris bordeRedondoGral">
-					<div class="espacioPadin">
 						<h2>Encuesta</h2>
-						<p>En esta seccion podra consultar informacion sobre sus encuestas, dar de alta, baja y modificacion de los mismas..</p>
+						<p>En esta seccion podra dar de alta, baja y modificacion de las encuestas.</p>
 						<div align="center">
 							<p><a class="btn" href="encuestas.php">Entrar</a></p>
+						</div>
+					</div>
+				</div>
+				<div class="span6 gris bordeRedondoGral">
+					<div class="espacioPadin">
+						<h2>Resultados</h2>
+						<p>En esta seccion podra consultar los resultados de la votacion de sus ecuestas.</p>
+						<div align="center">
+							<p><a class="btn" href="#">Entrar</a></p>
 						</div>
 					</div>
                </div>
