@@ -4,7 +4,7 @@
 	$fecha_actual = date("Y-m-d H:i:s");
 	echo $fecha_actual;*/
 	
-	$arrayPreguntas = "1-2;";
+	/*$arrayPreguntas = "1-2;";
 	
 	$filas = explode(";", $arrayPreguntas);
 	
@@ -12,6 +12,16 @@
 			{  
 			   echo $fila;
 
-			}
+			}*/
+	
+	/*$array = array(
+    "foo" => "bar",
+    "bar" => "foo",
+);*/
+
+$array["foo"] = "ema";
+$array["ju"] = 1;
+	
+	var_dump($array);
 	
 ?>

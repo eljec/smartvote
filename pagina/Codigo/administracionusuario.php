@@ -52,7 +52,7 @@ if($reg != 'jemac')
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-                    <a class="brand" href="index.php">SmartVote</a>
+                    <a class="brand" href="adminportada.php">SmartVote</a>
                     <div class="nav-collapse collapse">
                         <div class="navbar-form pull-right">
 							<table>

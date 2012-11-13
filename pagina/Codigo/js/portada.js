@@ -40,7 +40,7 @@ $(document).ready(function() {
 		}); // fin click log on 	
 		
 		
-		$('#btnProgramas').click(function(){
+		/*$('#btnProgramas').click(function(){
 			
 			var votos ="1-1;2-1;3-0;4-1;5-1";
 			var idEn = 3;
@@ -59,8 +59,16 @@ $(document).ready(function() {
 		
 		// Inicializo 
 		
-		$('#btnProgramas').attr('disabled', 'disabled');
+		$('#btnProgramas').attr('disabled', 'disabled');*/
 		
 		$('.label-important').addClass('ocultar');
+		
+		$('#encuesta').click(function(){
+			window.location ="encuestasadmin.php";
+		});
+		
+		$('#usuario').click(function(){
+			window.location ="administracionusuario.php";
+		});
 		
 }); // Fin ready 

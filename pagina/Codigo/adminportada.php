@@ -30,6 +30,7 @@ if($reg != 'jemac')
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="css/common.css">
 		<link rel="stylesheet" href="css/portada.css">
+		<link rel="stylesheet" href="css/animate.css">
         <script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
     </head>
     <body>
@@ -75,46 +76,34 @@ if($reg != 'jemac')
         <div class="container">
 
             <!-- Main hero unit for a primary marketing message or call to action -->
-            <div class="hero-unit">
+            <div class="hero-unit animated rollIn">
                 <h1>SmartVote</h1>
             </div>
 
             <!-- Example row of columns -->
             <div class="row">
-                <div class="span6 gris bordeRedondoGral">
-					<div class="espacioPadin">
+                <div class="span6 gris bordeRedondoGral zoom animated bounceInLeft" id="programa">
+					<div class="espacioPadin" align="center">
 						<h2>Programas</h2>
-						<div align="center">
-							<p><a class="btn" id="btnProgramas" href="#">Entrar</a></p>
-						</div>
 					</div>
                 </div>
-                <div class="span6 gris bordeRedondoGral">
-					<div class="espacioPadin">
-						<h2>Encuesta</h2>
-						<div align="center">
-							<p><a class="btn" href="encuestasadmin.php">Entrar</a></p>
-						</div>
+                <div class="span6 gris bordeRedondoGral zoom animated bounceInRight" id="encuesta">
+					<div class="espacioPadin" align="center">
+						<h2>Encuesta</h2></p>
 					</div>
                </div>
             </div>
             <br>
             <br>
             <div class="row">
-                <div class="span6 gris bordeRedondoGral">
-					<div class="espacioPadin">
+                <div class="span6 gris bordeRedondoGral zoom animated bounceInLeft" id="usuario">
+					<div class="espacioPadin" align="center">
 						<h2>Usuarios</h2>
-						<div align="center">
-							<p><a class="btn" id="btnProgramas" href="administracionusuario.php">Entrar</a></p>
-						</div>
 					</div>
                 </div>
-                <div class="span6 gris bordeRedondoGral">
-					<div class="espacioPadin">
+                <div class="span6 gris bordeRedondoGral zoom animated bounceInRight" id="resultado">
+					<div class="espacioPadin" align="center">
 						<h2>Resultados</h2>
-						<div align="center">
-							<p><a class="btn" id="resultados" href="#">Entrar</a></p>
-						</div>
 					</div>
                </div>
             </div>

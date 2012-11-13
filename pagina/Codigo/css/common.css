@@ -32,3 +32,9 @@
 	background-color:#272B39;
 	color:white;
 }
+.bordeArribaAbajo{
+	border-bottom-style:solid;
+	border-bottom-width:5px;
+	border-top-style:solid;
+	border-top-width:5px;
+}
