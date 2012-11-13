@@ -540,17 +540,69 @@ class SmartVoteDB {
 	public function GraficoEncuesta($nombre_p)
 	{
 
-		$cadenaConsulta = "SELECT e.nombre,COUNT(*)as cantidad FROM encuestasvotadas as ev, encuestas as e, programas as p WHERE e.id_p = p.id and e.id=ev.id_e and p.nombre='".$nombre_p."' GROUP BY ev.id_e";
+		$cadenaConsulta = "SELECT e.nombre,COUNT(*)as cantidad FROM encuestasvotadas as ev, encuestas as e, programas as p WHERE e.id_p = p.id and e.id=ev.id_e and p.nombre='".utf8_decode($nombre_p)."' GROUP BY ev.id_e";
 		
 		return $resultado = $this->buscar($cadenaConsulta);
 
 	}
 	
-	public function GraficoPreguntas($id_e)
+	public function GraficoPreguntas($id_encuesta,$indice)
+	{
+		$anterior ="";
+		$siguiente="";	
+			
+		if($indice == 1)
+			$anterior = null;
+		else 
+			$anterior = $indice -1;
+		
+		// 1) Obtengo el id de la encuesta 
+		
+		$consulta = "SELECT id,descripcion FROM preguntas WHERE id_e='".$id_encuesta."' and orden='".$indice."'";
+		
+		$resultado = $this->buscar($consulta);
+		
+		$row = mysql_fetch_array($resultado);
+		
+		$id_pr = $row['id'];
+		
+		$desc = $row['descripcion'];
+		
+		// 2) Analizo si tiene siguiente
+		
+		$siguiente = $indice +1;
+		
+		$stringConsultar = "SELECT id FROM preguntas WHERE id_e='".$id_encuesta."' and orden='".$siguiente ."'";
+		
+		$resultado = $this->validarRepetido($stringConsultar);
+		
+		if(!$resultado)
+		{
+			$siguiente = null;
+		}
+		
+		// 3) Obtengo votos para esa pregunta 
+		
+		$votos = $this->ObtenerVotosPorPregunta($id_pr);
+		
+		$datosret["anterior"] = $anterior;
+		$datosret["siguiente"] = $siguiente;
+		$datosret["desc"] = $desc;
+		$datosret["votos"] = $votos;
+		
+		//var_dump($datosret);
+		
+		return $datosret;
+						
+	}
+	
+	public function ObtenerVotosPorPregunta($id_pr)
 	{
 		//$arrayResultado = array();
 				
-		$cadenaConsulta = "SELECT count(calificacion) as cantidad from votos where calificacion=1 and id_e='".$id_e."'";
+		//$cadenaConsulta = "SELECT count(calificacion) as cantidad from votos where calificacion=1 and id_e='".$id_e."'";
+		
+		$cadenaConsulta = "SELECT count(calificacion) as cantidad from votos where calificacion=1 and id_pr='".$id_pr."'";
 		
 		$resultado = $this->buscar($cadenaConsulta);
 		
@@ -559,7 +611,9 @@ class SmartVoteDB {
 		$cantidadSI = $row['cantidad'];
 			
 			
-		$cadenaConsulta = "SELECT count(calificacion) as cantidad from votos where calificacion=0 and id_e='".$id_e."'";
+		//$cadenaConsulta = "SELECT count(calificacion) as cantidad from votos where calificacion=0 and id_e='".$id_e."'";
+		
+		$cadenaConsulta = "SELECT count(calificacion) as cantidad from votos where calificacion=0 and id_pr='".$id_pr."'";
 		
 		$resultado = $this->buscar($cadenaConsulta);
 		
@@ -804,6 +858,166 @@ class SmartVoteDB {
 			
 			return json_encode(new Respuesta("OK",""));	
 
+		}catch (Exception $e) {
+
+			mysql_close($this->db_conexion);
+			
+			throw new Exception('Error MySQL');
+		}
+	}
+	
+	public function programasNuevaTabla($varGet)
+	{
+		try{
+		
+				$this->conectar();
+				
+				//$aColumns = array('nombre','descripcion');
+				
+				$aColumns = array('id','nombre');
+			
+				/* Indexed column (used for fast and accurate table cardinality) */
+				$sIndexColumn = "id";
+				
+				/* DB table to use */
+				$sTable = "programas";
+				
+				/* 
+				 * Paging
+				 */
+				$sLimit = "";
+				if ( isset( $varGet['iDisplayStart'] ) && $varGet['iDisplayLength'] != '-1' )
+				{
+					$sLimit = "LIMIT ".intval( $varGet['iDisplayStart'] ).", ".
+						intval( $varGet['iDisplayLength'] );
+				}
+				
+			
+				/*
+				 * Ordering
+				 */
+				$sOrder = "";
+				if ( isset( $varGet['iSortCol_0'] ) )
+				{
+					$sOrder = "ORDER BY  ";
+					for ( $i=0 ; $i<intval( $varGet['iSortingCols'] ) ; $i++ )
+					{
+						if ( $varGet[ 'bSortable_'.intval($varGet['iSortCol_'.$i]) ] == "true" )
+						{
+							$sOrder .= "`".$aColumns[ intval( $varGet['iSortCol_'.$i] ) ]."` ".
+							 	mysql_real_escape_string( $varGet['sSortDir_'.$i] ) .", ";
+						}
+					}
+					
+					$sOrder = substr_replace( $sOrder, "", -2 );
+					if ( $sOrder == "ORDER BY" )
+					{
+						$sOrder = "";
+					}
+				}
+			
+			
+				/* 
+				 * Filtering
+				 * NOTE this does not match the built-in DataTables filtering which does it
+				 * word by word on any field. It's possible to do here, but concerned about efficiency
+				 * on very large tables, and MySQL's regex functionality is very limited
+				 */
+				$sWhere = "";
+				if ( isset($varGet['sSearch']) && $varGet['sSearch'] != "" )
+				{
+					$sWhere = "WHERE (";
+					for ( $i=0 ; $i<count($aColumns) ; $i++ )
+					{
+						if ( isset($varGet['bSearchable_'.$i]) && $varGet['bSearchable_'.$i] == "true" )
+						{
+							$sWhere .= "`".$aColumns[$i]."` LIKE '%".mysql_real_escape_string( $varGet['sSearch'] )."%' OR ";
+						}
+					}
+					$sWhere = substr_replace( $sWhere, "", -3 );
+					$sWhere .= ')';
+				}
+			
+				/* Individual column filtering */
+				for ( $i=0 ; $i<count($aColumns) ; $i++ )
+				{
+					if ( isset($varGet['bSearchable_'.$i]) && $varGet['bSearchable_'.$i] == "true" && $varGet['sSearch_'.$i] != '' )
+					{
+						if ( $sWhere == "" )
+						{
+							$sWhere = "WHERE ";
+						}
+						else
+						{
+							$sWhere .= " AND ";
+						}
+						$sWhere .= "`".$aColumns[$i]."` LIKE '%".mysql_real_escape_string($varGet['sSearch_'.$i])."%' ";
+					}
+				}
+				
+			
+				/*
+				 * SQL queries
+				 * Get data to display
+				 */
+				$sQuery = "
+					SELECT SQL_CALC_FOUND_ROWS `".str_replace(" , ", " ", implode("`, `", $aColumns))."`
+					FROM   $sTable
+					$sWhere
+					$sOrder
+					$sLimit
+					";
+				$rResult = mysql_query( $sQuery, $this->db_conexion) or fatal_error( 'MySQL Error: ' . mysql_errno() );
+				
+				/* Data set length after filtering */
+				$sQuery = "
+					SELECT FOUND_ROWS()
+				";
+				$rResultFilterTotal = mysql_query( $sQuery, $this->db_conexion ) or fatal_error( 'MySQL Error: ' . mysql_errno() );
+				$aResultFilterTotal = mysql_fetch_array($rResultFilterTotal);
+				$iFilteredTotal = $aResultFilterTotal[0];
+				
+				/* Total data set length  SELECT COUNT(`".$sIndexColumn."`) */
+				$sQuery = "
+					SELECT COUNT(*)
+					FROM   $sTable
+				";
+				$rResultTotal = mysql_query( $sQuery, $this->db_conexion ) or fatal_error( 'MySQL Error: ' . mysql_errno() );
+				$aResultTotal = mysql_fetch_array($rResultTotal);
+				$iTotal = $aResultTotal[0];
+			
+			
+				/*
+				 * Output
+				 */
+				$output = array(
+					"sEcho" => intval($varGet['sEcho']),
+					"iTotalRecords" => $iTotal,
+					"iTotalDisplayRecords" => $iFilteredTotal,
+					"aaData" => array()
+				);
+				
+				while ( $aRow = mysql_fetch_array( $rResult ) )
+				{
+					$row = array();
+					for ( $i=0 ; $i<count($aColumns) ; $i++ )
+					{
+						if ( $aColumns[$i] == "version" )
+						{
+							/* Special output formatting for 'version' column */
+							$row[] = ($aRow[ $aColumns[$i] ]=="0") ? '-' : $aRow[ $aColumns[$i] ];
+						}
+						else if ( $aColumns[$i] != ' ' )
+						{
+							/* General output */
+							$row[] = utf8_encode($aRow[$aColumns[$i]]);
+						}
+					}
+					$output['aaData'][] = $row;
+				}
+			
+			 	return json_encode( $output);
+			 
 		}catch (Exception $e) {
 
 			mysql_close($this->db_conexion);

@@ -267,13 +267,20 @@ class SmartVoteManager {
 		return $resultado;
 	}
 	
-	public function GraficoPreguntas($id_e)
+	public function GraficoPreguntas($id_e,$indice)
 	{
 		try{
 			
-			$datos = $this->baseSmartVote->GraficoPreguntas($id_e);
+			$datos = $this->baseSmartVote->GraficoPreguntas($id_e,$indice);
 			
-			return ($this->transformarDatosGraficoArray($datos));
+			// Formo el objeto de regresar //
+			
+			$cadenaRetorno = "{\"anterior\":".json_encode($datos["anterior"]);
+			$cadenaRetorno = $cadenaRetorno.",\"siguiente\":".json_encode($datos["siguiente"]);
+			$cadenaRetorno = $cadenaRetorno.",\"desc\":".json_encode($datos["desc"]);
+			$cadenaRetorno = $cadenaRetorno.",".$this->transformarDatosGraficoArray($datos["votos"]);
+			$cadenaRetorno = $cadenaRetorno."}";
+			echo $cadenaRetorno;
 			
 		}catch(Exception $e){
 			
@@ -396,6 +403,22 @@ class SmartVoteManager {
 			return json_encode($resp);
 		}
 	} 
+	
+	public function programasNuevaTabla($varGet)
+	{
+		try{
+			
+			$respuesta = $this->baseSmartVote->programasNuevaTabla($varGet);
+			
+			return $respuesta;
+			
+		}catch(exception $E)
+		{
+			$resp = new Respuesta("ERROR","");
+			
+			return json_encode($resp);
+		}
+	}
 	// ------------------------------    METODOS PRIVADOS  --------------------------------------------------  //
 
 	private function transformarDatosProgramas($datos)
@@ -607,7 +630,7 @@ class SmartVoteManager {
 	
 	private function transformarDatosGraficoArray($datos)
 	{
-		$cadenaDevolver =  "{\"datosgrafico\":[";
+		$cadenaDevolver =  "\"votos\":[";
 		
 		if(count($datos) > 0)
 		{
@@ -624,7 +647,7 @@ class SmartVoteManager {
 			$cadenaDevolver = $cadenaDevolver. "]";
 		}
 		
-		$cadenaDevolver = $cadenaDevolver. "]}";
+		$cadenaDevolver = $cadenaDevolver. "]";
 		
 		return $cadenaDevolver;
 	}

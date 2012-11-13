@@ -96,6 +96,7 @@
         </div> 
 		
 		<input type="hidden" id="hdnIdPrograma" value="" />
+		<input type="hidden" id="hdnNumPregunta" value="" />
 		
 		<script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
         <script src="js/vendor/jquery-1.8.0.min.js"></script>

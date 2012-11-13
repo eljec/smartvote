@@ -179,6 +179,12 @@
 						} 
 						
 					break;
+					
+					case 6:
+							$varGet = $_GET;
+						
+							$respuesta = $adminServicio->programasNuevaTabla($varGet);
+						break;
 				}
 				
 				echo $respuesta;
@@ -311,7 +317,9 @@
 								case 'preguntas':
 								
 										$id_e = $_POST['id_e'];
-										$respuesta = $adminServicio->GraficoPreguntas($id_e);
+										$indice= $_POST['indice'];
+										
+										$respuesta = $adminServicio->GraficoPreguntas($id_e,$indice);
 										
 									break;
 								default:
