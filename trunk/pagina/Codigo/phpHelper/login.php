@@ -22,10 +22,21 @@ include_once("Respuesta.php");
 	$count=mysql_num_rows($resultado);
 	
 	if($count > 0)
-	{	
-		while($reg=mysql_fetch_array($resultado)){
-            $_SESSION["user"]=$reg[0];
-        }
+	{
+		if($user == 'jemac')
+		{
+			while($reg=mysql_fetch_array($resultado)){
+            	$_SESSION["user"]=$reg[0];
+			}
+        }	
+		else {
+			
+			while($reg=mysql_fetch_array($resultado)){
+            	$_SESSION["user"]=$reg[0];
+				$_SESSION["programa"]=$reg[1];
+				$_SESSION["idP"]=$reg[2];
+			}
+		}
 		
 		$respuesta = new Respuesta("OK","");
 		

@@ -323,6 +323,54 @@
 							errorParametros("LA URL NO CONTIENE LOS PARAMETROS CORRECTOS");
 						}
 					break;
+					case 'usuario':
+						
+							if(isset( $_POST["nombreU"],$_POST["contraU"], $_POST["programaU"],$_POST["accion"],$_POST["descPU"]))
+							{
+								$nombreU=$_POST["nombreU"];
+	
+								$contraU=$_POST["contraU"];
+							 
+								$programaU=$_POST["programaU"];
+								
+								$accion = $_POST["accion"];
+								
+								$descPU = $_POST["descPU"];
+								
+								switch ($accion) {
+									case 'new':
+											$respuesta = $adminServicio->CrearUsuario($nombreU,$contraU,$programaU,$descPU);
+										break;
+									
+									default:
+										
+										break;
+								}
+								
+							}
+							else
+							{
+								errorParametros("PARAMETROS");
+							} 
+						break;
+					case 'baja':
+								if(isset($_POST["de"]))
+								{
+									switch ($_POST["de"]) 
+									{
+										case 'encuesta':
+												$id_e = $_POST['id_e'];
+												$respuesta = $adminServicio->BajaEncuesta($id_e);
+											break;
+										default:
+												throw new Exception('Error MySQL');
+											break;
+									}
+								}
+								else {
+									errorParametros("LA URL NO CONTIENE LOS PARAMETROS CORRECTOS");
+								}
+						break;
 					
 					default:
 						errorParametros("METODO NO ENCONTRADO");
