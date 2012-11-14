@@ -799,7 +799,7 @@ class SmartVoteDB {
 					
 					// Creo Usuario //
 					
-					$cadenaInsertar="Insert into usuarios (nombre, contraseña,activo) values ('".$nombreU."','".$contraU."',1)";
+					$cadenaInsertar="Insert into usuarios (nombre, contraseña,activo,categoria) values ('".$nombreU."','".$contraU."',1,2)";
 					
 					$flag = mysqli_query($this->db_conexionTran,$cadenaInsertar);
 					
@@ -1024,6 +1024,34 @@ class SmartVoteDB {
 			
 			throw new Exception('Error MySQL');
 		}
+	}
+
+	// METODOS PARA TRAER DATOS DEL USUARIO //
+	
+	public function getCategoriaUsuario($user_name)
+	{		
+		$cadenaConsulta = "SELECT c.nombre as categoria FROM usuarios as u, categoria as c WHERE u.categoria = c.id and u.nombre = '".$user_name."'";
+		
+		$resultado = $this->buscar($cadenaConsulta);
+		
+		$row = mysql_fetch_array($resultado,MYSQL_ASSOC);
+		
+		$categoria = $row['categoria'];
+		
+		return $categoria;
+
+	}
+	
+	public function getPermisosUsuario($user_name)
+	{
+		$cadenaConsulta = "SELECT op.nombre FROM usuarios as u, categoria as c,operaciones as op,operaciones_x_categoria as oxc
+							WHERE u.categoria = c.id and oxc.id_c = c.id and oxc.id_op = op.id and u.nombre ='".$user_name."'";
+		
+		$resultado = $this->buscar($cadenaConsulta);
+		
+		$permisos = mysql_fetch_array($resultado,MYSQL_ASSOC);
+
+		return $permisos;
 	}
 }
 ?>

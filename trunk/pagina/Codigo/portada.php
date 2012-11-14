@@ -1,11 +1,20 @@
 <?php
 session_start();
-$reg=$_SESSION['user'];
-if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de login
-    header("Location: index.php");
 
-if($reg == 'jemac')
-	header("Location: adminportada.php");
+include("phpHelper/RenderPagina.php");
+
+$reg=$_SESSION['user'];
+
+if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de login
+{
+    header("Location: index.php");
+}
+else 
+{
+
+	$categoria = $_SESSION["categoria"];
+}
+
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -30,6 +39,7 @@ if($reg == 'jemac')
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="css/common.css">
 		<link rel="stylesheet" href="css/portada.css">
+		<link rel="stylesheet" href="css/animate.css">
         <script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
     </head>
     <body>
@@ -54,7 +64,16 @@ if($reg == 'jemac')
 								<tr>
 									<td><span class="label label-important ocultar"></span></td>
 									<td><img class="gifLoading"src="img/ajax-loaderNegro.gif" style="display: none;" alt="Loading..."/></td>
-									<td><input id="btnLogOn" type="button" class="btn" value="Sign on"/>	</td>
+									<td>										
+										<div class="btn-group">
+										  <a class="btn" href=""><i class="icon-user"></i><?php echo $reg; ?></a>
+										  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+										  <ul class="dropdown-menu">
+										    <li><a href="#" id="btnLogOn"><i class="icon-minus"></i>Sign On </a></li>
+										    <li class="divider"></li>
+										  </ul>
+										</div>
+									</td>	
 								</tr>
 							</table>						
                         </div>
@@ -65,34 +84,43 @@ if($reg == 'jemac')
 
         <div class="container">
 
-            <!-- Main hero unit for a primary marketing message or call to action -->
-            <div class="hero-unit">
+            <div class="hero-unit animated rollIn">
                 <h1>SmartVote</h1>
-                <p>Es una aplicacion que te permite poner en la "nube" tus porpias encuestas y cuestionarios, asi toda la gente puede participar y responderlas.Es muy facil de usar y no te tomara mucho tiempo...</p>
+                 <?php
+		            if($categoria != 'administrador')
+					{
+						$render = new RenderPagina();
+						echo $render->PaginaPortada_Presentacion_Usuaro_Normal();
+					}
+						
+		         ?>
             </div>
 
-            <!-- Example row of columns -->
-            <div class="row">
-                <div class="span6 gris bordeRedondoGral">
-					<div class="espacioPadin">
-						<h2>Encuesta</h2>
-						<p>En esta seccion podra dar de alta, baja y modificacion de las encuestas.</p>
-						<div align="center">
-							<p><a class="btn" href="encuestas.php">Entrar</a></p>
-						</div>
+            <div class="row">             
+                <div class="span6 gris bordeRedondoGral zoom animated bounceInRight" id="encuesta">
+					<div class="espacioPadin" align="center">
+						<h2>Encuesta</h2></p>
 					</div>
-				</div>
-				<div class="span6 gris bordeRedondoGral">
-					<div class="espacioPadin">
+               </div>
+                  <div class="span6 gris bordeRedondoGral zoom animated bounceInRight" id="resultado">
+					<div class="espacioPadin" align="center">
 						<h2>Resultados</h2>
-						<p>En esta seccion podra consultar los resultados de la votacion de sus ecuestas.</p>
-						<div align="center">
-							<p><a class="btn" href="#">Entrar</a></p>
-						</div>
 					</div>
                </div>
             </div>
-
+            <br>
+            <br>
+            <?php
+            if($categoria == 'administrador')
+			{
+				$render = new RenderPagina();
+				echo $render->PaginaPortada_Menu_Usuario();
+			}
+				
+            ?>
+           
+            <!--<a href="#" id="example" class="btn btn-danger" rel="popover">hover for popover </a>--> 
+            
             <br>
 
             <div class="row">
@@ -102,7 +130,7 @@ if($reg == 'jemac')
 					</div>
 				</div>
 			</div>
-
+			<input type="hidden" id="hdnCategoria" value="<?php echo $categoria;?>" />
         </div> <!-- /container -->
 		
         <script src="js/vendor/jquery-1.8.0.min.js"></script>

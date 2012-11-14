@@ -8,6 +8,7 @@ session_start();
 
 include_once("SmartVoteDB.php");
 include_once("Respuesta.php");
+include_once("Usuario.php");
 
 /* Variables por POST */
 
@@ -23,7 +24,13 @@ include_once("Respuesta.php");
 	
 	if($count > 0)
 	{
-		if($user == 'jemac')
+		// Obtengo la categoria
+		
+		$usuario = new Usuario($user);
+
+		$categoria = $usuario->getCategoriaUsuario();
+		
+		if($categoria == 'administrador')
 		{
 			while($reg=mysql_fetch_array($resultado)){
             	$_SESSION["user"]=$reg[0];
@@ -37,6 +44,15 @@ include_once("Respuesta.php");
 				$_SESSION["idP"]=$reg[2];
 			}
 		}
+		
+		// Obtengo permisos 
+		
+		$permisos = $usuario->getPermisosUsuarios($user);
+		
+		// Guardo en sesion 
+		
+		$_SESSION["categoria"]=$categoria;
+		$_SESSION["permisos"]=$permisos;
 		
 		$respuesta = new Respuesta("OK","");
 		

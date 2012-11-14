@@ -22,7 +22,6 @@ function errorLogon()
 		$('.label-important').removeClass('ocultar');
 }
 
-
 function successValidarEncuesta(data)
 {
 	$('#gifLoadingNuevaEncuesta').hide();
@@ -339,6 +338,8 @@ function validarPreguntas()
 		$('#alertaPreguntas').addClass('alert-error');	
 		$('#alertaPreguntas').html("<strong>Debe poner al menos una pregunta</strong>");	
 		$('#alertaPreguntas').removeClass('ocultar');
+		
+		return false;
 	}
 	else
 	{
