@@ -78,8 +78,6 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 							<br>
 							<div id="listaProgramas"></div>
 							<br>
-							<input id="newPrograma" type="button" class="btn tamBoton" value="Nuevo"/>
-							<br>
 							<img id="gifLoading"src="img/ajax-loaderBlanco.gif" style="display: none;" alt="Loading..."/>
 							<div id="alertaProgramas" class="alert ocultar TamAlerta">
 							  <strong>Warning!</strong> Falta seleccionar un programa...
@@ -140,10 +138,11 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 					<div class="negro bordeRedondoGral">
 						<h3 align="center">Preguntas (sin ¿?)</h3>
 					</div>
+					<div align="center">
+						<div id="alertaPreguntas" class="alert ocultar TamAlerta"></div>
+					</div>
 				</div>
 			</div>
-			<br>
-			
 			<div class="row" id="panelPreguntas">
                 <div class="span6 offset3 divBlanco">
                 	<br>
@@ -217,28 +216,7 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 				</div>
 			</div>
 			<br>
-			<div id="dialogNewItem">
-				<table>
-					<tr>
-						<td>Nombre:</td>
-						<td><input type="text" name="name" id="name"/></td>
-					</tr>
-					<tr>
-						<td>Descripcion:</td>
-						<td><textarea id="textAreaNI" rows="4" placeholder="Descripcion.."></textarea><br /></td>
-					</tr>
-				 </table>
-				<input id="btnOkNewItem" type="button" value="OK"/>
-				<input id="itemToInsert" type="hidden" name="" value="0"/>
-				<div align="center">
-					<img id="gifLoadingNewItem"src="img/ajax-loaderBlanco.gif" style="display: none;" alt="Loading..."/>
-					<br>
-					<div id="alertNewItem" class="alert ocultar">
-					</div>
-				</div>
-			</div>
 			<div id="mensajeFinal">
-				
 			</div>
 	
         </div> <!-- /container -->
@@ -246,7 +224,7 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
         <script src="js/vendor/jquery-1.8.0.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
         <script src="js/main.js"></script>
-		<script src="js/encuesta2.js"></script>
+		<script src="js/adminencuesta.js"></script>
 		<script src="js/jquery-ui-1.9.0.custom.min.js"></script>
 		
 		<script type="text/javascript" src="js/ddslick.js"></script>

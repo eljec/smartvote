@@ -114,7 +114,7 @@ if($reg != 'jemac')
 		<script src="js/i18n/grid.locale-es.js" type="text/javascript"></script>
         <script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
         
-		<script src="js/adusuario.js" type="text/javascript"></script>
+		<script src="js/adminusuario.js" type="text/javascript"></script>
  
     </body>
 </html>
