@@ -38,7 +38,7 @@ function successUsuario(data)
 		{ 
 			"Ir a portada": function() 
 			{ 
-				window.location = "adminportada.php";
+				window.location = "portada.php";
 			},
 			"Creae Nuevo Usuario": function()
 			{
@@ -116,8 +116,14 @@ function nuevoUsuario()
 		var contraU = $('#contraUsuario').val();
 		var descPU = $('#descProgramaU').val();
 		var programaU = $('#programaUsuario').val();
+		
+		var textToShow="<div align='center'><img id='gifLoadingPreguntas2'src='img/ajax-loaderBlanco.gif' alt='Loading...'/></div>";
+		$('#mensajeFinal').html(textToShow);
+		$("#mensajeFinal" ).dialog( "option", "title", "Procesando");
+		$('#mensajeFinal').dialog('open');
+				
 
-		$.post("phpHelper/1SmartVoteServices.php",{ tipo:'usuario', accion: 'new',nombreU: nombreU, contraU:contraU, programaU:programaU,descPU:descPU}, successUsuario, "json").error(errorUsuario);
+		$.post("phpHelper/SmartVoteServices.php",{ tipo:'usuario', accion: 'new',nombreU: nombreU, contraU:contraU, programaU:programaU,descPU:descPU}, successUsuario, "json").error(errorUsuario);
 		
 		
 		return false;
