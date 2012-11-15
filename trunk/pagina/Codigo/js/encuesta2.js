@@ -281,7 +281,19 @@ function inicializarPanelEncuesta()
 	
 	$('.help-inline').hide();
 	
-	$('#resetDatos').attr('disabled', 'disabled');
+	$('#alertaEncuestas').addClass('ocultar');
+	
+	$('.foco').val('');
+	
+	$("#nameNuevaEncuesta").removeAttr('disabled');
+		
+	$("#textAreaNuevaEncuesta").removeAttr('disabled');
+	
+	$("#validarEncuesta").removeAttr('disabled');
+	
+	$('#resetDatos').attr('disabled','disabled');
+	
+	$('#resultadoValidacion').val('0');
 }
 
 function validarPreguntas()
@@ -471,7 +483,7 @@ function formarDatos()
 }
 
 
-function llenaListaProgramas()
+function llenaListaEncuestas()
 {
 
 	$('#gifLoading').show();
@@ -531,8 +543,12 @@ function llenaListaProgramas()
 function inicializarPanelBajaEncuesta()
 {
 	$('#alertaBajaEncuesta').addClass('ocultar');
+
+	$('#listaPrograma_BajaEncusta').attr('disabled','disabled');
 	
-	llenaListaProgramas();
+	$.getJSON('phpHelper/SmartVoteServices.php?action=1&paged=0',successListaPrograma_BajaEncuesta);
+	
+	//llenaListaEncuestas();
 
 	$('#bajaEncuesta').click(function(){
 		
@@ -543,6 +559,110 @@ function inicializarPanelBajaEncuesta()
 		$.post("phpHelper/SmartVoteServices.php",{tipo:'baja',de:'encuesta',id_e: idEncuesta},ajaxSuccessBajaEncuesta,'json').error(ajaxErrorBajaEncuesta);
 
 	});
+}
+
+function successListaPrograma_BajaEncuesta(data)
+{
+		  
+		$('#gifLoading').hide();
+
+		$('#listaPrograma_BajaEncusta').removeAttr('disabled','disabled');
+		
+		var nuevoObjeto;
+		var ddData = new Array();
+		
+		if(data.programas.length > 0)
+		{
+			for(var i=0;i<data.programas.length;i++)
+			{
+				
+				nuevoObjeto = { text:data.programas[i].nombre,
+								value:data.programas[i].id,
+								}
+				
+				ddData[i] = nuevoObjeto;
+			}
+		 
+		 	$('#listaPrograma_BajaEncusta').ddslick('destroy');
+		 	
+		 	$('#listaPrograma_BajaEncusta').ddslick({
+			    data:ddData,
+			    width:230,
+			    selectText: "Seleccione un programa",
+			    onSelected: function(selectedData)
+			    {
+					var idPrograma = selectedData.selectedData.value;
+					
+					$('#hdnIdPrograma').val(idPrograma); 
+					
+					$('#listaEncuesta').ddslick('destroy');
+					
+					llenaListaEncuestas();
+			    }    
+			});
+		}
+		else
+		{
+			// Alerta que ya no hay mas encuestas
+			
+			$('#alertaPreguntas').addClass('alert-error');	
+			$('#alertaBajaEncuesta').html("<strong>No hay encuestas para este programa.</strong>");	
+			$('#alertaBajaEncuesta').removeClass('ocultar');
+				
+		}	 
+}
+
+function successListaPrograma_AltaEncuesta(data)
+{
+		$('#gifLoading').hide();
+
+		$('#listaPrograma').removeAttr('disabled','disabled');
+		
+		var nuevoObjeto;
+		var ddData = new Array();
+		
+		if(data.programas.length > 0)
+		{
+			for(var i=0;i<data.programas.length;i++)
+			{
+				
+				nuevoObjeto = { text:data.programas[i].nombre,
+								value:data.programas[i].id,
+								}
+				
+				ddData[i] = nuevoObjeto;
+			}
+		 
+		 	$('#listaPrograma').ddslick('destroy');
+		 	
+		 	$('#listaPrograma').ddslick({
+			    data:ddData,
+			    width:230,
+			    selectText: "Seleccione un programa",
+			    onSelected: function(selectedData)
+			    {
+					var idPrograma = selectedData.selectedData.value;
+					
+					$('#hdnIdPrograma').val(idPrograma); 
+					
+					$('#seleccionPrograma').val('1');
+					
+					inicializarPanelEncuesta();
+			    }    
+			});
+		} 
+}
+
+function inicializarPanelProgramas()
+{
+
+	$('#listaPrograma').attr('disabled','disabled');
+	
+	$('#hdnIdPrograma').val('');
+	
+	$('#gifLoading').show();
+	
+	$.getJSON('phpHelper/SmartVoteServices.php?action=1&paged=0',successListaPrograma_AltaEncuesta);
 }
 
 $(function() {
@@ -572,13 +692,54 @@ $(function() {
 	});
 	
 	
-	$('#myTabDos a[href="#parteEncuesta"]').tab('show');
+	// Panel Programas 
 	
-	// Panel Nueva Encuesta
-	
-	inicializarPanelEncuesta();
+	inicializarPanelProgramas();
 	
 	validarEncuesta();
+	
+	// Logica de Validacion 
+	
+	// Selecciona el programa y luego pasa a la otra pestaña 
+	
+	$('#myTabDos a[href="#partePrograma"]').click(function (e) 
+		{
+   			$('#hdnIdPrograma').val(''); 
+	});
+		
+	$('#myTabDos a[href="#parteEncuesta"]').click(function (e) 
+		{
+   			var programa = $('#hdnIdPrograma').val(); 
+  			
+  			if(programa != "")
+  			{
+  				// Panel Nueva Encuesta
+	
+				inicializarPanelEncuesta();
+				
+  			}
+  			else
+  			{
+  				return false;
+  			}	
+	});
+	
+	$('#myTabDos a[href="#partePregunta"]').click(function (e) 
+		{
+   			var validacionEncuesta = $('#resultadoValidacion').val(); 
+  			
+  			if(validacionEncuesta > 0)
+  			{
+  				inicializarPanelPreguntas();
+  				return true; 
+  			}
+  			else
+  			{
+  				return false;
+  			}	
+	});
+	
+	
 	
 	// Panel Baja de Encuestas //
 	
@@ -586,6 +747,7 @@ $(function() {
 		{
   
   			inicializarPanelBajaEncuesta();
-	});
+
+		});
 
 });

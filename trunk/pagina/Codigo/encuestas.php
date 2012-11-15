@@ -1,8 +1,19 @@
 <?php
-session_start();
-$reg=$_SESSION['user'];
-if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de login
-    header("Location: index.php");
+	include("phpHelper/RenderPagina.php");
+
+	session_start();
+	$reg=$_SESSION['user'];
+	
+	if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de login
+	{
+	    header("Location: index.php");
+	}
+	else 
+	{
+	
+		$categoria = $_SESSION["categoria"];
+	}
+
 ?>
 <!DOCTYPE html>
  <html class="no-js">
@@ -96,12 +107,30 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 							</div>	
 							<div id="contenido" align="center">	
 								<div class="tabbable"> 
-								  <ul class="nav nav-tabs" id='myTab'>
-								    <li class="active"><a href="#tab1" data-toggle="tab"> Encuesta</a></li>
-								    <li><a href="#tab2" data-toggle="tab"> Preguntas</a></li>
+								  <ul class="nav nav-tabs" id='myTabDos'>
+								  	<?php 
+								  		if($categoria == 'administrador')
+										{
+											$render = new RenderPagina();
+											echo $render->PaginaEncuesta_AltaEncuesta_Control_Programa();
+											echo '<li class=""><a href="#parteEncuesta" data-toggle="tab"> Encuesta</a></li>';
+										}
+										else {
+											echo '<li class=""><a href="#parteEncuesta" data-toggle="tab"> Encuesta</a></li>';
+										}
+									 ?>
+								    <li><a href="#partePregunta" data-toggle="tab"> Preguntas</a></li>
 								  </ul>
 								  <div class="tab-content">
-								    <div class="tab-pane active" id="tab1">
+								  	<?php 
+								  		if($categoria == 'administrador')
+										{
+											$render = new RenderPagina();
+											echo $render->PaginaEncuesta_AltaEncuesta_Content_Control_Programa();																						
+										}
+										
+									 ?>
+								    <div class="tab-pane" id="parteEncuesta">
 								      	<div class="hero-unit form-horizontal">
 											<div class="negro bordeRedondoGral">
 												<h3 align="center">Datos Nueva Encuesta</h3>
@@ -145,7 +174,7 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 											</div>
 										</div>
 								    </div>
-								    <div class="tab-pane" id="tab2">
+								    <div class="tab-pane" id="partePregunta">
 								    	<div align="center" class="hero-unit">
 								    		<div class="negro bordeRedondoGral">
 												<h3 align="center">Datos de las preguntas(sin ?¿)</h3>
@@ -230,25 +259,29 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 							<div class="negro bordeRedondoGral">
 								<h3 align="center">Baja Encuestas</h3>
 							</div>
-							<div align="center" class="bordeRedondoGral morado">
 								<br>
-								<div id="alertaBajaEncuesta" class="alert ocultar TamAlerta">
+								<div id="alertaBajaEncuesta" class="alert ocultar">
 									<strong>Warning!</strong> Ocurrio un Error, Intentelo mas tarde.
 								</div>
 								<br />
-								<div align="center">
+								<div align="center" style="height: 500px;">
 									<table  align="center" CELLPADDING="20">
 										<tr>
+											<?php 
+												if($categoria == 'administrador')
+												{
+													$render = new RenderPagina();
+													echo $render->PaginaEncuesta_BajaEncuesta_Control_Programa();
+												}
+											?>
 											<td><div id="listaEncuesta"></div></td>
-											<td><input id="bajaEncuesta" type="button" class="btn" value="Dar de Baja"/></td>
+											<td><input id="bajaEncuesta" type="button" class="btn" value="Desactivar"/></td>
 										</tr>
 									</table>								
 									<br>	
 									<img id="gifLoading"src="img/ajax-loaderBlanco.gif" style="display: none;" alt="Loading..."/>
 									<br>
 								</div>
-								
-							 </div>
 						</div>
 					</div>
 					
@@ -262,6 +295,7 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 		
 		<input type="hidden" id="hdnIdPrograma" value="<?php  echo $_SESSION['idP']?>" />
 		<input type="hidden" id="resultadoValidacion" value="0" />
+		<input type="hidden" id="seleccionPrograma" value="0" />
 		
 		
 		<script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
@@ -273,8 +307,17 @@ if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de l
 		<script src="js/i18n/grid.locale-es.js" type="text/javascript"></script>
         <script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
         
-		<script src="js/encuesta.js" type="text/javascript"></script>
-		
+        <?php 
+			if($categoria == 'administrador')
+			{
+				echo '<script src="js/encuesta2.js" type="text/javascript"></script>';
+			}
+			else
+			{
+				echo '<script src="js/encuesta.js" type="text/javascript"></script>';
+			}
+		?>
+	
 		<script type="text/javascript" src="js/ddslick.js"></script>
  
     </body>
