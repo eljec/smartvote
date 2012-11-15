@@ -30,3 +30,6 @@ vertical-align:top;
 .TamAlerta{
 	width:350px;
 }
+.alert{
+	text-align: center;
+}
