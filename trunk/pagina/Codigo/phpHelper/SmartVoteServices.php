@@ -185,6 +185,12 @@
 						
 							$respuesta = $adminServicio->programasNuevaTabla($varGet);
 						break;
+						
+					case 6:
+							$varGet = $_GET;
+						
+							$respuesta = $adminServicio->encuestasNuevaTabla($varGet);
+						break;
 				}
 				
 				echo $respuesta;

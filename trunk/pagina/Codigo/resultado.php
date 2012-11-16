@@ -1,5 +1,5 @@
 <?php
-	/*include("phpHelper/RenderPagina.php");
+	include("phpHelper/RenderPagina.php");
 
 	session_start();
 	$reg=$_SESSION['user'];
@@ -12,7 +12,7 @@
 	{
 	
 		$categoria = $_SESSION["categoria"];
-	}*/
+	}
 
 ?>
 <!DOCTYPE html>
@@ -37,12 +37,18 @@
         </style>
 		
 		<link type="text/css" href="css/jquery-ui-1.9.0.custom.css" rel="stylesheet" />
-		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrapCustom3.css">
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="css/common.css">
 		<link rel="stylesheet" href="css/encuesta2.css">
+		
+		<!--<link rel="stylesheet" href="css/tabla/css/demo_table.css">-->
 
-		<!--<link rel="stylesheet" type="css" href="css/jquery.jqplot.css" />-->
+		<link rel="stylesheet" type="css" href="css/jquery.jqplot.css" />
+		
+		<link rel="stylesheet" type="css" href="css/demo_table_jui.css" />
+		
+		<link rel="stylesheet" type="css" href="css/cssLoading.css" />
 		
 		<link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
 
@@ -90,20 +96,38 @@
 						<h3 id="tituloAcordion" align="center">Menu</h3>
 					</div>
 			  		<ul class="nav nav-tabs nav-stacked">
- 						<li><a href="#" id="nuevaEncuesta"><img src='img/list_12x11.png' alt='Loading...'/>  Mis Encuestas</a></li>
-  						<li><a href="#" id="bajaEncuesta"><img src='img/chart_12x12.png' alt='Loading...'/>  Grafico Gral</a></li>
-  						<li><a href="#" id="modEncuesta"><img src='img/chart_12x12.png' alt='Loading...'/>  Grafico por Pregunta</a></li>
+ 						<li><a href="#" id="misEncuestas"><img src='img/list_12x11.png' alt='Loading...'/>  Mis Encuestas</a></li>
+  						<li><a href="#" id="graficoGral"><img src='img/chart_12x12.png' alt='Loading...'/>  Grafico Gral</a></li>
+  						<li><a href="#" id="graficoXPregunta"><img src='img/chart_12x12.png' alt='Loading...'/>  Grafico por Pregunta</a></li>
 					</ul>
+				</div>
+				<div class="span9">
+					<div class="negro bordeRedondoGral">
+						<h3 id="tituloAccion" align="center">Resultados</h3>
+					</div>
+					<div id="alertaCragaDatos" class="alert ocultar">
+						<strong>Warning!</strong> Ocurrio un Error, Intentelo mas tarde.
+					</div>
+					<br />	
+					<div id="contenido" align="center">
+						<table id='tablaContenido' align="center"></table>
+						<div id='paginacion'></div>
+					</div>
 				</div>
 			</div>
 		</div>
-			
+		
+		
         
         <div id="mensajeFinal">
 				
 		</div>
 		
 		<input type="hidden" id="hdnIdPrograma" value="<?php  echo $_SESSION['idP']?>" />
+		<input type="hidden" id="hdnNombrePrograma" value="<?php  echo $_SESSION['programa']?>" />
+		
+		<input type="hidden" id="hdnIdGrafico" value="<?php  echo $_SESSION['programa']?>" />
+		
 		<input type="hidden" id="resultadoValidacion" value="0" />
 		<input type="hidden" id="seleccionPrograma" value="0" />
 			
@@ -115,18 +139,25 @@
 		
 		<script src="js/i18n/grid.locale-es.js" type="text/javascript"></script>
         <script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
+        <script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
+        
+        <!-- Grafico-->
+        <script language="javascript" type="text/javascript" src="js/jquery.jqplot.min.js"></script>		
+		<script type="text/javascript" src="js/plugins/jqplot.pieRenderer.min.js"></script>
+		<script type="text/javascript" src="js/plugins/jqplot.donutRenderer.min.js"></script>
         
         <?php 
-			if($categoria == 'administrador')
+			/*if($categoria == 'administrador')
 			{
 				echo '<script src="js/encuesta2.js" type="text/javascript"></script>';
 			}
 			else
 			{
 				echo '<script src="js/encuesta.js" type="text/javascript"></script>';
-			}
+			}*/
 		?>
 	
+		<script src="js/resultado3.js" type="text/javascript"></script>
 		<script type="text/javascript" src="js/ddslick.js"></script>
  
     </body>
