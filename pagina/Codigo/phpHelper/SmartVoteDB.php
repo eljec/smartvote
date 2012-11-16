@@ -260,9 +260,9 @@ class SmartVoteDB {
 	public function ObtenerPagina($start,$limit,$sidx,$sord,$tipo)
 	{
 			if($tipo=='programa')
-		    	$consulta = "SELECT * FROM programas ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+		    	$consulta = "SELECT * FROM programas where activo=1 ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
 			else 
-		    	$consulta = "SELECT e.id,e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+		    	$consulta = "SELECT e.id,e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p and e.activo=1 ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
 
 		try{
 
