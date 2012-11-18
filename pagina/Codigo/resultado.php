@@ -41,8 +41,6 @@
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="css/common.css">
 		<link rel="stylesheet" href="css/encuesta2.css">
-		
-		<!--<link rel="stylesheet" href="css/tabla/css/demo_table.css">-->
 
 		<link rel="stylesheet" type="css" href="css/jquery.jqplot.css" />
 		
@@ -65,7 +63,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-                    <a class="brand" href="index.php">SmartVote</a>
+                    <a class="brand" href="portada.php">SmartVote</a>
                     <div class="nav-collapse collapse">
                         <div class="navbar-form pull-right">
 							<table>
@@ -131,6 +129,8 @@
 		<input type="hidden" id="resultadoValidacion" value="0" />
 		<input type="hidden" id="seleccionPrograma" value="0" />
 			
+		<!-- LIbrerias Javascripts -->
+		
 		<script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
         <script src="js/vendor/jquery-1.8.0.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
@@ -138,7 +138,7 @@
 		<script src="js/jquery-ui-1.9.0.custom.min.js"></script>
 		
 		<script src="js/i18n/grid.locale-es.js" type="text/javascript"></script>
-        <script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
+        <!--<script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>-->
         <script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
         
         <!-- Grafico-->

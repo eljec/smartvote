@@ -5,6 +5,32 @@
 
 $(document).ready(function() {
 	
+	function showAlert()
+	{
+		$('.label-important').text('Ups!! Ocurrio, intentelo mas tarde.');		
+		$('.label-important').removeClass('ocultar');	
+	}
+	
+	function successLogon(data)
+	{
+		$('.gifLoading').hide();
+				
+			if(data.tipo =="OK")
+			{
+				// Redirecciono a la pagina de portada 
+				
+				 window.location = "index.php";
+			}
+			else{
+				showAlert();
+			}
+	}
+	
+	function errorLogon()
+	{
+		$('.gifLoading').hide();
+		showAlert();
+	}
 	
 	function fnFormatDetails ( oTable, nTr )
 	{
@@ -23,7 +49,7 @@ $(document).ready(function() {
 		
 		var idLimpio = $("#listaPregunta option:selected").val();
 
-		var retorno = "<div align='center' id='chartdiv"+aData[0]+"' style='height:400px;width:600px; '>"+cssLoading()+"</div>";
+		var retorno = "<div align='center' id='chartdiv"+aData[0]+"'>"+cssLoading()+"</div>";
 		
 		$('#hdnIdGrafico').val(aData[0]);
 		
@@ -38,13 +64,18 @@ $(document).ready(function() {
 		
 		$("#chartdiv" + idGrafico).html('');
 		
-		//$('#chartdiv').html('');
-		
 		var datos = data.votos;
 		
 		var cantidad = datos.length;
 		
-		var graficoMasPreguntasXEncuesta = jQuery.jqplot ("chartdiv"+idGrafico, [datos], 
+		if(cantidad > 0)
+		{
+			// Le pongo el tamaño del div //
+		
+			$("#chartdiv" + idGrafico).css("height","400px");
+			$("#chartdiv" + idGrafico).css("width","600px");
+			
+			var graficoMasPreguntasXEncuesta = jQuery.jqplot ("chartdiv"+idGrafico, [datos], 
     			{ 
       				seriesDefaults: {
         							renderer: jQuery.jqplot.PieRenderer, 
@@ -59,6 +90,14 @@ $(document).ready(function() {
 		    			}
 			    }
 			  );
+		}
+		else
+		{
+			// Muestro alerta //
+			
+			$("#chartdiv" + idGrafico).html('<strong> NO hay votos para esta encuesta.</strong>');
+		}
+		
 	}
 	
 	function ajaxSuccessMisEncuestas(data)
@@ -192,7 +231,7 @@ $(document).ready(function() {
 			{
 				// Muetro alertas de que no hay programas con ese nombre //
 				
-  				$('#alertaCragaDatos').html('<strong>No se ha votado ninguna de sus encustas</strong>');
+  				$('#alertaCragaDatos').html('<strong>No se ha votado ninguna de sus encustas o No tiene encuestas cargadas aun.</strong>');
   				$('#alertaCragaDatos').removeClass('ocultar');
 			}	
 			else
@@ -220,23 +259,26 @@ $(document).ready(function() {
 	
 	function ajaxSuccessGraficoXPregunta(data)
 	{
-			$('#contenido').html('<table style="width: 100%;"><tr><td style="width: 20px;"><select id="listaPregunta"></select></td><td><h3>Encuestas</h3><div id="contenidoTabla"><br><table cellpadding="0" cellspacing="0" border="0" class="display" id="example" style="width: 100%;"></table></div></td></tr></table>');
 			
-			$('#listaPregunta').html('');
-	
 			var datos = data.encuestas;
 			 
 			var cantidad = datos.length;
 			
 			if(cantidad == 0)
 			{
-				// Muetro alertas de que no hay programas con ese nombre //
 				
   				$('#alertaCragaDatos').html('<strong>No se ha votado ninguna de sus encustas</strong>');
   				$('#alertaCragaDatos').removeClass('ocultar');
+  				
+  				$('#contenido').html('');
 			}	
 			else
 			{
+				
+				$('#contenido').html('<table style="width: 100%;"><tr><td class="azulado bordeRedondoGral espacioPaddingTop" style="width: 20px;"><select id="listaPregunta" size="3"></select></td><td><h3>Encuestas</h3><div id="contenidoTabla" align="center"><br><table cellpadding="0" cellspacing="0" border="0" class="display" id="example" style="width: 100%;"></table></div></td></tr></table>');
+			
+				$('#listaPregunta').html('');
+				
 				// LLeno la lista 
 				
 				var opciones = '<option value="0"SELECTED>Seleccione una encuesta</option>';
@@ -257,6 +299,10 @@ $(document).ready(function() {
   					if(idEncuesta == 0)
   					{
   						// Alerta
+  						
+  						$('#alertaCragaDatos').html('<strong>Debe seleccionar una opcion</strong>');
+  						$('#alertaCragaDatos').removeClass('ocultar');
+  						$('#contenidoTabla').html('');
   					}
   					else
   					{
@@ -294,6 +340,13 @@ $(document).ready(function() {
 			icno= icno+'</div>';
 		return icno;
 	}
+	
+	function gifLoading()
+	{
+		 var icno = '<img src="img/gifBarrasLoading.gif"/>';
+		 return icno;
+	}
+	
 	
 	// Click sobre las Opciones //
 	
@@ -365,6 +418,19 @@ $(document).ready(function() {
 		
 		
 		});
+	
+	// Inicializar 
+	
+	$('.label-important').addClass('ocultar');
+	
+	// Boton Logon 
+	
+	$('#btnLogOn').click(function(){
 		
+		$('.gifLoading').show();
+	
+		$.post("phpHelper/nologin.php",successLogon, "json").error(errorLogon);
+	
+	});	
 	
 });
