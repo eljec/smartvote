@@ -33,3 +33,8 @@ vertical-align:top;
 .alert{
 	text-align: center;
 }
+
+.espacioPaddingTop{
+	padding-top: 30px;
+	padding-bottom: 30px;
+}

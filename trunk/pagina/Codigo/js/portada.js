@@ -87,12 +87,18 @@ $(document).ready(function() {
 			window.location ="administracionusuario.php";
 			});
 			
-			// Falta Resultado
+			/*$('#resultado').click(function(){
+			window.location ="resultado.php";
+			});*/
        	}
        	else
        	{
        		$('#encuesta').click(function(){
 			window.location ="encuestas.php";
+			});
+			
+			$('#resultado').click(function(){
+			window.location ="resultado.php";
 			});
 		
        	}
