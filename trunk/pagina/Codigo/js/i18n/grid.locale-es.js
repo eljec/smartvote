@@ -11,13 +11,13 @@
 $.jgrid = $.jgrid || {};
 $.extend($.jgrid,{
 	defaults : {
-		recordtext: "Mostrando {0} - {1} de {2}",
-	    emptyrecords: "Sin registros que mostrar",
+		recordtext: "{0} - {1} de {2}",
+	    emptyrecords: "Sin registros",
 		loadtext: "Cargando...",
-		pgtext : "Página {0} de {1}"
+		pgtext : "P�gina {0} de {1}"
 	},
 	search : {
-	    caption: "Búsqueda...",
+	    caption: "B�squeda...",
 	    Find: "Buscar",
 	    Reset: "Limpiar",
 	    odata : ['igual ', 'no igual a', 'menor que', 'menor o igual que','mayor que','mayor o igual a', 'empiece por','no empiece por','está en','no está en','termina por','no termina por','contiene','no contiene'],

@@ -26,6 +26,7 @@
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="css/common.css">
 		<link rel="stylesheet" href="css/resultado.css">
+		<link rel="stylesheet" href="css/animate.css">
 		
 		
 
@@ -60,18 +61,20 @@
         <div class="container-fluid">
 		  <div class="row-fluid">
 			<div class="span4">
-			  <div class="negro bordeRedondoGral">
+			  <div class="negro bordeRedondoGral animated bounceIn">
 					<h3 id="tituloAcordion" align="center">Menu</h3>
 				</div>
 			  <div id="accordion">
 				<h2>Programas</h2>
 				<ul class="nav nav-pills nav-stacked">
-					<li><a href="#" id="listadoProgramas" ><i class="icon-list"></i>  Lista</a></li>
+					<li><a href="#" id="listadoProgramas" ><i class="icon-list"></i>  Lista Activos</a></li>
+					<li><a href="#" id="listadoProgramasInactivos"><i  class="icon-list"></i>  Lista Inactivos</a></li>
 					<li><a href="#" id="masVotadosProgramas"><i class="icon-plus"></i>  Mas votados</a></li>
 				</ul>
 				<h2>Encuestas</h2>
 				<ul class="nav nav-pills nav-stacked">
-					<li><a href="#" id="listadoEncuestas"><i  class="icon-list"></i>  Lista</a></li>
+					<li><a href="#" id="listadoEncuestas"><i  class="icon-list"></i>  Lista Activas</a></li>
+					<li><a href="#" id="listadoEncuestasInactivas"><i  class="icon-list"></i>  Lista Inactivas</a></li>
 					<li><a href="#" id="masVotadosEncuestasPorPrograma"><i class="icon-plus"></i>  Votos por programa</a></li>
 					<li><a href="#" id="masVotadosPreguntasPorEncuestas"><i class="icon-plus"></i>  Votos por enuesta</a></li>
 					<br>
@@ -80,7 +83,7 @@
 			<br>
 			</div>
 			<div class="span8">
-				<div class="negro bordeRedondoGral">
+				<div class="negro bordeRedondoGral animated bounceIn">
 					<h3 id="tituloAccion" align="center">Resultados</h3>
 				</div>
 				<div id="alertaCragaDatos" class="alert ocultar TamAlerta">
@@ -104,19 +107,22 @@
         <script src="js/main.js"></script>
 		<script src="js/jquery-ui-1.9.0.custom.min.js"></script>
 		
+		<!-- jqgrid -->
 		<script src="js/i18n/grid.locale-es.js" type="text/javascript"></script>
         <script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
         
+        <!-- Grafico -->
 		<script language="javascript" type="text/javascript" src="js/jquery.jqplot.min.js"></script>
-		
 		<script type="text/javascript" src="js/plugins/jqplot.pieRenderer.min.js"></script>
 		<script type="text/javascript" src="js/plugins/jqplot.donutRenderer.min.js"></script>
 		
-		<script type="text/javascript" src="js/ddslick.js"></script>
-
+		<!-- Tabla Nueva -->
+		<script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
+		
+		<!--Propia de la Pagina -->
 		<script src="js/resultado2.js" type="text/javascript"></script>
 		
-		<script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
+		
  
     </body>
 </html>

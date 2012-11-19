@@ -257,13 +257,49 @@ class SmartVoteDB {
 		}
 	}
 	
-	public function ObtenerPagina($start,$limit,$sidx,$sord,$tipo)
+	public function ObtenerPagina($start,$limit,$sidx,$sord,$tipo,$_where,$inactivo)
 	{
 			if($tipo=='programa')
-		    	$consulta = "SELECT * FROM programas where activo=1 ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
-			else 
-		    	$consulta = "SELECT e.id,e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p and e.activo=1 ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+		    	
+				if($_where == "")
+				{
+					if($inactivo == "0")
+					{
+						$consulta = "SELECT * FROM programas where activo=1 ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+					}
+					else {
+						$consulta = "SELECT * FROM programas where activo=0 ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+					}
+					
+				}
+				else {
+					//echo $_where;
 
+					$consulta = "SELECT * FROM programas ".$_where." ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+				}
+			else 
+				if($_where == "")
+				{
+					if($inactivo == "0")
+					{						
+						$consulta = "SELECT e.id,e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p and e.activo=1 ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+					}
+					else {
+						$consulta = "SELECT e.id,e.nombre,e.fechainicio,e.fechafin,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p and e.activo=0 ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+					}
+				}					
+				else {
+					
+					if($inactivo == "0")
+					{
+						$consulta = "SELECT e.id,e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ".$_where." ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+					}
+					else {
+						$consulta = "SELECT e.id,e.nombre,e.fechainicio,e.fechafin,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ".$_where." ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+					}
+					
+				}
+				
 		try{
 
 			$this->conectar();
@@ -866,6 +902,156 @@ class SmartVoteDB {
 		}
 	}
 	
+	private function procesosNuevaTabla($varGet,$aColumns,$sIndexColumn,$sTable)
+	{
+				
+				/* 
+				 * Paging
+				 */
+				$sLimit = "";
+				if ( isset( $varGet['iDisplayStart'] ) && $varGet['iDisplayLength'] != '-1' )
+				{
+					$sLimit = "LIMIT ".intval( $varGet['iDisplayStart'] ).", ".
+						intval( $varGet['iDisplayLength'] );
+				}
+				
+			
+				/*
+				 * Ordering
+				 */
+				$sOrder = "";
+				if ( isset( $varGet['iSortCol_0'] ) )
+				{
+					$sOrder = "ORDER BY  ";
+					for ( $i=0 ; $i<intval( $varGet['iSortingCols'] ) ; $i++ )
+					{
+						if ( $varGet[ 'bSortable_'.intval($varGet['iSortCol_'.$i]) ] == "true" )
+						{
+							$sOrder .= "`".$aColumns[ intval( $varGet['iSortCol_'.$i] ) ]."` ".
+							 	mysql_real_escape_string( $varGet['sSortDir_'.$i] ) .", ";
+						}
+					}
+					
+					$sOrder = substr_replace( $sOrder, "", -2 );
+					if ( $sOrder == "ORDER BY" )
+					{
+						$sOrder = "";
+					}
+				}
+			
+			
+				/* 
+				 * Filtering
+				 * NOTE this does not match the built-in DataTables filtering which does it
+				 * word by word on any field. It's possible to do here, but concerned about efficiency
+				 * on very large tables, and MySQL's regex functionality is very limited
+				 */
+				$sWhere = "";
+				if ( isset($varGet['sSearch']) && $varGet['sSearch'] != "" )
+				{
+					$sWhere = "WHERE (";
+					for ( $i=0 ; $i<count($aColumns) ; $i++ )
+					{
+						if ( isset($varGet['bSearchable_'.$i]) && $varGet['bSearchable_'.$i] == "true" )
+						{
+							$sWhere .= "`".$aColumns[$i]."` LIKE '%".mysql_real_escape_string( $varGet['sSearch'] )."%' OR ";
+						}
+					}
+					$sWhere = substr_replace( $sWhere, "", -3 );
+					$sWhere .= ')';
+				}
+			
+				/* Individual column filtering */
+				for ( $i=0 ; $i<count($aColumns) ; $i++ )
+				{
+					if ( isset($varGet['bSearchable_'.$i]) && $varGet['bSearchable_'.$i] == "true" && $varGet['sSearch_'.$i] != '' )
+					{
+						if ( $sWhere == "" )
+						{
+							$sWhere = "WHERE ";
+						}
+						else
+						{
+							$sWhere .= " AND ";
+						}
+						$sWhere .= "`".$aColumns[$i]."` LIKE '%".mysql_real_escape_string($varGet['sSearch_'.$i])."%' ";
+					}
+				}
+				
+				if($sWhere == "")
+				{
+					$sWhere = "WHERE activo=0";
+				}
+				else {
+					
+					$sWhere .= "activo=0 AND id_p";
+				}
+				
+			
+				/*
+				 * SQL queries
+				 * Get data to display
+				 */
+				$sQuery = "
+					SELECT SQL_CALC_FOUND_ROWS `".str_replace(" , ", " ", implode("`, `", $aColumns))."`
+					FROM   $sTable
+					$sWhere
+					$sOrder
+					$sLimit
+					";
+				$rResult = mysql_query( $sQuery, $this->db_conexion) or fatal_error( 'MySQL Error: ' . mysql_errno() );
+				
+				/* Data set length after filtering */
+				$sQuery = "
+					SELECT FOUND_ROWS()
+				";
+				$rResultFilterTotal = mysql_query( $sQuery, $this->db_conexion ) or fatal_error( 'MySQL Error: ' . mysql_errno() );
+				$aResultFilterTotal = mysql_fetch_array($rResultFilterTotal);
+				$iFilteredTotal = $aResultFilterTotal[0];
+				
+				/* Total data set length  SELECT COUNT(`".$sIndexColumn."`) */
+				$sQuery = "
+					SELECT COUNT(*)
+					FROM   $sTable
+				";
+				$rResultTotal = mysql_query( $sQuery, $this->db_conexion ) or fatal_error( 'MySQL Error: ' . mysql_errno() );
+				$aResultTotal = mysql_fetch_array($rResultTotal);
+				$iTotal = $aResultTotal[0];
+			
+			
+				/*
+				 * Output
+				 */
+				$output = array(
+					"sEcho" => intval($varGet['sEcho']),
+					"iTotalRecords" => $iTotal,
+					"iTotalDisplayRecords" => $iFilteredTotal,
+					"aaData" => array()
+				);
+				
+				while ( $aRow = mysql_fetch_array( $rResult ) )
+				{
+					$row = array();
+					for ( $i=0 ; $i<count($aColumns) ; $i++ )
+					{
+						if ( $aColumns[$i] == "version" )
+						{
+							/* Special output formatting for 'version' column */
+							$row[] = ($aRow[ $aColumns[$i] ]=="0") ? '-' : $aRow[ $aColumns[$i] ];
+						}
+						else if ( $aColumns[$i] != ' ' )
+						{
+							/* General output */
+							$row[] = utf8_encode($aRow[$aColumns[$i]]);
+						}
+					}
+					$output['aaData'][] = $row;
+				}
+			
+			 	return json_encode( $output);
+				
+	}
+	
 	public function programasNuevaTabla($varGet)
 	{
 		try{
@@ -937,7 +1123,7 @@ class SmartVoteDB {
 					$sWhere = substr_replace( $sWhere, "", -3 );
 					$sWhere .= ')';
 				}
-			
+
 				/* Individual column filtering */
 				for ( $i=0 ; $i<count($aColumns) ; $i++ )
 				{
@@ -1018,6 +1204,33 @@ class SmartVoteDB {
 			
 			 	return json_encode( $output);
 			 
+		}catch (Exception $e) {
+
+			mysql_close($this->db_conexion);
+			
+			throw new Exception('Error MySQL');
+		}
+	}
+
+
+	public function encuestasNuevaTabla($varGet)
+	{
+		try{
+		
+				$this->conectar();
+				
+				//$aColumns = array('nombre','descripcion');
+				
+				$aColumns = array('id','nombre','fechainicio','fechafin');
+			
+				/* Indexed column (used for fast and accurate table cardinality) */
+				$sIndexColumn = "id";
+				
+				/* DB table to use */
+				$sTable = "encuestas";
+				
+				return $this->procesosNuevaTabla($varGet, $aColumns, $sIndexColumn, $sTable);
+				
 		}catch (Exception $e) {
 
 			mysql_close($this->db_conexion);

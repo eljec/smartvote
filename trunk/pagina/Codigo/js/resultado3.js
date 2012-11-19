@@ -177,7 +177,7 @@ $(document).ready(function() {
 				nuevoObjeto.push(data.preguntas[i].id);
 				nuevoObjeto.push("¿"+data.preguntas[i].descripcion+"?");
 				nuevoObjeto.push(data.preguntas[i].orden);
-				nuevoObjeto.push('<img src="img/read_more_16x16.png"/>');
+				nuevoObjeto.push('<img src="img/chart_16x16_azul.png"/>');
 
 				ddData.push(nuevoObjeto);
 			}
@@ -187,7 +187,8 @@ $(document).ready(function() {
 					"bJQueryUI": true,
 					"aoColumnDefs": [
                         { "bSearchable": false, "bVisible": false, "aTargets": [0,2] },
-                        { "bVisible": false, "aTargets": [0,2] }
+                        { "bVisible": false, "aTargets": [0,2] },
+                        { "bSortable": false, "aTargets": [3] }
                     ],
 					"aoColumns": [
 			            { "sTitle": "Id" },
@@ -201,10 +202,12 @@ $(document).ready(function() {
 		        var nTr = $(this).parents('tr')[0];
 		        if ( oTable.fnIsOpen(nTr) )
 		        {
+		        	this.src = "img/chart_16x16_azul.png";
 		            oTable.fnClose( nTr );
 		        }
 		        else
-		        {		            
+		        {		
+		        	this.src = "img/chart_16x16_rojo.png";            
 		            oTable.fnOpen( nTr, obtenerGraficoPregunta(oTable, nTr), 'details' );
 		        }
 		    } );
@@ -275,7 +278,7 @@ $(document).ready(function() {
 			else
 			{
 				
-				$('#contenido').html('<table style="width: 100%;"><tr><td class="azulado bordeRedondoGral espacioPaddingTop" style="width: 20px;"><select id="listaPregunta" size="3"></select></td><td><h3>Encuestas</h3><div id="contenidoTabla" align="center"><br><table cellpadding="0" cellspacing="0" border="0" class="display" id="example" style="width: 100%;"></table></div></td></tr></table>');
+				$('#contenido').html('<table style="width: 100%;"><tr><td class="negro bordeRedondoGral espacioPaddingTop" style="width: 20px;"><select id="listaPregunta" size="3"></select></td><td><h3>Preguntas</h3><div id="contenidoTabla" align="center"><br><table cellpadding="0" cellspacing="0" border="0" class="display" id="example" style="width: 100%;"></table></div></td></tr></table>');
 			
 				$('#listaPregunta').html('');
 				
@@ -352,7 +355,9 @@ $(document).ready(function() {
 	
 	// Mis Encuestas 
 	
-	$('#misEncuestas').click(function(){
+	// Activas:
+	
+	$('#misEncuestasActivas').click(function(){
 		
 		$('#contenido').html(cssLoading());
 		
@@ -364,6 +369,17 @@ $(document).ready(function() {
 		
 	});
 	
+	// Inactivas:
+	
+	/*$('#misEncuestasActivas').click(function(){
+		
+		$('#contenido').html(cssLoading());
+		
+		$('#alertaCragaDatos').addClass('ocultar');
+		
+		var idPrograma = $('#hdnIdPrograma').val();
+
+	});*/
 	
 	// Grafico Gral
 	
