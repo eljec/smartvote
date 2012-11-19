@@ -55,7 +55,7 @@
 							
 							    if(!$sidx) $sidx =1;
 															
-								$respuesta = $adminServicio->BuscarProgramas_Paginado($page,$limit,$sidx,$sord);
+								$respuesta = $adminServicio->BuscarProgramas_Paginado($page,$limit,$sidx,$sord,$_GET);
 							}
 							else
 							{
@@ -106,7 +106,7 @@
 
 								    if(!$sidx) $sidx =1;
 																
-									$respuesta = $adminServicio->BuscarEncuestas_Paginado($page,$limit,$sidx,$sord);
+									$respuesta = $adminServicio->BuscarEncuestas_Paginado($page,$limit,$sidx,$sord,$_GET);
 								}
 								else
 								{								
@@ -186,7 +186,7 @@
 							$respuesta = $adminServicio->programasNuevaTabla($varGet);
 						break;
 						
-					case 6:
+					case 7:
 							$varGet = $_GET;
 						
 							$respuesta = $adminServicio->encuestasNuevaTabla($varGet);

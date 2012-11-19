@@ -30,7 +30,7 @@ $(document).ready(function() {
           							showDataLabels: true
         			}	
 			      }, 
-			      legend: { show:true, location: 'e' },
+			      legend: { show:true/*, location: 'e'*/ },
 			      title: {
 		        		text: 'Programas mas consultados',  
 		        		show: true,
@@ -340,7 +340,7 @@ $(document).ready(function() {
 	}
 
 
-	// Click Listado de Programas 
+	// Click Listado de Programas activos
 	
 	$('#listadoProgramas').click(function(){
 		
@@ -353,22 +353,75 @@ $(document).ready(function() {
 			url:'phpHelper/SmartVoteServices.php?action=1&paged=1',
 			datatype: 'json',
 			mtype: 'GET',
-			colNames:['NOMBRE','DESCRIPCION'],
+			colNames:['NOMBRE','DESCRIPCION','USUARIO ASIGNADO'],
 			colModel:[
-				{name:'nombre', editable: true, index:'nombre', width:160,resizable:false, sortable:true},
-				{name:'descripcion', editable: true, index:'descripcion', width:400}
+				{name:'nombre', editable: true, index:'nombre', width:260,resizable:false, sortable:true},
+				{name:'descripcion', editable: true, index:'descripcion', width:200,search:false},
+				{name:'usuario', editable: true, index:'usuario', width:260,search:false,sortable:true}
 			],
+			subGrid: true,
+           	subGridRowExpanded: function (subgrid_id, row_id) {
+           		
+           		  var data =  jQuery('#tablaContenido').jqGrid('getRowData',row_id);
+           		  
+           		 $("#" + subgrid_id).html("<div>Descripcion:"+data.descripcion+"<div>");
+           	},
 			pager: '#paginacion',
 			rowNum:5,
 			rowList:[5,10],
 			sortname: 'id',
 			sortorder: 'asc',
 			viewrecords: true,
-			caption: 'LISTA PROGRAMAS',
+			caption: 'LISTA PROGRAMAS ACTIVOS',
 			width:700
 		});
+		
+		jQuery("#tablaContenido").jqGrid('hideCol',"descripcion");
+		jQuery("#tablaContenido").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false});
 	});
 
+	//&activos=false
+
+	// Programas Inactivos 
+	
+	$('#listadoProgramasInactivos').click(function(){
+		
+		$('#alertaCragaDatos').addClass('ocultar');
+		
+		var stringTabla = "<table id='tablaContenido' align='center'></table><div id='paginacion'></div>";
+		$('#contenido').html(stringTabla);
+		
+		$("#tablaContenido").jqGrid({
+			url:'phpHelper/SmartVoteServices.php?action=1&paged=1',
+			datatype: 'json',
+			mtype: 'GET',
+			colNames:['NOMBRE','DESCRIPCION','USUARIO ASIGNADO'],
+			colModel:[
+				{name:'nombre', editable: true, index:'nombre',resizable:false, sortable:true},
+				{name:'descripcion', editable: true, index:'descripcion',search:false},
+				{name:'usuario', editable: true, index:'usuario',search:false}
+			],
+			subGrid: true,
+           	subGridRowExpanded: function (subgrid_id, row_id) {
+           		
+           		  var data =  jQuery('#tablaContenido').jqGrid('getRowData',row_id);
+           		  
+           		 $("#" + subgrid_id).html("<div>Descripcion:"+data.descripcion+"<div>");
+           	},
+			pager: '#paginacion',
+			rowNum:5,
+			rowList:[5,10],
+			sortname: 'id',
+			sortorder: 'asc',
+			viewrecords: true,
+			caption: 'LISTA PROGRAMAS INACTIVOS',
+			width:700
+		});
+		
+		jQuery("#tablaContenido").jqGrid('hideCol',"descripcion");
+		jQuery("#tablaContenido").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false});
+	});
+	
 	// Click Mas votados seccion Programas
 	
 	$('#masVotadosProgramas').click(function(){
@@ -385,7 +438,7 @@ $(document).ready(function() {
 
 	});
 	
-	// Click Listado encuestas 
+	// Click Listado encuestas activas
 	
 	$('#listadoEncuestas').click(function(){
 		
@@ -400,9 +453,54 @@ $(document).ready(function() {
 			mtype: 'GET',
 			colNames:['NOMBRE','DESCRIPCION','NOMBRE PROGRAMA'],
 			colModel:[
-				{name:'nombre', editable: true, index:'nombre', width:160,resizable:false, sortable:true},
-				{name:'descripcion', editable: true, index:'descripcion', width:400},
-				{name:'nombrep', editable: true, index:'nombrep', width:160}
+				{name:'nombre', editable: true, index:'nombre', width:300,resizable:false, sortable:true},
+				{name:'descripcion', editable: true, index:'descripcion', width:400, search:false},
+				{name:'nombrep', editable: true, index:'nombrep', width:300}
+			],
+			subGrid: true,
+           	subGridRowExpanded: function (subgrid_id, row_id) {
+           		
+           		  var data =  jQuery('#tablaContenido').jqGrid('getRowData',row_id);
+           		  
+           		 $("#" + subgrid_id).html("<div class='negro'>Descripcion:"+data.descripcion+"<div>");
+           	},
+           	onSelectRow: function(rowid) {
+			    alert(rowid);
+			},
+			pager: '#paginacion',
+			rowNum:5,
+			rowList:[5,10],
+			sortname: 'id',
+			sortorder: 'asc',
+			viewrecords: true,
+			caption: 'LISTA ENCUESTAS ACTIVAS',
+			width:700
+		});
+		
+		jQuery("#tablaContenido").jqGrid('hideCol',"descripcion");
+		jQuery("#tablaContenido").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false});
+		
+	});
+	
+	//Encuestas Inactivas 
+	
+	$('#listadoEncuestasInactivas').click(function(){
+		
+		$('#alertaCragaDatos').addClass('ocultar');
+		
+		var stringTabla = "<table id='tablaContenido' align='center'></table><div id='paginacion'></div>";
+		$('#contenido').html(stringTabla);
+		
+		$("#tablaContenido").jqGrid({
+			url:'phpHelper/SmartVoteServices.php?action=2&paged=1&activos=false',
+			datatype: 'json',
+			mtype: 'GET',
+			colNames:['NOMBRE','FECHA INICIO','FECHA FIN','NOMBRE PROGRAMA'],
+			colModel:[
+				{name:'nombre', editable: true, index:'nombre', width:200,resizable:false, sortable:true},
+				{name:'fechainicio', editable: true, index:'fechainicio', width:000, search:false},
+				{name:'fechafin', editable: true, index:'fechafin', width:200, search:false},
+				{name:'nombrep', editable: true, index:'nombrep', width:300}
 			],
 			pager: '#paginacion',
 			rowNum:5,
@@ -410,9 +508,12 @@ $(document).ready(function() {
 			sortname: 'id',
 			sortorder: 'asc',
 			viewrecords: true,
-			caption: 'LISTA ENCUESTAS',
+			caption: 'LISTA ENCUESTAS INACTIVOS',
 			width:700
 		});
+		
+		jQuery("#tablaContenido").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false});
+		
 	});
 	
 	// Click mas votados seccion ecnuesta 

@@ -51,7 +51,74 @@ class SmartVoteManager {
 		}
 	}
 	
-	public function BuscarProgramas_Paginado($page,$limit,$sidx,$sord)
+	private function filtrosPrograma($filters,$todos)
+	{
+		$ruls = $filters->rules;
+
+		$where = "";
+		
+		if($todos == "1")
+		{
+			for($i=0;$i<count($ruls);$i++)
+			{
+				if($i == 0)
+				{
+					$where = "WHERE ".$ruls[$i]->field." LIKE '".$ruls[$i]->data."%'";
+				}	
+				else
+				{
+					$where = $where."AND ".$ruls[$i]->field." LIKE '".$ruls[$i]->data."%'";
+				}	
+				
+			}
+		}
+		else
+		{
+			for($i=0;$i<count($ruls);$i++)
+			{		
+				$where = $where."AND ".$ruls[$i]->field." LIKE '".$ruls[$i]->data."%'";
+			}
+		}
+		//echo $where;
+		
+		return $where;
+	}
+	
+	private function formarConsulta_Paginado()
+	{
+			if($tipo=='programa')
+		    {	
+			
+				$consulta = "SELECT * FROM programas ".$_where." ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;	
+			}
+			else 
+			{
+				if($_where == "")
+				{
+					if($inactivo == "0")
+					{						
+						$consulta = "SELECT e.id,e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p and e.activo=1 ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+					}
+					else {
+						$consulta = "SELECT e.id,e.nombre,e.fechainicio,e.fechafin,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p and e.activo=0 ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+					}
+				}					
+				else 
+				{
+					
+					if($inactivo == "0")
+					{
+						$consulta = "SELECT e.id,e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ".$_where." ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+					}
+					else {
+						$consulta = "SELECT e.id,e.nombre,e.fechainicio,e.fechafin,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ".$_where." ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+					}
+					
+				}
+			}
+	}
+	
+	public function BuscarProgramas_Paginado($page,$limit,$sidx,$sord,$varGet)
 	{
 		try{
 		
@@ -70,12 +137,50 @@ class SmartVoteManager {
 		    if ($page > $total_pages)
 		        $page=$total_pages;
 			
+			// Analizo filtros //
+			
+			$_where="";
+			$inactivo = "0";
+			
+			/*if(isset($varGet["todos"]))
+			{
+				$todos = $varGet["todos"];
+			}
+			else {
+				$todos = "1";
+			}*/
+			$todos = "0";
+			
+			if(isset($varGet["activos"]))
+			{
+				if($varGet["activos"] == 'true')
+				{
+					$_where ="WHERE activo=1 ";
+				}
+				else {
+					$_where ="WHERE activo=0 ";
+					$inactivo ='1';
+				}
+			}
+			else {
+				$todos = "1";
+			}
+				
+			if(isset($varGet["_search"]))
+			{
+				if($varGet["_search"] == 'true')
+				{
+					$_where = $_where . $this->filtrosPrograma(json_decode($varGet["filters"]),$todos);
+				}
+			}
+			
 		    //Almacena numero de registro donde se va a empezar a recuperar los registros para la pagina
+		    
 		    $start = $limit*$page - $limit;
 			
-			$datos = $this->baseSmartVote->ObtenerPagina($start, $limit, $sidx, $sord,'programa');
+			$datos = $this->baseSmartVote->ObtenerPagina($start, $limit, $sidx, $sord,'programa',$_where,$inactivo);
 
-			$respuesta = $this->transformarDatosProgramaPaginado($datos,$total_pages,$page,$count);
+			$respuesta = $this->transformarDatosProgramaPaginado($datos,$total_pages,$page,$count,$inactivo);
 			
 			return $respuesta;
 	
@@ -87,7 +192,29 @@ class SmartVoteManager {
 		}
 	}
 	
-	public function BuscarEncuestas_Paginado($page,$limit,$sidx,$sord)
+	private function filtrosEncuesta($filters)
+	{
+		$ruls = $filters->rules;
+
+		$where = "";
+		
+		for($i=0;$i<count($ruls);$i++)
+		{
+			if($ruls[$i]->field == "nombrep")
+			{
+				$where = $where."AND p.nombre LIKE '".$ruls[$i]->data."%'";
+			}
+			else
+			{
+				$where = $where."AND e.".$ruls[$i]->field." LIKE '".$ruls[$i]->data."%'";
+			}
+			
+		}
+		
+		return $where;
+	}
+	
+	public function BuscarEncuestas_Paginado($page,$limit,$sidx,$sord,$varGet)
 	{
 		try{
 		
@@ -106,12 +233,48 @@ class SmartVoteManager {
 		    if ($page > $total_pages)
 		        $page=$total_pages;
 			
+			// Analizo si es una busqueda y formo los filtros //
+			
+			$_where="";
+			$inactivo = "0";
+			
+			if(isset($varGet["activos"]))
+			{
+				if($varGet["activos"] == 'true')
+				{
+					$_where ="AND e.activo=1 ";
+					
+				}
+				else {
+					$_where ="AND e.activo=0 ";
+					$inactivo ='1';
+				}
+			}
+			else {
+				$_where ="AND e.activo=1 ";
+			}
+				
+			
+			
+			if(isset($varGet["_search"]))
+			{
+				if($varGet["_search"] == 'true')
+				{
+					//$_where ="AND e.activo=1 ";
+					$_where = $_where . $this->filtrosEncuesta(json_decode($varGet["filters"]));
+				}
+				
+			}
+			
+			//echo $_where;
+			
 		    //Almacena numero de registro donde se va a empezar a recuperar los registros para la pagina
+		    
 		    $start = $limit*$page - $limit;
 			
-			$datos = $this->baseSmartVote->ObtenerPagina($start, $limit, $sidx, $sord,'encuesta');
+			$datos = $this->baseSmartVote->ObtenerPagina($start, $limit, $sidx, $sord,'encuesta',$_where,$inactivo);
 
-			$respuesta = $this->transformarDatosEncuestasPaginado($datos,$total_pages,$page,$count);
+			$respuesta = $this->transformarDatosEncuestasPaginado($datos,$total_pages,$page,$count,$inactivo);
 			
 			return $respuesta;
 	
@@ -419,6 +582,24 @@ class SmartVoteManager {
 			return json_encode($resp);
 		}
 	}
+	
+	public function encuestasNuevaTabla($varGet)
+	{
+		try{
+			
+			$respuesta = $this->baseSmartVote->encuestasNuevaTabla($varGet);
+			
+			return $respuesta;
+			
+		}catch(exception $E)
+		{
+			$resp = new Respuesta("ERROR","");
+			
+			return json_encode($resp);
+		}
+	}
+	
+	
 	// ------------------------------    METODOS PRIVADOS  --------------------------------------------------  //
 
 	private function transformarDatosProgramas($datos)
@@ -542,7 +723,7 @@ class SmartVoteManager {
 		return $cadenaDevolver;
 	}
 	
-	private function transformarDatosProgramaPaginado($datos,$total_pages,$page,$count)
+	private function transformarDatosProgramaPaginado($datos,$total_pages,$page,$count,$inactivo)
 	{
 		$cadenaDevolver = "{";
 		$cadenaDevolver = $cadenaDevolver." \"total\":\"".$total_pages."\",";
@@ -550,23 +731,26 @@ class SmartVoteManager {
 		$cadenaDevolver = $cadenaDevolver. " \"records\":\"".$count."\",";
 		$cadenaDevolver = $cadenaDevolver. "\"rows\":[";
 	    $i=0;
+		
+		
 	    while($fila = mysql_fetch_assoc($datos))
 		{
 	
 			if($i == 0)
 			{
 				$cadenaDevolver = $cadenaDevolver."{\"id\":\"".$fila["id"]."\",";
-				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\"]}";
+				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"])."\"]}";
 			}
 			else
 			{
 				$cadenaDevolver = $cadenaDevolver.",{\"id\":\"".$fila["id"]."\",";
-				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\"]}";
+				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"])."\"]}";
 			}
 	        $i++;
 	    }
 		$cadenaDevolver = $cadenaDevolver. "]}";
-		
+
+
 		return $cadenaDevolver;
 	}
 	
@@ -600,7 +784,7 @@ class SmartVoteManager {
 		return $cadenaDevolver;	
 	}
 	
-	private function transformarDatosEncuestasPaginado($datos,$total_pages,$page,$count)
+	private function transformarDatosEncuestasPaginado($datos,$total_pages,$page,$count,$inactivo)
 	{
 		$cadenaDevolver = "{";
 		$cadenaDevolver = $cadenaDevolver." \"total\":\"".$total_pages."\",";
@@ -608,23 +792,48 @@ class SmartVoteManager {
 		$cadenaDevolver = $cadenaDevolver. " \"records\":\"".$count."\",";
 		$cadenaDevolver = $cadenaDevolver. "\"rows\":[";
 	    $i=0;
-	    while($fila = mysql_fetch_assoc($datos))
-		{
-	
-			if($i == 0)
-			{
-				$cadenaDevolver = $cadenaDevolver."{\"id\":\"".$fila["id"]."\",";
-				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["nombrep"])."\"]}";
-			}
-			else
-			{
-				$cadenaDevolver = $cadenaDevolver.",{\"id\":\"".$fila["id"]."\",";
-				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["nombrep"])."\"]}";
-			}
-	        $i++;
-	    }
-		$cadenaDevolver = $cadenaDevolver. "]}";
 		
+		if($inactivo == '0')
+		{
+			while($fila = mysql_fetch_assoc($datos))
+			{
+		
+				if($i == 0)
+				{
+					$cadenaDevolver = $cadenaDevolver."{\"id\":\"".$fila["id"]."\",";
+					$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["nombrep"])."\"]}";
+				}
+				else
+				{
+					$cadenaDevolver = $cadenaDevolver.",{\"id\":\"".$fila["id"]."\",";
+					$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["nombrep"])."\"]}";
+				}
+		        $i++;
+		    }
+			$cadenaDevolver = $cadenaDevolver. "]}";
+		
+		}
+		else
+		{
+			while($fila = mysql_fetch_assoc($datos))
+			{
+		
+				if($i == 0)
+				{
+					$cadenaDevolver = $cadenaDevolver."{\"id\":\"".$fila["id"]."\",";
+					$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["fechainicio"])."\",\"".utf8_encode($fila["fechafin"])."\",\"".utf8_encode($fila["nombrep"])."\"]}";                                                                
+				}
+				else
+				{
+					$cadenaDevolver = $cadenaDevolver.",{\"id\":\"".$fila["id"]."\",";
+					$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["fechainicio"])."\",\"".utf8_encode($fila["fechafin"])."\",\"".utf8_encode($fila["nombrep"])."\"]}";
+				}
+		        $i++;
+		    }
+			$cadenaDevolver = $cadenaDevolver. "]}";
+		
+		}
+	    
 		return $cadenaDevolver;
 	}
 	

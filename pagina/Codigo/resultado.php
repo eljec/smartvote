@@ -94,7 +94,13 @@
 						<h3 id="tituloAcordion" align="center">Menu</h3>
 					</div>
 			  		<ul class="nav nav-tabs nav-stacked">
- 						<li><a href="#" id="misEncuestas"><img src='img/list_12x11.png' alt='Loading...'/>  Mis Encuestas</a></li>
+ 						<li class="dropdown-submenu">
+						    <a href="#"><img src='img/list_12x11.png' alt='Loading...'/>  Mis Encuestas</a>
+						    <ul class="dropdown-menu">
+						      	<li><a href="#" id="misEncuestasActivas">Activas</a></li>
+    							<li><a href="#" id="misEncuestasInactivas">Inactivas</a></li>
+						    </ul>
+						 </li>
   						<li><a href="#" id="graficoGral"><img src='img/chart_12x12.png' alt='Loading...'/>  Grafico Gral</a></li>
   						<li><a href="#" id="graficoXPregunta"><img src='img/chart_12x12.png' alt='Loading...'/>  Grafico por Pregunta</a></li>
 					</ul>
