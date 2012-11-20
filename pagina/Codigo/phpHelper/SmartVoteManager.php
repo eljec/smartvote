@@ -141,16 +141,9 @@ class SmartVoteManager {
 			
 			$_where="";
 			$inactivo = "0";
-			
-			/*if(isset($varGet["todos"]))
-			{
-				$todos = $varGet["todos"];
-			}
-			else {
-				$todos = "1";
-			}*/
-			$todos = "0";
-			
+
+			$todos = false ;
+
 			if(isset($varGet["activos"]))
 			{
 				if($varGet["activos"] == 'true')
@@ -163,7 +156,7 @@ class SmartVoteManager {
 				}
 			}
 			else {
-				$todos = "1";
+				$todos =true;
 			}
 				
 			if(isset($varGet["_search"]))
@@ -173,6 +166,8 @@ class SmartVoteManager {
 					$_where = $_where . $this->filtrosPrograma(json_decode($varGet["filters"]),$todos);
 				}
 			}
+			
+			//echo $_where;
 			
 		    //Almacena numero de registro donde se va a empezar a recuperar los registros para la pagina
 		    
@@ -238,20 +233,25 @@ class SmartVoteManager {
 			$_where="";
 			$inactivo = "0";
 			
+			if(isset($varGet["id_p"]))
+			{
+				$_where ="AND e.id_p='".$varGet["id_p"]."' ";
+			}
+			
 			if(isset($varGet["activos"]))
 			{
 				if($varGet["activos"] == 'true')
 				{
-					$_where ="AND e.activo=1 ";
+					$_where = $_where."AND e.activo=1 ";
 					
 				}
 				else {
-					$_where ="AND e.activo=0 ";
+					$_where = $_where . "AND e.activo=0 ";
 					$inactivo ='1';
 				}
 			}
 			else {
-				$_where ="AND e.activo=1 ";
+				$_where = $_where . "AND e.activo=1 ";
 			}
 				
 			
@@ -426,6 +426,8 @@ class SmartVoteManager {
 	{
 		$datos = $this->baseSmartVote->GraficoEncuesta($nombre_p);
 		$resultado = $this->transformarDatosGrafico($datos);
+		
+		//$resultado = $this->transformarDatosGraficoMorris($datos);
 		
 		return $resultado;
 	}
@@ -776,6 +778,36 @@ class SmartVoteManager {
 				$cadenaDevolver = $cadenaDevolver. ",";
 					$cadenaDevolver = $cadenaDevolver. $fila['cantidad'];
 				$cadenaDevolver = $cadenaDevolver. "]";
+			}
+			$count++;
+		}
+		$cadenaDevolver = $cadenaDevolver. "]}";
+		
+		return $cadenaDevolver;	
+	}
+	
+	private function transformarDatosGraficoMorris($datos)
+	{
+		$cadenaDevolver =  "{\"datosgrafico\":[";
+		$count=0;
+
+		while ($fila = mysql_fetch_assoc($datos))
+		{
+			if($count==0)
+			{
+				$cadenaDevolver = $cadenaDevolver."{";
+					$cadenaDevolver = $cadenaDevolver.json_encode("label").":".json_encode(utf8_encode($fila['nombre']));
+				$cadenaDevolver = $cadenaDevolver. ",";
+					$cadenaDevolver = $cadenaDevolver.json_encode("value").":".$fila['cantidad'];
+				$cadenaDevolver = $cadenaDevolver. "}";
+			}
+			else
+			{
+				$cadenaDevolver = $cadenaDevolver. ",{";
+					$cadenaDevolver = $cadenaDevolver.json_encode("label").":".json_encode(utf8_encode($fila['nombre']));
+				$cadenaDevolver = $cadenaDevolver. ",";
+					$cadenaDevolver = $cadenaDevolver.json_encode("value").":".$fila['cantidad'];
+				$cadenaDevolver = $cadenaDevolver. "}";
 			}
 			$count++;
 		}

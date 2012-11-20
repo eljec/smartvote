@@ -17,7 +17,7 @@ $(document).ready(function() {
 	
 		$('#contenido').html("<div id='chartdiv' style='height:400px;width:600px; '></div>");
 				
-		var datos = data.datosgrafico;
+		/*var datos = data.datosgrafico;
 		   			
 		var graficoMasVotadosProgramas = jQuery.jqplot ('chartdiv', [datos], 
     			{ 
@@ -30,13 +30,32 @@ $(document).ready(function() {
           							showDataLabels: true
         			}	
 			      }, 
-			      legend: { show:true/*, location: 'e'*/ },
+			      legend: { show:true, location: 'e' },
 			      title: {
 		        		text: 'Programas mas consultados',  
 		        		show: true,
 		    			}
 			    }
-			  );
+			  );*/
+			 
+		var data = [
+	    ['Heavy Industry', 12],['Retail', 9], ['Light Industry', 14], 
+	    ['Out of home', 16],['Commuting', 7], ['Orientation', 9]
+	  ];
+	  var plot1 = jQuery.jqplot ('chartdiv', [data], 
+	    { 
+	      seriesDefaults: {
+	        // Make this a pie chart.
+	        renderer: jQuery.jqplot.PieRenderer, 
+	        rendererOptions: {
+	          // Put data labels on the pie slices.
+	          // By default, labels show the percentage of the slice.
+	          showDataLabels: true
+	        }
+	      }, 
+	      legend: { show:true, location: 'e' }
+	    }
+	  );
 	}
 	
 	function ajaxSuccessMasVotadosEncuestas(data)
@@ -71,7 +90,7 @@ $(document).ready(function() {
 				      }, 
 				      legend: { show:true, location: 'e' },
 				      title: {
-			        		text: 'Encuestas mas votadas segun el programa seleccionado',  
+			        		text: 'Encuestas mas votadas-Programa: '+ $('#hdnIdPrograma').val(),  
 			        		show: true,
 			    			}
 				    }
@@ -202,7 +221,7 @@ $(document).ready(function() {
 		else
 		{
 			// Alerta 
-			$('#alertaCragaDatos').html('<strong>ERROR.</strong>');
+			$('#alertaCragaDatos').html('<strong>NO TIENE ENCUESTAS CARGADAS.</strong>');
 			$('#alertaCragaDatos').removeClass('ocultar');
 		}
 		
@@ -261,7 +280,7 @@ $(document).ready(function() {
 			}
 			else
 			{
-				$('#alertaCragaDatos').html('<strong>ERROR</strong>');
+				$('#alertaCragaDatos').html('<strong>No Tiene Votos </strong>');
 				$('#alertaCragaDatos').removeClass('ocultar');
 			}
 	
@@ -273,8 +292,8 @@ $(document).ready(function() {
       				seriesDefaults: {
         							renderer: jQuery.jqplot.PieRenderer, 
         							rendererOptions: {
-          							showDataLabels: true
-        			}	
+          								showDataLabels: true
+        							}	
 			      }, 
 			      legend: { show:true, location: 'e' },
 			      title: {
@@ -350,7 +369,7 @@ $(document).ready(function() {
 		$('#contenido').html(stringTabla);
 		
 		$("#tablaContenido").jqGrid({
-			url:'phpHelper/SmartVoteServices.php?action=1&paged=1',
+			url:'phpHelper/SmartVoteServices.php?action=1&paged=1&activos=true',
 			datatype: 'json',
 			mtype: 'GET',
 			colNames:['NOMBRE','DESCRIPCION','USUARIO ASIGNADO'],
@@ -392,7 +411,7 @@ $(document).ready(function() {
 		$('#contenido').html(stringTabla);
 		
 		$("#tablaContenido").jqGrid({
-			url:'phpHelper/SmartVoteServices.php?action=1&paged=1',
+			url:'phpHelper/SmartVoteServices.php?action=1&paged=1&activos=false',
 			datatype: 'json',
 			mtype: 'GET',
 			colNames:['NOMBRE','DESCRIPCION','USUARIO ASIGNADO'],
@@ -448,7 +467,7 @@ $(document).ready(function() {
 		$('#contenido').html(stringTabla);
 		
 		$("#tablaContenido").jqGrid({
-			url:'phpHelper/SmartVoteServices.php?action=2&paged=1',
+			url:'phpHelper/SmartVoteServices.php?action=2&paged=1&id_p=21',
 			datatype: 'json',
 			mtype: 'GET',
 			colNames:['NOMBRE','DESCRIPCION','NOMBRE PROGRAMA'],
@@ -464,9 +483,6 @@ $(document).ready(function() {
            		  
            		 $("#" + subgrid_id).html("<div class='negro'>Descripcion:"+data.descripcion+"<div>");
            	},
-           	onSelectRow: function(rowid) {
-			    alert(rowid);
-			},
 			pager: '#paginacion',
 			rowNum:5,
 			rowList:[5,10],
@@ -522,7 +538,7 @@ $(document).ready(function() {
 		 
  		$('#alertaCragaDatos').addClass('ocultar');
  		
- 		$('#contenido').html('<div class="hero-unit"><div class="bordeArribaAbajo"><br><table cellpadding="0" cellspacing="0" border="0" class="display" id="example"><thead><tr><th>Id</th><th>Nombre Programa</th></tr></thead>');
+ 		/*$('#contenido').html('<div class="hero-unit"><div class="bordeArribaAbajo"><br><table cellpadding="0" cellspacing="0" border="0" class="display" id="example"><thead><tr><th>Id</th><th>Nombre Programa</th></tr></thead>');
  		$('#contenido').append('<tbody></tbody>');
 		$('#contenido').append('</table></div></div><br><div align="center"><input type="button" value="Ver Grafico" id="vergrafico"/></div>');
  		$('#contenido').append("<div align='center'><img id='gifLoading'src='img/ajax-loaderBlanco.gif' style='display: none;' alt='Loading...'/></div>");
@@ -560,7 +576,50 @@ $(document).ready(function() {
 
 		});
 		
-		var oTable = $('#example').dataTable();
+		var oTable = $('#example').dataTable();*/
+		
+		var stringTabla = "<table id='tablaContenido' align='center'></table><div id='paginacion'></div>";
+		
+		$('#contenido').html(stringTabla);
+		$('#contenido').append('<br><div align="center"><input type="button" value="Ver Grafico" id="vergrafico"/></div>');
+ 		$('#contenido').append("<div align='center'><img id='gifLoading'src='img/ajax-loaderBlanco.gif' style='display: none;' alt='Loading...'/></div>");
+ 		$('#contenido').append("<br><div id='chartdiv' style='height:400px;width:600px; '></div>");
+ 		
+ 		
+		$("#tablaContenido").jqGrid({
+			url:'phpHelper/SmartVoteServices.php?action=1&paged=1',
+			datatype: 'json',
+			mtype: 'GET',
+			colNames:['NOMBRE','DESCRIPCION','USUARIO ASIGNADO'],
+			colModel:[
+				{name:'nombre', editable: true, index:'nombre', width:260,resizable:false, sortable:true},
+				{name:'descripcion', editable: true, index:'descripcion', width:200,search:false},
+				{name:'usuario', editable: true, index:'usuario', width:260,search:false,sortable:true}
+			],
+			subGrid: true,
+           	subGridRowExpanded: function (subgrid_id, row_id) {
+           		
+           		var data =  jQuery('#tablaContenido').jqGrid('getRowData',row_id);
+           		$('#hdnIdPrograma').val(data.nombre);
+           		$("#" + subgrid_id).html("<div>Descripcion:"+data.descripcion+"<div>");
+           	},
+           	onSelectRow: function(rowid) {
+			    var data =  jQuery('#tablaContenido').jqGrid('getRowData',rowid);
+           		$('#hdnIdPrograma').val(data.nombre);
+			},
+			pager: '#paginacion',
+			rowNum:5,
+			rowList:[5,10],
+			sortname: 'id',
+			sortorder: 'asc',
+			viewrecords: true,
+			caption: 'PROGRAMAS',
+			width:700
+		});
+		
+		jQuery("#tablaContenido").jqGrid('hideCol',"descripcion");
+		jQuery("#tablaContenido").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false});
+		
 		
  		$('#vergrafico').button();
  		  
