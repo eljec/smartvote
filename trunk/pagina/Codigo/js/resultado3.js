@@ -239,7 +239,7 @@ $(document).ready(function() {
 			}	
 			else
 			{
-				var graficoMasVotadosEncuestasXPrograma = jQuery.jqplot ('chartdiv', [datos], 
+				/*var graficoMasVotadosEncuestasXPrograma = jQuery.jqplot ('chartdiv', [datos], 
 	    			{ 
 	      				seriesDefaults: {
 	        							// Make this a pie chart.
@@ -256,7 +256,14 @@ $(document).ready(function() {
 			        		show: true,
 			    			}
 				    }
-				  );
+				  );*/
+				 
+				 var datosAux = Morris_Donut(datos);
+				 
+				 Morris.Donut({
+					  element: 'chartdiv',
+					  data: datosAux
+					});
 			}	
 	}
 	
@@ -365,21 +372,80 @@ $(document).ready(function() {
 		
 		var idPrograma = $('#hdnIdPrograma').val();
 		
-		$.getJSON('phpHelper/SmartVoteServices.php?action=2&paged=0&id_p='+idPrograma,ajaxSuccessMisEncuestas);
+		//$.getJSON('phpHelper/SmartVoteServices.php?action=2&paged=0&id_p='+idPrograma,ajaxSuccessMisEncuestas);
+		
+		var stringTabla = "<table id='tablaContenido' align='center'></table><div id='paginacion'></div>";
+		$('#contenido').html(stringTabla);
+		
+		$("#tablaContenido").jqGrid({
+			url:'phpHelper/SmartVoteServices.php?action=2&paged=1&id_p='+ idPrograma ,
+			datatype: 'json',
+			mtype: 'GET',
+			colNames:['NOMBRE','DESCRIPCION','NOMBRE PROGRAMA'],
+			colModel:[
+				{name:'nombre', editable: true, index:'nombre', width:300,resizable:false, sortable:true},
+				{name:'descripcion', editable: true, index:'descripcion', width:400, search:false},
+				{name:'nombrep', editable: true, index:'nombrep', width:300}
+			],
+			subGrid: true,
+           	subGridRowExpanded: function (subgrid_id, row_id) {
+           		
+           		  var data =  jQuery('#tablaContenido').jqGrid('getRowData',row_id);
+           		  
+           		 $("#" + subgrid_id).html("<div class='negro'>Descripcion:"+data.descripcion+"<div>");
+           	},
+			pager: '#paginacion',
+			rowNum:5,
+			rowList:[5,10],
+			sortname: 'id',
+			sortorder: 'asc',
+			viewrecords: true,
+			caption: 'ENCUESTAS ACTIVAS',
+			width:700
+		});
+		
+		jQuery("#tablaContenido").jqGrid('hideCol',"descripcion");
+		jQuery("#tablaContenido").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false});
 		
 	});
 	
 	// Inactivas:
 	
-	/*$('#misEncuestasActivas').click(function(){
+	$('#misEncuestasInactivas').click(function(){
 		
 		$('#contenido').html(cssLoading());
 		
 		$('#alertaCragaDatos').addClass('ocultar');
 		
 		var idPrograma = $('#hdnIdPrograma').val();
+		
+		var stringTabla = "<table id='tablaContenido' align='center'></table><div id='paginacion'></div>";
+		$('#contenido').html(stringTabla);
+		
+		$("#tablaContenido").jqGrid({
+			url:'phpHelper/SmartVoteServices.php?action=2&paged=1&activos=false&id_p='+ idPrograma ,
+			datatype: 'json',
+			mtype: 'GET',
+			colNames:['NOMBRE','FECHA INICIO','FECHA FIN','NOMBRE PROGRAMA'],
+			colModel:[
+				{name:'nombre', editable: true, index:'nombre', width:200,resizable:false, sortable:true},
+				{name:'fechainicio', editable: true, index:'fechainicio', width:000, search:false},
+				{name:'fechafin', editable: true, index:'fechafin', width:200, search:false},
+				{name:'nombrep', editable: true, index:'nombrep', width:300}
+			],
+			pager: '#paginacion',
+			rowNum:5,
+			rowList:[5,10],
+			sortname: 'id',
+			sortorder: 'asc',
+			viewrecords: true,
+			caption: 'ENCUESTAS INACTIVOS',
+			width:700
+		});
+		
+		jQuery("#tablaContenido").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false});
 
-	});*/
+	});
 	
 	// Grafico Gral
 	

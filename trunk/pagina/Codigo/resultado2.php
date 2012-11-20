@@ -16,22 +16,13 @@
             }
         </style>
         
-        <style type="text/css" title="currentStyle">
-			/*@import "css/tabla/css/demo_page.css";*/
-			@import "css/tabla/css/demo_table.css";
-		</style>
-		
 		<link type="text/css" href="css/jquery-ui-1.9.0.custom.css" rel="stylesheet" />
         <link rel="stylesheet" href="css/bootstrapCustom3.min.css">
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="css/common.css">
 		<link rel="stylesheet" href="css/resultado.css">
 		<link rel="stylesheet" href="css/animate.css">
-		
-		
-
 		<link rel="stylesheet" type="css" href="css/jquery.jqplot.css" />
-		
 		<link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
 
     </head>
@@ -47,14 +38,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-                    <a class="brand" href="index.php">SmartVote</a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li><a href="informacion.php">Que es SmartVote?</a></li>
-                            <li><a href="contactanos.php">Contactanos</a></li>
-							<li class="active"><a href="resultado.php">Ejemplos</a></li>
-                        </ul>
-                    </div>
+                    <a class="brand" href="portada.php">SmartVote</a> 
                 </div>
             </div>
         </div>
@@ -104,7 +88,6 @@
 		<script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
         <script src="js/vendor/jquery-1.8.0.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
-        <script src="js/main.js"></script>
 		<script src="js/jquery-ui-1.9.0.custom.min.js"></script>
 		
 		<!-- jqgrid -->
@@ -114,15 +97,14 @@
         <!-- Grafico -->
 		<script language="javascript" type="text/javascript" src="js/jquery.jqplot.min.js"></script>
 		<script type="text/javascript" src="js/plugins/jqplot.pieRenderer.min.js"></script>
-		<script type="text/javascript" src="js/plugins/jqplot.donutRenderer.min.js"></script>
+		<!--<script type="text/javascript" src="js/plugins/jqplot.donutRenderer.min.js"></script>-->
 		
-		<!-- Tabla Nueva -->
-		<script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
-		
+
 		<!--Propia de la Pagina -->
 		<script src="js/resultado2.js" type="text/javascript"></script>
 		
-		
+		<!-- Combo -->
+		<script src="js/ddslick.js"text/javascript"></script>
  
     </body>
 </html>

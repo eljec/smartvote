@@ -260,24 +260,11 @@ class SmartVoteDB {
 	public function ObtenerPagina($start,$limit,$sidx,$sord,$tipo,$_where,$inactivo)
 	{
 			if($tipo=='programa')
-		    	
-				if($_where == "")
-				{
-					if($inactivo == "0")
-					{
-						$consulta = "SELECT * FROM programas where activo=1 ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
-					}
-					else {
-						$consulta = "SELECT * FROM programas where activo=0 ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
-					}
-					
-				}
-				else {
-					//echo $_where;
-
-					$consulta = "SELECT * FROM programas ".$_where." ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
-				}
+		    {				
+				$consulta = "SELECT * FROM programas ".$_where." ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+			}
 			else 
+			{
 				if($_where == "")
 				{
 					if($inactivo == "0")
@@ -299,6 +286,7 @@ class SmartVoteDB {
 					}
 					
 				}
+			}
 				
 		try{
 

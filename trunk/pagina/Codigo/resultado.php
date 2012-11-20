@@ -144,7 +144,7 @@
 		<script src="js/jquery-ui-1.9.0.custom.min.js"></script>
 		
 		<script src="js/i18n/grid.locale-es.js" type="text/javascript"></script>
-        <!--<script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>-->
+        <script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
         <script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
         
         <!-- Grafico-->
@@ -165,6 +165,13 @@
 	
 		<script src="js/resultado3.js" type="text/javascript"></script>
 		<script type="text/javascript" src="js/ddslick.js"></script>
+		
+		<!-- Morris y Raphaël -->
+		
+		<script type="text/javascript" src="js/Raphaël.js"></script>
+		<script type="text/javascript" src="js/morris.js"></script>
+		
+		<script type="text/javascript" src="js/Grafico_Morris.js"></script>
  
     </body>
 </html>
