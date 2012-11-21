@@ -223,13 +223,21 @@ class SmartVoteDB {
 				
 	}
 	
-	public function CantidadProgramasActivos($tipo)
+	public function CantidadPreguntasActivas()
 	{
-		if($tipo == 'programa')
-			$queEmp ="SELECT COUNT(*) AS count FROM programas as p where p.activo=1";	
-		else 
-			$queEmp ="SELECT COUNT(*) AS count FROM encuestas as e where e.activo=1";	
 		
+	}
+	public function CantidadActivos($tipo)
+	{
+		switch ($tipo) {
+			case 'programa':
+					$queEmp ="SELECT COUNT(*) AS count FROM programas as p where p.activo=1";
+				break;
+			case 'encuesta':
+					$queEmp ="SELECT COUNT(*) AS count FROM encuestas as e where e.activo=1";	
+				break;
+		}
+
 		try{
 		
 			$this->conectar();
@@ -259,35 +267,38 @@ class SmartVoteDB {
 	
 	public function ObtenerPagina($start,$limit,$sidx,$sord,$tipo,$_where,$inactivo)
 	{
-			if($tipo=='programa')
-		    {				
-				$consulta = "SELECT * FROM programas ".$_where." ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
-			}
-			else 
-			{
-				if($_where == "")
-				{
-					if($inactivo == "0")
-					{						
-						$consulta = "SELECT e.id,e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p and e.activo=1 ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
-					}
-					else {
-						$consulta = "SELECT e.id,e.nombre,e.fechainicio,e.fechafin,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p and e.activo=0 ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
-					}
-				}					
-				else {
-					
-					if($inactivo == "0")
-					{
-						$consulta = "SELECT e.id,e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ".$_where." ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
-					}
-					else {
-						$consulta = "SELECT e.id,e.nombre,e.fechainicio,e.fechafin,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ".$_where." ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
-					}
-					
-				}
-			}
 				
+			switch ($tipo) {
+				case 'programa':
+						$consulta = "SELECT * FROM programas ".$_where." ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+					break;
+				case 'encuesta':
+						if($_where == "")
+						{
+							if($inactivo == "0")
+							{						
+								$consulta = "SELECT e.id,e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p and e.activo=1 ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+							}
+							else {
+								$consulta = "SELECT e.id,e.nombre,e.fechainicio,e.fechafin,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p and e.activo=0 ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+							}
+						}					
+						else {
+							
+							if($inactivo == "0")
+							{
+								$consulta = "SELECT e.id,e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ".$_where." ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+							}
+							else {
+								$consulta = "SELECT e.id,e.nombre,e.fechainicio,e.fechafin,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ".$_where." ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+							}
+							
+						}
+					break;
+				case 'preguntas':
+					break;
+			}		
+					
 		try{
 
 			$this->conectar();

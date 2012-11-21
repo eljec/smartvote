@@ -72,10 +72,10 @@ $(document).ready(function() {
 		{
 			// Le pongo el tamaño del div //
 		
-			$("#chartdiv" + idGrafico).css("height","400px");
-			$("#chartdiv" + idGrafico).css("width","600px");
+			$("#chartdiv" + idGrafico).css("height","300px");
+			$("#chartdiv" + idGrafico).css("width","400px");
 			
-			var graficoMasPreguntasXEncuesta = jQuery.jqplot ("chartdiv"+idGrafico, [datos], 
+			/*var graficoMasPreguntasXEncuesta = jQuery.jqplot ("chartdiv"+idGrafico, [datos], 
     			{ 
       				seriesDefaults: {
         							renderer: jQuery.jqplot.PieRenderer, 
@@ -89,7 +89,20 @@ $(document).ready(function() {
 		        		show: true,
 		    			}
 			    }
-			  );
+			  );*/
+			 
+			 	var datosAux = Morris_Donut_SINO(datos);
+			 
+				Morris.Donut({
+					    element: 'chartdiv'+ idGrafico,
+					    data: datosAux,
+					    formatter: function (y) { return y + "%" },
+					     colors: [
+							      '#FFDE40',
+							      '#412C84' 
+							      ]
+							      
+					  });
 		}
 		else
 		{
@@ -184,7 +197,7 @@ $(document).ready(function() {
 		 	
 		 	 var oTable = $('#example').dataTable( {
 					"aaData": ddData,
-					"bJQueryUI": true,
+					//"bJQueryUI": true,
 					"aoColumnDefs": [
                         { "bSearchable": false, "bVisible": false, "aTargets": [0,2] },
                         { "bVisible": false, "aTargets": [0,2] },
@@ -211,6 +224,7 @@ $(document).ready(function() {
 		            oTable.fnOpen( nTr, obtenerGraficoPregunta(oTable, nTr), 'details' );
 		        }
 		    } );
+   	
 		}
 		else
 		{
@@ -222,7 +236,7 @@ $(document).ready(function() {
 	
 	function ajaxSuccessGraficoGral(data)
 	{
-			$('#contenido').html("<div id='chartdiv' style='height:400px;width:600px; '></div>");
+			$('#contenido').html("<div id='chartdiv' style='height:300px;width:600px; '></div>");
 			
 			$('#chartdiv').html('');
 	
@@ -258,12 +272,21 @@ $(document).ready(function() {
 				    }
 				  );*/
 				 
-				 var datosAux = Morris_Donut(datos);
+				 /*var datosAux = Morris_Donut(datos);
 				 
 				 Morris.Donut({
 					  element: 'chartdiv',
 					  data: datosAux
-					});
+					});*/
+				
+				var datosAux = Morris_Barras(datos);
+				Morris.Bar({
+						  element: 'chartdiv',
+						  data: datosAux,
+						  xkey: 'y',
+						  ykeys: ['a'],
+						  labels: ['Votos']
+						});
 			}	
 	}
 	
@@ -285,7 +308,7 @@ $(document).ready(function() {
 			else
 			{
 				
-				$('#contenido').html('<table style="width: 100%;"><tr><td class="negro bordeRedondoGral espacioPaddingTop" style="width: 20px;"><select id="listaPregunta" size="3"></select></td><td><h3>Preguntas</h3><div id="contenidoTabla" align="center"><br><table cellpadding="0" cellspacing="0" border="0" class="display" id="example" style="width: 100%;"></table></div></td></tr></table>');
+				$('#contenido').html('<table style="width: 100%;"><tr><td class=" bordeRedondoGral espacioPaddingTop" style="width: 20px;"><select id="listaPregunta" size="3"></select></td><td><h3>Preguntas</h3><div id="contenidoTabla" align="center"><br><table cellpadding="0" cellspacing="0" border="0" class="display" id="example" style="width: 100%;"></table></div></td></tr></table>');
 			
 				$('#listaPregunta').html('');
 				
