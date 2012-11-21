@@ -84,45 +84,11 @@ class SmartVoteManager {
 		return $where;
 	}
 	
-	private function formarConsulta_Paginado()
-	{
-			if($tipo=='programa')
-		    {	
-			
-				$consulta = "SELECT * FROM programas ".$_where." ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;	
-			}
-			else 
-			{
-				if($_where == "")
-				{
-					if($inactivo == "0")
-					{						
-						$consulta = "SELECT e.id,e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p and e.activo=1 ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
-					}
-					else {
-						$consulta = "SELECT e.id,e.nombre,e.fechainicio,e.fechafin,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p and e.activo=0 ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
-					}
-				}					
-				else 
-				{
-					
-					if($inactivo == "0")
-					{
-						$consulta = "SELECT e.id,e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ".$_where." ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
-					}
-					else {
-						$consulta = "SELECT e.id,e.nombre,e.fechainicio,e.fechafin,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ".$_where." ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
-					}
-					
-				}
-			}
-	}
-	
 	public function BuscarProgramas_Paginado($page,$limit,$sidx,$sord,$varGet)
 	{
 		try{
 		
-			$count = $this->baseSmartVote->CantidadProgramasActivos('programa');
+			$count = $this->baseSmartVote->CantidadActivos('programa');
 			
 			// Formo parametros para traer la pagina 
 			
@@ -213,7 +179,7 @@ class SmartVoteManager {
 	{
 		try{
 		
-			$count = $this->baseSmartVote->CantidadProgramasActivos('encuesta');
+			$count = $this->baseSmartVote->CantidadActivos('encuesta');
 			
 			// Formo parametros para traer la pagina 
 			
@@ -322,6 +288,42 @@ class SmartVoteManager {
 		}
 	}
 	
+	public function BuscarPreguntas_Paginado($page,$limit,$sidx,$sord)
+	{
+		try{
+		
+			$count = $this->baseSmartVote->CantidadActivos('preguntas');
+			
+			// Formo parametros para traer la pagina 
+			
+			//En base al numero de registros se obtiene el numero de paginas
+		    if( $count >0 ) 
+			{
+				$total_pages = ceil($count/$limit);
+		    } else 
+			{
+				$total_pages = 0;
+		    }
+		    if ($page > $total_pages)
+		        $page=$total_pages;
+			
+		    //Almacena numero de registro donde se va a empezar a recuperar los registros para la pagina
+		    
+		    $start = $limit*$page - $limit;
+			
+			$datos = $this->baseSmartVote->ObtenerPagina($start, $limit, $sidx, $sord,'preguntas',"","");
+
+			$respuesta = $this->transformarDatosProgramaPaginado($datos,$total_pages,$page,$count,$inactivo);
+			
+			return $respuesta;
+	
+		}catch (Exception $e) {
+		
+			$resp = new Respuesta("ERROR","NO SE PUDO HACER LA BUSQUEDA");
+			
+			return json_encode($resp);
+		}
+	}
 	public function ValidarExistencia($idPrograma,$nombre)
 	{
 		try{
@@ -726,6 +728,37 @@ class SmartVoteManager {
 	}
 	
 	private function transformarDatosProgramaPaginado($datos,$total_pages,$page,$count,$inactivo)
+	{
+		$cadenaDevolver = "{";
+		$cadenaDevolver = $cadenaDevolver." \"total\":\"".$total_pages."\",";
+		$cadenaDevolver = $cadenaDevolver. " \"page\":\"".$page."\",";
+		$cadenaDevolver = $cadenaDevolver. " \"records\":\"".$count."\",";
+		$cadenaDevolver = $cadenaDevolver. "\"rows\":[";
+	    $i=0;
+		
+		
+	    while($fila = mysql_fetch_assoc($datos))
+		{
+	
+			if($i == 0)
+			{
+				$cadenaDevolver = $cadenaDevolver."{\"id\":\"".$fila["id"]."\",";
+				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"])."\"]}";
+			}
+			else
+			{
+				$cadenaDevolver = $cadenaDevolver.",{\"id\":\"".$fila["id"]."\",";
+				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"])."\"]}";
+			}
+	        $i++;
+	    }
+		$cadenaDevolver = $cadenaDevolver. "]}";
+
+
+		return $cadenaDevolver;
+	}
+
+	private function transformarDatosPreguntasPaginado($datos,$total_pages,$page,$count)
 	{
 		$cadenaDevolver = "{";
 		$cadenaDevolver = $cadenaDevolver." \"total\":\"".$total_pages."\",";

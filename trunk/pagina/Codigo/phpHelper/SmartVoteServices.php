@@ -135,9 +135,9 @@
 						if(isset($_GET["id_p"], $_GET["id_e"]))
 						{
 							$id_program=$_GET["id_p"];
-						
+							
 							$id_encuesta=$_GET["id_e"];
-						
+								
 							$respuesta = $adminServicio->BuscarPreguntas($id_program,$id_encuesta);
 						}
 						else

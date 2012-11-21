@@ -38,15 +38,17 @@
 		
 		<link type="text/css" href="css/jquery-ui-1.9.0.custom.css" rel="stylesheet" />
 		<link rel="stylesheet" href="css/bootstrapCustom3.css">
-        <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="css/common.css">
+        <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="css/encuesta2.css">
 
 		<link rel="stylesheet" type="css" href="css/jquery.jqplot.css" />
 		
-		<link rel="stylesheet" type="css" href="css/demo_table_jui.css" />
+		<!--<link rel="stylesheet" type="css" href="css/demo_table_jui.css" />-->
 		
 		<link rel="stylesheet" type="css" href="css/cssLoading.css" />
+		
+		<link rel="stylesheet" type="css" href="css/tabla/css/demo_table.css" />
 		
 		<link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
 
