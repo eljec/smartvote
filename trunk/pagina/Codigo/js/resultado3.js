@@ -66,14 +66,16 @@ $(document).ready(function() {
 		
 		var datos = data.votos;
 		
+		var ema = $("#chartdiv" + idGrafico).parent();
+		
 		var cantidad = datos.length;
 		
 		if(cantidad > 0)
 		{
 			// Le pongo el tamaño del div //
 		
-			$("#chartdiv" + idGrafico).css("height","300px");
-			$("#chartdiv" + idGrafico).css("width","400px");
+			$("#chartdiv" + idGrafico).css("height","200px");
+			$("#chartdiv" + idGrafico).css("width","200px");
 			
 			/*var graficoMasPreguntasXEncuesta = jQuery.jqplot ("chartdiv"+idGrafico, [datos], 
     			{ 
@@ -308,22 +310,26 @@ $(document).ready(function() {
 			else
 			{
 				
-				$('#contenido').html('<table style="width: 100%;"><tr><td class=" bordeRedondoGral espacioPaddingTop" style="width: 20px;"><select id="listaPregunta" size="3"></select></td><td><h3>Preguntas</h3><div id="contenidoTabla" align="center"><br><table cellpadding="0" cellspacing="0" border="0" class="display" id="example" style="width: 100%;"></table></div></td></tr></table>');
+				$('#contenido').html('<table style="width: 100%;"><tr><td style="width: 20px;"><h3>Encuestas</h3><ul class="nav nav-pills nav-stacked"  id="listaPregunta" style="width: 250px; height: 200px; overflow: auto"></ul></td><td><h3>Preguntas</h3><div id="contenidoTabla" align="center"><br><table cellpadding="0" cellspacing="0" border="0" class="display" id="example" style="width: 100%;"></table></div></td></tr></table>');
 			
 				$('#listaPregunta').html('');
 				
 				// LLeno la lista 
 				
-				var opciones = '<option value="0"SELECTED>Seleccione una encuesta</option>';
+				var opciones ="" //'<option value="0"SELECTED>Seleccione una encuesta</option>';
 				
 				for(var i=0;i<data.encuestas.length;i++)
 				{
-					opciones = opciones + '<option value="'+data.encuestas[i].id+'">'+data.encuestas[i].nombre+'</option>';
+					//opciones = opciones + '<option value="'+data.encuestas[i].id+'">'+data.encuestas[i].nombre+'</option>';
+					
+					 //<li><a id="" href="#"></a></li>
+					 
+					opciones = opciones + '<li></i> <a id="'+data.encuestas[i].id+'" href="#">'+data.encuestas[i].nombre+'</a></li>';
 				}
 				
 				$('#listaPregunta').html(opciones);
 				
-				$('#listaPregunta').change(function() {
+				/*$('#listaPregunta').change(function() {
 					
 					$('#alertaCragaDatos').addClass('ocultar');
 					
@@ -345,8 +351,93 @@ $(document).ready(function() {
   						
   						var idPrograma = $('#hdnIdPrograma').val();
   						
-  						$.getJSON('phpHelper/SmartVoteServices.php?action=3&id_p='+idPrograma+'&id_e='+idEncuesta,ajaxSuccessObtenerPreguntas,"json");
+  						//$.getJSON('phpHelper/SmartVoteServices.php?action=3&id_p='+idPrograma+'&id_e='+idEncuesta,ajaxSuccessObtenerPreguntas,"json");
+  					
+  						
+  						var stringTabla = "<table id='tablaContenido' align='center'></table><div id='paginacion'></div>";
+						$('#contenidoTabla').html(stringTabla);
+						
+						$("#tablaContenido").jqGrid({
+							url:'phpHelper/SmartVoteServices.php?action=3&paged=1&id_p='+ idPrograma+'&id_e='+idEncuesta ,
+							datatype: 'json',
+							mtype: 'GET',
+							colNames:['DESCRIPCION','ORDEN'],
+							colModel:[
+								{name:'descripcion', editable: true, index:'descripcion', width:400, search:false},
+								{name:'orden', editable: true, index:'orden', width:300}
+							],
+							subGrid: true,
+				           	subGridRowExpanded: function (subgrid_id, row_id) {
+				           		
+				           		  alert(row_id);
+				           	},
+							pager: '#paginacion',
+							rowNum:2,
+							rowList:[2,4,6,8,10],
+							sortname: 'orden',
+							sortorder: 'asc',
+							viewrecords: true,
+							caption: 'PREGUNTAS',
+							width:700
+						});
+  					
+  					
   					}
+				});*/
+				
+				$('#listaPregunta a').click(function() {
+					
+					$('#alertaCragaDatos').addClass('ocultar');
+					
+					var idEncuesta = $(this).attr("id");
+					
+					$('#hdnIdEncuesta').val(idEncuesta);
+					
+					$('#contenidoTabla').html(cssLoading());
+  						
+  					var idPrograma = $('#hdnIdPrograma').val();
+  					
+  					var stringTabla = "<table id='tablaContenido' align='center'></table><div id='paginacion'></div>";
+						$('#contenidoTabla').html(stringTabla);
+						
+						$("#tablaContenido").jqGrid({
+							url:'phpHelper/SmartVoteServices.php?action=3&paged=1&id_p='+ idPrograma+'&id_e='+idEncuesta ,
+							datatype: 'json',
+							mtype: 'GET',
+							colNames:['DESCRIPCION','ORDEN'],
+							colModel:[
+								{name:'descripcion', editable: true, index:'descripcion', width:400, search:false},
+								{name:'orden', editable: true, index:'orden',align:"center", width:100}
+							],
+							subGrid: true,
+				           	subGridRowExpanded: function (subgrid_id, row_id) {
+				           		
+				           			var data =  jQuery('#tablaContenido').jqGrid('getRowData',row_id);
+				           			
+				           		  	var retorno = "<div align='center' id='chartdiv"+data.orden+"'>"+cssLoading()+"</div>";
+									
+									var indice = data.orden;
+									
+									var idLimpio = $('#hdnIdEncuesta').val();
+									
+									$('#hdnIdGrafico').val(data.orden);
+									
+									$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'preguntas',id_e: idLimpio,indice: indice},ajaxSuccessGraficoPreguntas,"json");
+									
+									$("#" + subgrid_id).html(retorno);
+									
+									//$("#" + subgrid_id + " div").css("margin-left", ($("#" + subgrid_id ).width() - $("#"+ subgrid_id +" div").width()) / 2);
+				           	},
+							pager: '#paginacion',
+							rowNum:2,
+							rowList:[2,4,6,8,10],
+							sortname: 'orden',
+							sortorder: 'asc',
+							viewrecords: true,
+							caption: 'PREGUNTAS',
+							width:630,
+							height:'100%'
+						});
 				});
 			}	
 	}

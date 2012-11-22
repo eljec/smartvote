@@ -132,6 +132,8 @@
 		<input type="hidden" id="hdnIdPrograma" value="<?php  echo $_SESSION['idP']?>" />
 		<input type="hidden" id="hdnNombrePrograma" value="<?php  echo $_SESSION['programa']?>" />
 		
+		<input type="hidden" id="hdnIdEncuesta" value="" />
+		
 		<input type="hidden" id="hdnIdGrafico" value="<?php  echo $_SESSION['programa']?>" />
 		
 		<input type="hidden" id="resultadoValidacion" value="0" />

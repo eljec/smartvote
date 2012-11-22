@@ -137,8 +137,24 @@
 							$id_program=$_GET["id_p"];
 							
 							$id_encuesta=$_GET["id_e"];
+							
+							if(isset($_GET["paged"]))
+							{
+								if($_GET["paged"] == 1)
+								{
+									$respuesta = $adminServicio->BuscarPreguntas_Paginado($_GET, $id_encuesta);
+								}
+								else
+								{
+									$respuesta = $adminServicio->BuscarPreguntas($id_program,$id_encuesta);
+								}
+							}
+							else 
+							{
+								errorParametros("LA URL NO CONTIENE  PARAMETRO paged");
+							}
 								
-							$respuesta = $adminServicio->BuscarPreguntas($id_program,$id_encuesta);
+							
 						}
 						else
 						{
