@@ -288,11 +288,21 @@ class SmartVoteManager {
 		}
 	}
 	
-	public function BuscarPreguntas_Paginado($page,$limit,$sidx,$sord)
+	public function BuscarPreguntas_Paginado($varGet,$id_e)
 	{
+		// Variables 	
+		
+		$page = $varGet['page'];  // Almacena el numero de pagina actual
+	    $limit = $varGet['rows']; // Almacena el numero de filas que se van a mostrar por pagina
+	    $sidx = $varGet['sidx'];  // Almacena el indice por el cual se har� la ordenaci�n de los datos
+	    $sord = $varGet['sord'];  // Almacena el modo de ordenaci�n
+
+	    if(!$sidx) $sidx =1;
+			
+			
 		try{
 		
-			$count = $this->baseSmartVote->CantidadActivos('preguntas');
+			$count = $this->baseSmartVote->CantidadPreguntasActivas($id_e);
 			
 			// Formo parametros para traer la pagina 
 			
@@ -309,11 +319,13 @@ class SmartVoteManager {
 			
 		    //Almacena numero de registro donde se va a empezar a recuperar los registros para la pagina
 		    
+		    $_where = "select pr.id, pr.descripcion, pr.orden from encuestas as e, preguntas as pr where e.id = pr.id_e and e.id='".$id_e."'";
+		    
 		    $start = $limit*$page - $limit;
 			
-			$datos = $this->baseSmartVote->ObtenerPagina($start, $limit, $sidx, $sord,'preguntas',"","");
+			$datos = $this->baseSmartVote->ObtenerPagina($start, $limit, $sidx, $sord,'preguntas',$_where,"");
 
-			$respuesta = $this->transformarDatosProgramaPaginado($datos,$total_pages,$page,$count,$inactivo);
+			$respuesta = $this->transformarDatosPreguntasPaginado($datos,$total_pages,$page,$count);
 			
 			return $respuesta;
 	
@@ -767,22 +779,25 @@ class SmartVoteManager {
 		$cadenaDevolver = $cadenaDevolver. "\"rows\":[";
 	    $i=0;
 		
-		
-	    while($fila = mysql_fetch_assoc($datos))
+		if($datos != false )
 		{
-	
-			if($i == 0)
+			while($fila = mysql_fetch_assoc($datos))
 			{
-				$cadenaDevolver = $cadenaDevolver."{\"id\":\"".$fila["id"]."\",";
-				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"])."\"]}";
-			}
-			else
-			{
-				$cadenaDevolver = $cadenaDevolver.",{\"id\":\"".$fila["id"]."\",";
-				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"])."\"]}";
-			}
-	        $i++;
-	    }
+		
+				if($i == 0)
+				{
+					$cadenaDevolver = $cadenaDevolver."{\"id\":\"".$fila["id"]."\",";
+					$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["orden"])."\"]}";
+				}
+				else
+				{
+					$cadenaDevolver = $cadenaDevolver.",{\"id\":\"".$fila["id"]."\",";
+					$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["orden"])."\"]}";
+				}
+		        $i++;
+		    }
+		}
+	    
 		$cadenaDevolver = $cadenaDevolver. "]}";
 
 

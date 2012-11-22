@@ -223,8 +223,17 @@ class SmartVoteDB {
 				
 	}
 	
-	public function CantidadPreguntasActivas()
+	public function CantidadPreguntasActivas($id_e)
 	{
+		$queEmp ="SELECT COUNT(*) AS count FROM preguntas as pr where pr.id_e='".$id_e."'";
+		
+		$resultado = $this->buscar($queEmp);
+		
+		$row = mysql_fetch_array($resultado);
+		
+		$count = $row['count'];
+		
+		return $count;
 		
 	}
 	public function CantidadActivos($tipo)
@@ -296,6 +305,8 @@ class SmartVoteDB {
 						}
 					break;
 				case 'preguntas':
+							
+							$consulta = $_where." ORDER BY ".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
 					break;
 			}		
 					
