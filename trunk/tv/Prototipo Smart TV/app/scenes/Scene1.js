@@ -22,9 +22,6 @@ SceneScene1.prototype.initialize = function () {
 	
 }
 
-
-
-
 SceneScene1.prototype.handleShow = function () {
 	alert("SceneScene1.handleShow()");
 	
@@ -89,11 +86,11 @@ SceneScene1.prototype.handleKeyDown = function (keyCode) {
 			else
 			{
 				$.sfScene.hide('Scene1');
-				$.sfScene.show('Scene5');
-				$.sfScene.focus('Scene5');
+				//$.sfScene.show('Scene5');
+				//$.sfScene.focus('Scene5');
 				
-				//$.sfScene.show('Scene7');
-				//$.sfScene.focus('Scene7');
+				$.sfScene.show('Scene8');
+				$.sfScene.focus('Scene8');
 				
 				this.configuracion = true;
 			}
