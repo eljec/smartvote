@@ -321,7 +321,6 @@ $(document).ready(function() {
 		
 	}
 	
-	
 	function graficoPreguntasSiguiente()
 	{	
 
