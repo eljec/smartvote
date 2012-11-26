@@ -142,6 +142,7 @@ function errorEncuesta(jqXHR, textStatus, errorThrown)
 
 function ajaxSuccessBajaEncuesta(data)
 {
+	
 	if(data.tipo == "OK"){
 	
 		// Redirecciono a la pagina de Portada
@@ -539,6 +540,13 @@ function inicializarPanelBajaEncuesta()
 		var ddData = $('#listaEncuesta').data('ddslick');
 		
 		var idEncuesta = ddData.selectedData.value; 
+		
+		
+		var textToShow="<div align='center'><img id='gifLoadingPreguntas2'src='img/ajax-loaderBlanco.gif' alt='Loading...'/></div>";
+		$('#mensajeFinal').html(textToShow);
+		$("#mensajeFinal" ).dialog( "option", "title", "Procesando");
+		$('#mensajeFinal').dialog('open');
+				
 		
 		$.post("phpHelper/SmartVoteServices.php",{tipo:'baja',de:'encuesta',id_e: idEncuesta},ajaxSuccessBajaEncuesta,'json').error(ajaxErrorBajaEncuesta);
 

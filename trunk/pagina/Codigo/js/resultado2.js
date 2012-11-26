@@ -536,47 +536,7 @@ $(document).ready(function() {
 	$('#masVotadosEncuestasPorPrograma').click(function(){
 		 
  		$('#alertaCragaDatos').addClass('ocultar');
- 		
- 		/*$('#contenido').html('<div class="hero-unit"><div class="bordeArribaAbajo"><br><table cellpadding="0" cellspacing="0" border="0" class="display" id="example"><thead><tr><th>Id</th><th>Nombre Programa</th></tr></thead>');
- 		$('#contenido').append('<tbody></tbody>');
-		$('#contenido').append('</table></div></div><br><div align="center"><input type="button" value="Ver Grafico" id="vergrafico"/></div>');
- 		$('#contenido').append("<div align='center'><img id='gifLoading'src='img/ajax-loaderBlanco.gif' style='display: none;' alt='Loading...'/></div>");
- 		$('#contenido').append("<br><div id='chartdiv' style='height:400px;width:600px; '></div>");
- 		
- 		$.extend( $.fn.dataTable.defaults, {
-	        "bProcessing": true,
-			"bServerSide": true,
-			"sAjaxSource": "phpHelper/SmartVoteServices.php",
-			"aoColumnDefs": [
-                        { "bSearchable": false, "bVisible": false, "aTargets": [ 0] },
-                        { "bVisible": false, "aTargets": [ 0 ] }
-                    ],
-			"fnServerParams": function ( aoData ) {
-	            aoData.push( { "name": "action", "value": 6 } );
-	        },
-	    } );
- 		
-		$('#example tbody tr').live('click', function (event) {        
-		   if ( $(this).hasClass('row_selected') ) 
-		   	{
-				$(this).removeClass('row_selected');
-				
-				$('hdnIdPrograma').val('');
-			}
-			else {
-				oTable.$('tr.row_selected').removeClass('row_selected');
-				$(this).addClass('row_selected');
-				
-				var sData = oTable.fnGetData( this );
 
-				$('#hdnIdPrograma').val(sData[1]);
-				
-			}
-
-		});
-		
-		var oTable = $('#example').dataTable();*/
-		
 		var stringTabla = "<table id='tablaContenido' align='center'></table><div id='paginacion'></div>";
 		
 		$('#contenido').html(stringTabla);
