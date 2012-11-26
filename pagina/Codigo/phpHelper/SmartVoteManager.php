@@ -87,8 +87,47 @@ class SmartVoteManager {
 	public function BuscarProgramas_Paginado($page,$limit,$sidx,$sord,$varGet)
 	{
 		try{
-		
-			$count = $this->baseSmartVote->CantidadActivos('programa');
+
+			// Analizo filtros //
+			
+			$clase="";
+			$_where="";
+			$inactivo = "0";
+
+			$todos = false ;
+
+			if(isset($varGet["activos"]))
+			{
+				if($varGet["activos"] == 'true')
+				{
+					$_where ="WHERE activo=1 ";
+					$inactivo = "0";
+					$clase = "activos";
+				}
+				else {
+					$_where ="WHERE activo=0 ";
+					$inactivo ='1';
+					$clase = "inactivos";
+				}
+			}
+			else {
+				$todos =true;
+				$inactivo = "";
+			}
+				
+			if(isset($varGet["_search"]))
+			{
+				if($varGet["_search"] == 'true')
+				{
+					$_where = $_where . $this->filtrosPrograma(json_decode($varGet["filters"]),$todos);
+				}
+			}
+			
+			
+			// Formo Numero de Pagina //
+			
+			
+			$count = $this->baseSmartVote->CantidadProgramas($clase);
 			
 			// Formo parametros para traer la pagina 
 			
@@ -103,35 +142,6 @@ class SmartVoteManager {
 		    if ($page > $total_pages)
 		        $page=$total_pages;
 			
-			// Analizo filtros //
-			
-			$_where="";
-			$inactivo = "0";
-
-			$todos = false ;
-
-			if(isset($varGet["activos"]))
-			{
-				if($varGet["activos"] == 'true')
-				{
-					$_where ="WHERE activo=1 ";
-				}
-				else {
-					$_where ="WHERE activo=0 ";
-					$inactivo ='1';
-				}
-			}
-			else {
-				$todos =true;
-			}
-				
-			if(isset($varGet["_search"]))
-			{
-				if($varGet["_search"] == 'true')
-				{
-					$_where = $_where . $this->filtrosPrograma(json_decode($varGet["filters"]),$todos);
-				}
-			}
 			
 			//echo $_where;
 			
@@ -179,23 +189,9 @@ class SmartVoteManager {
 	{
 		try{
 		
-			$count = $this->baseSmartVote->CantidadActivos('encuesta');
-			
-			// Formo parametros para traer la pagina 
-			
-			//En base al numero de registros se obtiene el numero de paginas
-		    if( $count >0 ) 
-			{
-				$total_pages = ceil($count/$limit);
-		    } else 
-			{
-				$total_pages = 0;
-		    }
-		    if ($page > $total_pages)
-		        $page=$total_pages;
-			
 			// Analizo si es una busqueda y formo los filtros //
 			
+			$clase = "";
 			$_where="";
 			$inactivo = "0";
 			
@@ -209,11 +205,13 @@ class SmartVoteManager {
 				if($varGet["activos"] == 'true')
 				{
 					$_where = $_where."AND e.activo=1 ";
+					$clase = "activos";
 					
 				}
 				else {
 					$_where = $_where . "AND e.activo=0 ";
 					$inactivo ='1';
+					$clase = "inactivos";
 				}
 			}
 			else {
@@ -233,6 +231,24 @@ class SmartVoteManager {
 			}
 			
 			//echo $_where;
+			
+			
+			// Formo Numero de Pagina //
+			
+			$count = $this->baseSmartVote->CantidadEncuestas($clase);
+			
+			// Formo parametros para traer la pagina 
+			
+			//En base al numero de registros se obtiene el numero de paginas
+		    if( $count >0 ) 
+			{
+				$total_pages = ceil($count/$limit);
+		    } else 
+			{
+				$total_pages = 0;
+		    }
+		    if ($page > $total_pages)
+		        $page=$total_pages;
 			
 		    //Almacena numero de registro donde se va a empezar a recuperar los registros para la pagina
 		    
@@ -748,22 +764,54 @@ class SmartVoteManager {
 		$cadenaDevolver = $cadenaDevolver. "\"rows\":[";
 	    $i=0;
 		
-		
-	    while($fila = mysql_fetch_assoc($datos))
+		if($inactivo == "")
 		{
-	
-			if($i == 0)
+			while($fila = mysql_fetch_assoc($datos))
 			{
-				$cadenaDevolver = $cadenaDevolver."{\"id\":\"".$fila["id"]."\",";
-				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"])."\"]}";
-			}
-			else
+		
+				if($i == 0)
+				{
+					$cadenaDevolver = $cadenaDevolver."{\"id\":\"".$fila["id"]."\",";
+					$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"]);
+				}
+				else
+				{
+					$cadenaDevolver = $cadenaDevolver.",{\"id\":\"".$fila["id"]."\",";
+					$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"]);
+				}
+				
+				if($fila["activo"] == "0")
+				{
+					$cadenaDevolver = $cadenaDevolver . "\",\""."INACTIVO";
+				}
+				else {
+					$cadenaDevolver = $cadenaDevolver . "\",\""."ACTIVO";
+				}
+				
+				$cadenaDevolver = $cadenaDevolver . "\"]}";
+				
+		        $i++;
+		    }
+		}
+		else {
+			
+			while($fila = mysql_fetch_assoc($datos))
 			{
-				$cadenaDevolver = $cadenaDevolver.",{\"id\":\"".$fila["id"]."\",";
-				$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"])."\"]}";
-			}
-	        $i++;
-	    }
+		
+				if($i == 0)
+				{
+					$cadenaDevolver = $cadenaDevolver."{\"id\":\"".$fila["id"]."\",";
+					$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"])."\"]}";
+				}
+				else
+				{
+					$cadenaDevolver = $cadenaDevolver.",{\"id\":\"".$fila["id"]."\",";
+					$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"])."\"]}";
+				}
+		        $i++;
+		    }
+		}
+	    
 		$cadenaDevolver = $cadenaDevolver. "]}";
 
 

@@ -61,7 +61,7 @@ if($reg != 'jemac')
 									<td><img class="gifLoading"src="img/ajax-loaderNegro.gif" style="display: none;" alt="Loading..."/></td>
 									<td>										
 										<div class="btn-group">
-										  <a class="btn" href=""><i class="icon-user"></i> Administrador</a>
+										  <a class="btn" href=""><i class="icon-user"></i> <?php echo $reg; ?></a>
 										  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
 										  <ul class="dropdown-menu">
 										    <li><a href="#" id="btnLogOn"><i class="icon-minus"></i>Sign On </a></li>
@@ -84,8 +84,6 @@ if($reg != 'jemac')
 				</div>
 			  	<ul class="nav nav-tabs nav-stacked">
  					<li><a href="#" id="nuevoUsuario"><i class="icon-ok"></i> Nuevo usuario</a></li>
-  					<li><a href="#" id="bajaUsuario"><i class="icon-remove"></i> Baja usuario</a></li>
-  					<li><a href="#" id="modUsuario"><i class="icon-refresh"></i> Modificación usuario</a></li>
 				</ul>
 			</div>
 			<div class="span10">
