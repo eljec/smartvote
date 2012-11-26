@@ -6,7 +6,7 @@ function SceneScene8(options) {
 	
 	this.primeraVez;
 	
-	this.EncuestaS;
+	this.idEncuesta;
 	
 	this.error;
 	
@@ -49,6 +49,7 @@ function TraerGraficoPregunta(idEncuesta,indice,primeravez)
 				type: "POST",
 				async:true,
 				url: "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php",
+				//url: "http://localhost:8000/paginaSV/phpHelper/SmartVoteServices.php",
 				data:{tipo:'grafico',de:'preguntas',id_e: idEncuesta,indice:indice},
 				dataType: "json",
 				success: function(data){				
@@ -109,21 +110,21 @@ function TraerGraficoPregunta(idEncuesta,indice,primeravez)
 
 						var dataGrafico = [$.gchart.series('Encuesta', [SI, NO])]; 
 					
-						var ema = this.primeraVez;
+						//var ema = this.primeraVez;
 				
 						$('#defaultChart').removeClass('ocultar');
 						
 						$('#lb_Nombre_Pregunta').text("¿ " + data.desc + " ?");
 						
-						if(primeravez)
-						{
+						//if(primeravez)
+						//{
 							$('#defaultChart').gchart({type: 'pie', series: dataGrafico, legend: 'right', 
 									dataLabels: ['SI', 'NO'], 
 									extension: {chdl: 'SI|NO'}
 							});
 							
 							$('#cargaGraficoPregunta').sfLoading('hide');
-						}
+						/*}
 						else
 						{
 							var data2 = [$.gchart.series('Encuesta', [SI, NO])]; 
@@ -131,7 +132,7 @@ function TraerGraficoPregunta(idEncuesta,indice,primeravez)
 							$('#defaultChart').gchart('change', {series:data2});
 							
 							$('#cargaGraficoPregunta').sfLoading('hide');
-						}
+						}*/
 						
 					}
 				},
@@ -173,14 +174,116 @@ SceneScene8.prototype.handleFocus = function () {
 	
 	$('#cargaGraficoPregunta').sfLoading('show');
 	
-	var VariablesEscena3 = $.sfScene.get('Scene3');
-	this.EncuestaS = VariablesEscena3.EncuestaSeleccionada;
+	/*var VariablesEscena7 = $.sfScene.get('Scene7');
+	this.idEncuesta = VariablesEscena7.idE;*/
 	
-	var idE = this.EncuestaS.getId();
 	
 	//TraerGraficoPregunta(3,1,this.primeraVez);
 	
-	TraerGraficoPregunta(idE,1,this.primeraVez);
+	//TraerGraficoPregunta(this.idEncuesta,1,this.primeraVez);
+	
+	var indice = 1;
+	var idEncuesta = 3; //this.idEncuesta;
+	
+	var ju ="";
+	
+	$.ajax({
+				type: "POST",
+				async:true,
+				//url: "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php",
+				url: "http://localhost:8000/paginaSV/phpHelper/SmartVoteServices.php",
+				
+				data:{tipo:'grafico',de:'preguntas',id_e:idEncuesta,indice:indice},
+				dataType: "json",
+				success: function(data){				
+
+					var datos = data.votos;
+					
+					var cantidad = datos.length;
+					
+					// Guardo siguiente anterior en variables de la escena //
+					
+					/*var ema2 = data.anterior;
+					
+					var ema3 = data.siguiente;*/
+					
+					if(data.anterior == null)
+					{
+						//this.Anterior = null;
+						
+						$('#anterior').val('0');
+					}
+					else					
+					{
+						$('#anterior').val(data.anterior);
+					}
+					
+					if(data.siguiente == null)
+					{
+						//this.Siguiente = null;
+						
+						$('#siguiente').val('0');
+					}
+					else					
+					{
+						$('#siguiente').val(data.siguiente);
+					}
+		
+					if(cantidad == 0)
+					{
+						$('#cargaGraficoPregunta').sfLoading('hide');
+						
+						this.error="Upss Vuelva a intentarlo...";
+					
+						$('#popUpErrorGraficoPregunta').sfPopup({text:this.error, num:'1', callback:null});
+						$('#popUpErrorGraficoPregunta').sfPopup('show');
+					}	
+					else
+					{
+						// SI y NO 
+					
+						var SI = datos[0][1];
+						var NO = datos[1][1];
+					
+						var total = SI + NO;
+
+						this.si = (SI * 100)/total;
+					
+						this.no = 100-this.si;
+
+						var dataGrafico = [$.gchart.series('Encuesta', [SI, NO])]; 
+					
+						var primeraVez = this.primeraVez;
+				
+						$('#defaultChart').removeClass('ocultar');
+						
+						$('#lb_Nombre_Pregunta').text("¿ " + data.desc + " ?");
+						
+						
+						$('#defaultChart').gchart({type: 'pie', series: dataGrafico, legend: 'right', 
+									dataLabels: ['SI', 'NO'], 
+									extension: {chdl: 'SI|NO'}
+							});
+							
+						$('#cargaGraficoPregunta').sfLoading('hide');						
+					}
+				},
+				error:function(jqXHR, textStatus, errorThrown){
+
+					$('#cargaGraficoPregunta').sfLoading('hide');
+					
+					this.error="Ocurrio un ERROR: ";
+					
+					if (jqXHR.status === 0) {
+						this.error=this.error + '\nVerifique su conexiòn a Internet.';
+					} else {
+						this.error= this.error + "\nIntentelo mas tarde.Gracias."
+					}
+					
+					$('#popUpErrorGraficoPregunta').sfPopup({text:this.error, num:'1', callback:'null'});
+					$('#popUpErrorGraficoPregunta').sfPopup('show');
+				}
+		});
 	
 	
 }
@@ -199,7 +302,7 @@ SceneScene8.prototype.handleKeyDown = function (keyCode) {
 			// Aalizo si Tiene Anterior //
 			
 			var anterior = $('#anterior').val();
-			var idE = this.EncuestaS.getId();
+			//var idE = this.EncuestaS.getId();
 			
 			if(anterior== '0')
 			{
@@ -211,12 +314,13 @@ SceneScene8.prototype.handleKeyDown = function (keyCode) {
 			{
 				this.primeraVez=false;
 				$('#cargaGraficoPregunta').sfLoading('show');
-				TraerGraficoPregunta(idE,anterior,this.primeraVez);
+				//TraerGraficoPregunta(idE,anterior,this.primeraVez);
 			}
 			break;
 		case $.sfKey.RIGHT:
 			
 			var siguiente = $('#siguiente').val();
+			//var idE = this.EncuestaS.getId();
 			
 			if(siguiente == '0')
 			{
@@ -228,7 +332,7 @@ SceneScene8.prototype.handleKeyDown = function (keyCode) {
 			{
 				this.primeraVez=false;
 				$('#cargaGraficoPregunta').sfLoading('show');
-				TraerGraficoPregunta(idE,siguiente,this.primeraVez);
+				//TraerGraficoPregunta(idE,siguiente,this.primeraVez);
 			}
 			
 			break;

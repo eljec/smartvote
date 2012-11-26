@@ -12,6 +12,8 @@ function SceneScene7(options) {
 	this.primeraVez;
 	
 	this.EncuestaS;
+	
+	this.idE;
 }
 
 SceneScene7.prototype.initialize = function () {
@@ -67,6 +69,8 @@ SceneScene7.prototype.handleFocus = function () {
 	
 	var VariablesEscena3 = $.sfScene.get('Scene3');
 	this.EncuestaS = VariablesEscena3.EncuestaSeleccionada;
+	
+	this.idE = this.EncuestaS.getId();
 }
 
 SceneScene7.prototype.handleBlur = function () {
