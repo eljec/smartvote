@@ -84,6 +84,8 @@
 		
 		<input type="hidden" id="hdnIdPrograma" value="" />
 		<input type="hidden" id="hdnNumPregunta" value="" />
+		<input type="hidden" id="hdnIdGrafico" value="" />
+		<input type="hidden" id="hdnIdEncuesta" value="" />
 		
 		<script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
         <script src="js/vendor/jquery-1.8.0.min.js"></script>
@@ -95,16 +97,24 @@
         <script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
         
         <!-- Grafico -->
-		<script language="javascript" type="text/javascript" src="js/jquery.jqplot.min.js"></script>
+		<!--<script language="javascript" type="text/javascript" src="js/jquery.jqplot.min.js"></script>
 		<script type="text/javascript" src="js/plugins/jqplot.pieRenderer.min.js"></script>
-		<!--<script type="text/javascript" src="js/plugins/jqplot.donutRenderer.min.js"></script>-->
+		
+		<script type="text/javascript" src="js/plugins/jqplot.donutRenderer.min.js"></script>-->
 		
 
 		<!--Propia de la Pagina -->
 		<script src="js/resultado2.js" type="text/javascript"></script>
 		
 		<!-- Combo -->
-		<script src="js/ddslick.js"text/javascript"></script>
+		<script src="js/ddslick.js" type="text/javascript"></script>
+		
+		<!-- Morris y Raphaël -->
+		
+		<script type="text/javascript" src="js/Raphaël.js"></script>
+		<script type="text/javascript" src="js/morris.js"></script>
+		
+		<script type="text/javascript" src="js/Grafico_Morris.js"></script>
  
     </body>
 </html>

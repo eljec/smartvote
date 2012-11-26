@@ -234,16 +234,44 @@ class SmartVoteDB {
 		$count = $row['count'];
 		
 		return $count;
-		
+	
 	}
-	public function CantidadActivos($tipo)
+	
+	public function CantidadEncuestas($clase)
 	{
-		switch ($tipo) {
-			case 'programa':
+		switch ($clase) {
+			case 'activos':
+					$queEmp ="SELECT COUNT(*) AS count FROM encuestas as e where e.activo=1";	
+				break;
+			case 'inactivos':
+					$queEmp ="SELECT COUNT(*) AS count FROM encuestas as e where e.activo=0";	
+				break;
+			default:
+					$queEmp ="SELECT COUNT(*) AS count FROM encuestas";	
+				break;
+		}
+		
+		$resultado = $this->buscar($queEmp);
+		
+		$row = mysql_fetch_array($resultado);
+		
+		$count = $row['count'];
+		
+		return $count;
+	}
+	
+	public function CantidadProgramas($clase)
+	{
+		
+		switch ($clase) {
+			case 'activos':
 					$queEmp ="SELECT COUNT(*) AS count FROM programas as p where p.activo=1";
 				break;
-			case 'encuesta':
-					$queEmp ="SELECT COUNT(*) AS count FROM encuestas as e where e.activo=1";	
+			case 'inactivos':
+					$queEmp ="SELECT COUNT(*) AS count FROM programas as p where p.activo=0";
+				break;
+			default:
+					$queEmp ="SELECT COUNT(*) AS count FROM programas";
 				break;
 		}
 
@@ -299,6 +327,7 @@ class SmartVoteDB {
 								$consulta = "SELECT e.id,e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ".$_where." ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
 							}
 							else {
+								
 								$consulta = "SELECT e.id,e.nombre,e.fechainicio,e.fechafin,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ".$_where." ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
 							}
 							
@@ -313,6 +342,8 @@ class SmartVoteDB {
 		try{
 
 			$this->conectar();
+			
+			//echo $consulta;
 			
 			$result = mysql_query($consulta, $this->db_conexion);
 			
@@ -426,8 +457,10 @@ class SmartVoteDB {
 
 			$cadenaValidar ="SELECT * FROM encuestas WHERE id_p='".$id_p."' and nombre='".$nombre."'";
 			
-			$fecha_actual = date("Y-m-d");
+			//$fecha_actual = new date("Y-m-d");
 
+			$fecha_actual = new DateTime('Y-m-d H:i:s');
+			
 			$existe = $this->validarRepetido($cadenaValidar);
 
 			if($existe)
@@ -888,7 +921,9 @@ class SmartVoteDB {
 
 	public function BajaEncuesta($id_e)
 	{
-		$consulta = "UPDATE encuestas SET activo=0 WHERE id='".$id_e."'";
+		$fecha_actual = new DateTime('Y-m-d H:i:s');
+		
+		$consulta = "UPDATE encuestas SET activo=0,fechafin='".$fecha_actual."' WHERE id='".$id_e."'";
 		
 		try{
 		

@@ -53,9 +53,9 @@ $(document).ready(function() {
 			window.location ="administracionusuario.php";
 			});
 			
-			/*$('#resultado').click(function(){
-			window.location ="resultado.php";
-			});*/
+			$('#resultado').click(function(){
+			window.location ="resultadoadmin.php";
+			});
        	}
        	else
        	{
