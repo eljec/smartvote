@@ -82,7 +82,7 @@ SceneScene2.prototype.handleFocus = function () {
 		type:"GET",
 		async:true,
 		dataType:"json",
-		url:"http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=1&paged=0",
+		url:"http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=1&paged=0&activos=true",
 		success:function(data){
 			 
 				var tam = data.programas.length;

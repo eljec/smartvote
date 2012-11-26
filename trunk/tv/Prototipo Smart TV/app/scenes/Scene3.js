@@ -150,11 +150,11 @@ function validarPoderVotarSinConfiguracion(idEncuesta,idTV){
 			else
 			{
 				$.sfScene.hide('Scene3');
-				$.sfScene.show('Scene4');
-				$.sfScene.focus('Scene4');
+				//$.sfScene.show('Scene4');
+				//$.sfScene.focus('Scene4');
 				
-				//$.sfScene.show('Scene7');
-				//$.sfScene.focus('Scene7');
+				$.sfScene.show('Scene7');
+				$.sfScene.focus('Scene7');
 			}
 							
 		}, 
@@ -250,7 +250,7 @@ SceneScene3.prototype.handleFocus = function () {
 	
 	// Formo lo url de consulta //
 
-	var urlBD = "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=2&paged=0&id_p=" +  this.programaSeleccionado.getId();
+	var urlBD = "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=2&paged=0&activos=true&id_p=" +  this.programaSeleccionado.getId();
 	
 	var arrayEncuestas = new Array();
 	var arrayNombresEnc = new Array();
