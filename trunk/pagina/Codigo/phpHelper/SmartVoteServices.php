@@ -78,8 +78,16 @@
 								else
 								{
 									/* Busqueda Común */
+									
+									if(isset($_GET["activos"]))
+									{
+										$respuesta = $adminServicio->BuscarProgramas($_GET["activos"]);
+									}
+									else {
+										$respuesta = $adminServicio->BuscarProgramas("");
+									}
 										
-									$respuesta = $adminServicio->BuscarProgramas();
+									
 								}								
 							}
 						}
@@ -115,7 +123,17 @@
 										$id_program=$_GET["id_p"]; 	
 										
 										 /* Busqueda Común */	
-										$respuesta = $adminServicio->BuscarEncuestas($id_program);
+										 
+										if(isset($_GET["activos"]))
+										{
+											$respuesta = $adminServicio->BuscarEncuestas($id_program,$_GET["activos"]);
+										}
+										else {
+											$respuesta = $adminServicio->BuscarEncuestas($id_program, "");
+										}
+										 
+										 
+										
 									}
 									else
 									{

@@ -41,11 +41,9 @@
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="css/common.css">
 		<link rel="stylesheet" href="css/encuesta2.css">
-
-		<!--<link rel="stylesheet" type="css" href="css/jquery.jqplot.css" />-->
 		
-		<link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
-
+		<link rel="stylesheet" href="css/animate.css">
+		
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -102,7 +100,7 @@
 				</ul>
 				<div class="tab-content">
 					    <div class="tab-pane active" id="panelNuevaEncuesta">
-							<div class="negro bordeRedondoGral">
+							<div class="negro bordeRedondoGral animated rotateIn">
 								<h3 id="tituloAccion" align="center">Alta Encuestas</h3>
 							</div>	
 							<div id="contenido" align="center">	
@@ -256,7 +254,7 @@
 							</div>
 						</div>
 						<div class="tab-pane" id="panelBajaEncuesta">
-							<div class="negro bordeRedondoGral">
+							<div class="negro bordeRedondoGral animated rotateIn">
 								<h3 align="center">Baja Encuestas</h3>
 							</div>
 								<br>
@@ -279,7 +277,7 @@
 										</tr>
 									</table>								
 									<br>	
-									<img id="gifLoading"src="img/ajax-loaderBlanco.gif" style="display: none;" alt="Loading..."/>
+									<img id="gifLoading"src="img/gifBarrasLoading.gif" style="display: none;" alt="Loading..."/>
 									<br>
 								</div>
 						</div>
@@ -303,10 +301,7 @@
         <script src="js/vendor/bootstrap.min.js"></script>
         <script src="js/main.js"></script>
 		<script src="js/jquery-ui-1.9.0.custom.min.js"></script>
-		
-		<script src="js/i18n/grid.locale-es.js" type="text/javascript"></script>
-        <script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
-        
+		     
         <?php 
 			if($categoria == 'administrador')
 			{

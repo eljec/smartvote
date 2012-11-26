@@ -246,7 +246,7 @@ $(document).ready(function() {
 		$('#contenido').html(stringTabla);
 		
 		$("#tablaContenido").jqGrid({
-			url:'phpHelper/SmartVoteServices.php?action=2&paged=1&id_p='+ idPrograma ,
+			url:'phpHelper/SmartVoteServices.php?action=2&paged=1&activos=true&id_p='+ idPrograma ,
 			datatype: 'json',
 			mtype: 'GET',
 			colNames:['NOMBRE','DESCRIPCION','NOMBRE PROGRAMA'],

@@ -1,6 +1,34 @@
 
 $(document).ready(function() {
 
+	//LOG ON 
+	
+	function showAlert()
+	{
+		$('.label-important').text('Ups!! Ocurrio, intentelo mas tarde.');		
+		$('.label-important').removeClass('ocultar');	
+	}
+	
+	function successLogon(data)
+	{
+		$('.gifLoading').hide();
+				
+			if(data.tipo =="OK")
+			{
+				// Redirecciono a la pagina de portada 
+				
+				 window.location = "index.php";
+			}
+			else{
+				showAlert();
+			}
+	}
+	
+	function errorLogon()
+	{
+		$('.gifLoading').hide();
+		showAlert();
+	}
 	
 	// FUNCIONES DE MANEJO DE PETICIONES AJAXS //
 	
@@ -390,6 +418,8 @@ $(document).ready(function() {
 	
 	$('#masVotadosProgramas').click(function(){
 		
+		$('#tituloAccion').text('Grafico: Programas mas Votados');
+		
 		$('#alertaCragaDatos').addClass('ocultar');
 		
 		// Cargo el gif de carga //
@@ -469,7 +499,7 @@ $(document).ready(function() {
 			sortname: 'id',
 			sortorder: 'asc',
 			viewrecords: true,
-			caption: 'LISTA ENCUESTAS INACTIVOS',
+			caption: 'LISTA ENCUESTAS INACTIVAS',
 			width:700
 		});
 		
@@ -486,7 +516,6 @@ $(document).ready(function() {
 		var stringTabla = "<table id='tablaContenido' align='center'></table><div id='paginacion'></div>";
 		
 		$('#contenido').html(stringTabla);
-		//$('#contenido').append('<br><div align="center"><input type="button" value="Ver Grafico" id="vergrafico"/></div>');
  		$('#contenido').append("<div align='center'><img id='gifLoading'src='img/ajax-loaderBlanco.gif' style='display: none;' alt='Loading...'/></div>");
  		$('#contenido').append("<br><div id='chartdiv' style='height:400px;width:600px; '></div>");
  		

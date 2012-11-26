@@ -161,12 +161,21 @@ class SmartVoteDB {
 	
 	//--->BUSCAR 
 	
-	public function BuscarProgramas()
+	public function BuscarProgramas($tipo)
 	{
-
-		$queEmp = "SELECT * FROM programas as p where p.activo=1";
-
-
+		
+		switch ($tipo) {
+			case 'true':
+					$queEmp = "SELECT * FROM programas as p where p.activo=1";
+				break;
+			case 'false':
+					$queEmp = "SELECT * FROM programas as p where p.activo=0";
+				break;
+			default:
+					$queEmp = "SELECT * FROM programas";
+				break;
+		}
+		
 		try{
 		
 			$this->conectar();
@@ -237,19 +246,11 @@ class SmartVoteDB {
 	
 	}
 	
-	public function CantidadEncuestas($clase)
+	public function CantidadEncuestas($_where)
 	{
-		switch ($clase) {
-			case 'activos':
-					$queEmp ="SELECT COUNT(*) AS count FROM encuestas as e where e.activo=1";	
-				break;
-			case 'inactivos':
-					$queEmp ="SELECT COUNT(*) AS count FROM encuestas as e where e.activo=0";	
-				break;
-			default:
-					$queEmp ="SELECT COUNT(*) AS count FROM encuestas";	
-				break;
-		}
+		$queEmp = "SELECT COUNT(*) AS count FROM programas as p, encuestas as e WHERE p.id=e.id_p ".$_where;
+		
+		//echo $queEmp;
 		
 		$resultado = $this->buscar($queEmp);
 		
@@ -364,9 +365,21 @@ class SmartVoteDB {
 		}
 	}
 	
-	public function BuscarEncuestas($id_program)
+	public function BuscarEncuestas($id_program,$tipo)
 	{
-		$auxString = "select e.id, e.id_p, e.nombre, e.descripcion from programas as p,encuestas as e where e.id_p = p.id and p.activo=1 and e.activo=1 and p.id=";
+		switch ($tipo) {
+			case 'true':
+					$auxString = "select e.id, e.id_p, e.nombre, e.descripcion from programas as p,encuestas as e where e.id_p = p.id and e.activo=1 and p.id=";
+				break;
+			case 'false':
+					$auxString = "select e.id, e.id_p, e.nombre, e.descripcion from programas as p,encuestas as e where e.id_p = p.id and e.activo=0 and p.id=";
+				break;
+				
+			default:
+					$auxString = "select e.id, e.id_p, e.nombre, e.descripcion from programas as p,encuestas as e where e.id_p = p.id and p.id=";
+				break;
+		}
+		
 		$queEmp = $auxString . $id_program;
 		
 		try{
@@ -522,7 +535,7 @@ class SmartVoteDB {
 			
 			$flagRepetido=false;
 			
-			$fecha_actual = date("Y-m-d");
+			$fecha_actual = date("Y-m-d H:i:s"); //date("Y-m-d");
 
 			// Creo la Encuesta y Obtengo su Id--> En caso de error regreso todo al estado anterior 
 			
@@ -921,7 +934,7 @@ class SmartVoteDB {
 
 	public function BajaEncuesta($id_e)
 	{
-		$fecha_actual = new DateTime('Y-m-d H:i:s');
+		$fecha_actual = date("Y-m-d H:i:s"); //new DateTime('Y-m-d H:i:s');
 		
 		$consulta = "UPDATE encuestas SET activo=0,fechafin='".$fecha_actual."' WHERE id='".$id_e."'";
 		
