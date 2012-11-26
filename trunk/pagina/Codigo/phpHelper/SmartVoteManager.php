@@ -476,6 +476,7 @@ class SmartVoteManager {
 			$cadenaRetorno = $cadenaRetorno.",\"desc\":".json_encode($datos["desc"]);
 			$cadenaRetorno = $cadenaRetorno.",".$this->transformarDatosGraficoArray($datos["votos"]);
 			$cadenaRetorno = $cadenaRetorno."}";
+			
 			echo $cadenaRetorno;
 			
 		}catch(Exception $e){
