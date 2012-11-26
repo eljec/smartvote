@@ -172,7 +172,7 @@
 		
 		<!-- Morris y Raphaël -->
 		
-		<script type="text/javascript" src="js/Raphaël.js"></script>
+		<script type="text/javascript" src="js/Rafael.js"></script>
 		<script type="text/javascript" src="js/morris.js"></script>
 		
 		<script type="text/javascript" src="js/Grafico_Morris.js"></script>
