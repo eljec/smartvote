@@ -652,13 +652,17 @@ class SmartVoteDB {
 		
 		$consulta = "SELECT id,descripcion FROM preguntas WHERE id_e='".$id_encuesta."' and orden='".$indice."'";
 		
+		//echo $consulta;
+		
 		$resultado = $this->buscar($consulta);
 		
 		$row = mysql_fetch_array($resultado);
 		
 		$id_pr = $row['id'];
 		
-		$desc = $row['descripcion'];
+		$desc = utf8_encode($row['descripcion']);
+		
+		//echo $desc;
 		
 		// 2) Analizo si tiene siguiente
 		
