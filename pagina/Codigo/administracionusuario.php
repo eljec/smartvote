@@ -32,7 +32,7 @@ if($reg != 'jemac')
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="css/common.css">
 		<link rel="stylesheet" href="css/contacto.css">
-		
+		<link rel="stylesheet" href="css/animate.css">
 		
 
 		<link rel="stylesheet" type="css" href="css/jquery.jqplot.css" />
@@ -79,7 +79,7 @@ if($reg != 'jemac')
         <div class="container-fluid">
 		  <div class="row-fluid">
 			<div class="span2">
-				<div class="negro bordeRedondoGral">
+				<div class="negro bordeRedondoGral animated rotateInUpLeft">
 					<h3 id="tituloAcordion" align="center">Menu</h3>
 				</div>
 			  	<ul class="nav nav-tabs nav-stacked">
@@ -87,7 +87,7 @@ if($reg != 'jemac')
 				</ul>
 			</div>
 			<div class="span10">
-				<div class="negro bordeRedondoGral">
+				<div class="negro bordeRedondoGral animated rotateInUpRight">
 					<h3 id="tituloAccion" align="center">Resultados</h3>
 				</div>
 				<div id="alertaCragaDatos" class="alert ocultar TamAlerta">

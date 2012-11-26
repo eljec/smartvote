@@ -480,7 +480,7 @@ function llenaListaEncuestas()
 	
 	var idPrograma = $('#hdnIdPrograma').val(); 
 	
-	$.getJSON('phpHelper/SmartVoteServices.php?action=2&paged=0&id_p='+idPrograma, function(data) {
+	$.getJSON('phpHelper/SmartVoteServices.php?action=2&paged=0&activos=true&id_p='+idPrograma, function(data) {
 		  
 			$('#gifLoading').hide();
 
@@ -536,6 +536,7 @@ function inicializarPanelBajaEncuesta()
 	
 	$('#bajaEncuesta').attr('disabled','disabled');
 	
+	$('#listaEncuesta').ddslick('destroy');
 	
 	$.getJSON('phpHelper/SmartVoteServices.php?action=1&paged=0',successListaPrograma_BajaEncuesta);
 	
@@ -608,7 +609,7 @@ function successListaPrograma_BajaEncuesta(data)
 			// Alerta que ya no hay mas encuestas
 			
 			$('#alertaPreguntas').addClass('alert-error');	
-			$('#alertaBajaEncuesta').html("<strong>No hay encuestas para este programa.</strong>");	
+			$('#alertaBajaEncuesta').html("<strong>No hay encuestas activas para este programa.</strong>");	
 			$('#alertaBajaEncuesta').removeClass('ocultar');
 				
 		}	 
@@ -664,7 +665,7 @@ function inicializarPanelProgramas()
 	
 	$('#listaPrograma').html('<img src="img/gifBarrasLoading.gif" alt="Loading..."/>');
 	
-	$.getJSON('phpHelper/SmartVoteServices.php?action=1&paged=0',successListaPrograma_AltaEncuesta).error(ajaxErrorCargaListaProgramas);
+	$.getJSON('phpHelper/SmartVoteServices.php?action=1&paged=0&activos=true',successListaPrograma_AltaEncuesta).error(ajaxErrorCargaListaProgramas);
 }
 
 $(function() {

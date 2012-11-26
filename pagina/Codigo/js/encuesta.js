@@ -368,48 +368,7 @@ function inicializarPanelPreguntas()
 	$('.pregunta').val('');
 	
 	$('#alertaPreguntas').addClass('ocultar');
-	
-	$('#crearEncuesta').click(function(){
-		
-		// Veo si el panel anterior esta completo 
-		
-		var panelUno = $('#resultadoValidacion').val();
-		
-		if(panelUno == 0)
-		{
-			$('#alertaPreguntas').removeClass('alert-success');
-			$('#alertaPreguntas').addClass('alert-error');	
-			$('#alertaPreguntas').html("<strong>El Panel anterior no esta completo.</strong>");	
-			$('#alertaPreguntas').removeClass('ocultar');
-		}
-		else
-		{
-			var validacion = validarPreguntas();
-			
-			if(validacion)
-			{
-				// Inserto
-				
-				var arrayPreguntasDatos = formarDatos();
-				
-				var textToShow="<div align='center'><img id='gifLoadingPreguntas2'src='img/ajax-loaderBlanco.gif' alt='Loading...'/></div>";
-				$('#mensajeFinal').html(textToShow);
-				$("#mensajeFinal" ).dialog( "option", "title", "Procesando");
-				$('#mensajeFinal').dialog('open');
-				
-				var idPrograma = $('#hdnIdPrograma').val(); 
-	
-				var nombreNuevaEncuesta = $("#nameNuevaEncuesta").val();
-			
-				var descNuevaEncuesta = $("#textAreaNuevaEncuesta").val();
 
-				$.post("phpHelper/SmartVoteServices.php",{ tipo:'encuesta',nombreE: nombreNuevaEncuesta, descE:descNuevaEncuesta, id_p: idPrograma,Arr_preguntas: arrayPreguntasDatos}, successEncuesta, "json").error(errorEncuesta);
-
-			}
-		}
-		
-	});	
-	
 	$('.pregunta').focus(function() {
 		$('.control-group').removeClass('error');
 		$('.help-inline').hide();
@@ -483,7 +442,7 @@ function llenaListaProgramas()
 	
 	var idPrograma = $('#hdnIdPrograma').val(); 
 	
-	$.getJSON('phpHelper/SmartVoteServices.php?action=2&paged=0&id_p='+idPrograma, function(data) {
+	$.getJSON('phpHelper/SmartVoteServices.php?action=2&paged=0&activos=true&id_p='+idPrograma, function(data) {
 		  
 			$('#gifLoading').hide();
 
@@ -587,6 +546,49 @@ $(function() {
 	inicializarPanelEncuesta();
 	
 	validarEncuesta();
+	
+	// Inicializar Boton Creación Encuesta 
+	
+	$('#crearEncuesta').click(function(){
+		
+		// Veo si el panel anterior esta completo 
+		
+		var panelUno = $('#resultadoValidacion').val();
+		
+		if(panelUno == 0)
+		{
+			$('#alertaPreguntas').removeClass('alert-success');
+			$('#alertaPreguntas').addClass('alert-error');	
+			$('#alertaPreguntas').html("<strong>El Panel anterior no esta completo.</strong>");	
+			$('#alertaPreguntas').removeClass('ocultar');
+		}
+		else
+		{
+			var validacion = validarPreguntas();
+			
+			if(validacion)
+			{
+				// Inserto
+				
+				var arrayPreguntasDatos = formarDatos();
+				
+				var textToShow="<div align='center'><img id='gifLoadingPreguntas2'src='img/ajax-loaderBlanco.gif' alt='Loading...'/></div>";
+				$('#mensajeFinal').html(textToShow);
+				$("#mensajeFinal" ).dialog( "option", "title", "Procesando");
+				$('#mensajeFinal').dialog('open');
+				
+				var idPrograma = $('#hdnIdPrograma').val(); 
+	
+				var nombreNuevaEncuesta = $("#nameNuevaEncuesta").val();
+			
+				var descNuevaEncuesta = $("#textAreaNuevaEncuesta").val();
+
+				$.post("phpHelper/SmartVoteServices.php",{ tipo:'encuesta',nombreE: nombreNuevaEncuesta, descE:descNuevaEncuesta, id_p: idPrograma,Arr_preguntas: arrayPreguntasDatos}, successEncuesta, "json").error(errorEncuesta);
+
+			}
+		}
+		
+	});	
 	
 	// Panel Baja de Encuestas //
 	

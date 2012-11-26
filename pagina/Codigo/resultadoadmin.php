@@ -1,4 +1,26 @@
 
+<?php
+session_start();
+
+$reg=$_SESSION['user'];
+
+if(!isset($reg)) //sino hay usuario que inicio sesion se pasa a la pantalla de login
+{
+    header("Location: index.php");
+}
+else 
+{
+
+	$categoria = $_SESSION["categoria"];
+	
+	if($categoria !='administrador')
+	{
+		 header("Location: index.php");
+	}
+}
+
+?>
+
 <!DOCTYPE html>
  <html class="no-js">
     <head>
@@ -17,12 +39,11 @@
         </style>
         
 		<link type="text/css" href="css/jquery-ui-1.9.0.custom.css" rel="stylesheet" />
-        <link rel="stylesheet" href="css/bootstrapCustom3.min.css">
+        <link rel="stylesheet" href="css/bootstrapCustom3.css">
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="css/common.css">
 		<link rel="stylesheet" href="css/resultado.css">
 		<link rel="stylesheet" href="css/animate.css">
-		<link rel="stylesheet" type="css" href="css/jquery.jqplot.css" />
 		<link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
 
     </head>
@@ -39,6 +60,26 @@
                         <span class="icon-bar"></span>
                     </a>
                     <a class="brand" href="portada.php">SmartVote</a> 
+                    <div class="nav-collapse collapse">
+                        <div class="navbar-form pull-right">
+							<table>
+								<tr>
+									<td><span class="label label-important ocultar"></span></td>
+									<td><img class="gifLoading"src="img/ajax-loaderNegro.gif" style="display: none;" alt="Loading..."/></td>
+									<td>										
+										<div class="btn-group">
+										  <a class="btn" href=""><i class="icon-user"></i><?php echo $reg; ?></a>
+										  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+										  <ul class="dropdown-menu">
+										    <li><a href="#" id="btnLogOn"><i class="icon-minus"></i>Sign On </a></li>
+										    <li class="divider"></li>
+										  </ul>
+										</div>
+									</td>	
+								</tr>
+							</table>						
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -96,13 +137,6 @@
 		<script src="js/i18n/grid.locale-es.js" type="text/javascript"></script>
         <script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
         
-        <!-- Grafico -->
-		<!--<script language="javascript" type="text/javascript" src="js/jquery.jqplot.min.js"></script>
-		<script type="text/javascript" src="js/plugins/jqplot.pieRenderer.min.js"></script>
-		
-		<script type="text/javascript" src="js/plugins/jqplot.donutRenderer.min.js"></script>-->
-		
-
 		<!--Propia de la Pagina -->
 		<script src="js/resultado2.js" type="text/javascript"></script>
 		

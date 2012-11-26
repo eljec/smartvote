@@ -39,7 +39,6 @@
                         <ul class="nav">
                             <li><a href="informacion.php">Que es SmartVote?</a></li>
                             <li class="active"><a href="contactanos.php">Contactanos</a></li>
-							<li><a href="ejemplos.php">Ejemplos</a></li>
                         </ul>
                     </div>
                 </div>
