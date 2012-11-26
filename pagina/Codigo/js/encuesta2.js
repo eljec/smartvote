@@ -213,6 +213,33 @@ function ajaxErrorBajaEncuesta(jqXHR, textStatus, errorThrown)
 	$('#mensajeFinal').dialog('open');
 }
 
+
+function ajaxErrorCargaListaProgramas(jqXHR, textStatus, errorThrown)
+{
+	var textToShow="";
+	
+	if (jqXHR.status === 0) {
+		textToShow="<div align='center'><image src='img/rss_alt_32x32.png'/></div><strong><h2>OCURRIO UN ERROR!</h2></strong><p>Al parecer no esta conectado a Internet.</p><p>Verifique su conexion</p>";
+	} else {
+		textToShow="<div align='center'><image src='img/x_alt_32x32.png'/></div><strong><h2>OCURRIO UN ERROR!</h2></strong><p>Intentelo mas tarde...</p>";
+	}
+
+	$('#mensajeFinal').removeClass("alert-info");
+	$('#mensajeFinal').addClass("alert-error");
+	$('#mensajeFinal').html(textToShow);
+	
+	$( "#mensajeFinal" ).dialog( "option", "buttons", 
+		{ 
+			"OK": function() 
+			{ 
+				window.location = "encuestas.php";
+			}
+	});
+	
+	$("#mensajeFinal" ).dialog( "option", "title", "Aviso" );
+	$('#mensajeFinal').dialog('open');
+}
+
 function validarEncuesta()
 {
 	$('#validarEncuesta').click(function(){
@@ -542,19 +569,35 @@ function llenaListaEncuestas()
 
 function inicializarPanelBajaEncuesta()
 {
+	$('#gifLoading').show();
+	
 	$('#alertaBajaEncuesta').addClass('ocultar');
 
 	$('#listaPrograma_BajaEncusta').attr('disabled','disabled');
 	
+	$('#bajaEncuesta').attr('disabled','disabled');
+	
+	
 	$.getJSON('phpHelper/SmartVoteServices.php?action=1&paged=0',successListaPrograma_BajaEncuesta);
 	
-	//llenaListaEncuestas();
-
+	
+	
+	
+	
+	// CLick del Boton Baja Encuesta//
+	
 	$('#bajaEncuesta').click(function(){
 		
 		var ddData = $('#listaEncuesta').data('ddslick');
 		
 		var idEncuesta = ddData.selectedData.value; 
+		
+		// Muetro cartel de Procesando //
+		
+		var textToShow="<div align='center'><img src='img/ajax-loaderBlanco.gif' alt='Loading...'/></div>";
+		$('#mensajeFinal').html(textToShow);
+		$("#mensajeFinal" ).dialog( "option", "title", "Procesando");
+		$('#mensajeFinal').dialog('open');
 		
 		$.post("phpHelper/SmartVoteServices.php",{tipo:'baja',de:'encuesta',id_e: idEncuesta},ajaxSuccessBajaEncuesta,'json').error(ajaxErrorBajaEncuesta);
 
@@ -614,7 +657,7 @@ function successListaPrograma_BajaEncuesta(data)
 
 function successListaPrograma_AltaEncuesta(data)
 {
-		$('#gifLoading').hide();
+		//$('#gifLoading').hide();
 
 		$('#listaPrograma').removeAttr('disabled','disabled');
 		
@@ -656,13 +699,13 @@ function successListaPrograma_AltaEncuesta(data)
 function inicializarPanelProgramas()
 {
 
-	$('#listaPrograma').attr('disabled','disabled');
+	//$('#listaPrograma').attr('disabled','disabled');
 	
 	$('#hdnIdPrograma').val('');
 	
-	$('#gifLoading').show();
+	$('#listaPrograma').html('<img src="img/gifBarrasLoading.gif" alt="Loading..."/>');
 	
-	$.getJSON('phpHelper/SmartVoteServices.php?action=1&paged=0',successListaPrograma_AltaEncuesta);
+	$.getJSON('phpHelper/SmartVoteServices.php?action=1&paged=0',successListaPrograma_AltaEncuesta).error(ajaxErrorCargaListaProgramas);
 }
 
 $(function() {
@@ -692,7 +735,9 @@ $(function() {
 	});
 	
 	
-	// Panel Programas 
+	// Panel Alta Encuesta 
+	
+	// Pestaña: Programas 
 	
 	inicializarPanelProgramas();
 	

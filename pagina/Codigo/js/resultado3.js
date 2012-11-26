@@ -32,32 +32,7 @@ $(document).ready(function() {
 		showAlert();
 	}
 	
-	function fnFormatDetails ( oTable, nTr )
-	{
-	    var aData = oTable.fnGetData( nTr );
-	    var sOut = '<div align="center">'+aData[2]+'</div>';
 
-	    return sOut;
-	}
-
-	function obtenerGraficoPregunta( oTable, nTr)
-	{
-
-		var aData = oTable.fnGetData( nTr );
-		
-		var indice = aData[0];
-		
-		var idLimpio = $("#listaPregunta option:selected").val();
-
-		var retorno = "<div align='center' id='chartdiv"+aData[0]+"'>"+cssLoading()+"</div>";
-		
-		$('#hdnIdGrafico').val(aData[0]);
-		
-		$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'preguntas',id_e: idLimpio,indice: indice},ajaxSuccessGraficoPreguntas,"json");
-	
-		return retorno;
-	}
-	
 	function ajaxSuccessGraficoPreguntas(data)
 	{
 		var idGrafico = $('#hdnIdGrafico').val();
@@ -77,22 +52,6 @@ $(document).ready(function() {
 			$("#chartdiv" + idGrafico).css("height","200px");
 			$("#chartdiv" + idGrafico).css("width","200px");
 			
-			/*var graficoMasPreguntasXEncuesta = jQuery.jqplot ("chartdiv"+idGrafico, [datos], 
-    			{ 
-      				seriesDefaults: {
-        							renderer: jQuery.jqplot.PieRenderer, 
-        							rendererOptions: {
-          							showDataLabels: true
-        			}	
-			      }, 
-			      legend: { show:true, location: 'e' },
-			      title: {
-		        		text: '',  
-		        		show: true,
-		    			}
-			    }
-			  );*/
-			 
 			 	var datosAux = Morris_Donut_SINO(datos);
 			 
 				Morris.Donut({
@@ -100,9 +59,10 @@ $(document).ready(function() {
 					    data: datosAux,
 					    formatter: function (y) { return y + "%" },
 					     colors: [
-							      '#FFDE40',
-							      '#412C84' 
+							      '#200772', // Color SI
+							      '#A2000C'  // Color NO
 							      ]
+							   
 							      
 					  });
 		}
@@ -113,127 +73,6 @@ $(document).ready(function() {
 			$("#chartdiv" + idGrafico).html('<strong> NO hay votos para esta encuesta.</strong>');
 		}
 		
-	}
-	
-	function ajaxSuccessMisEncuestas(data)
-	{
-	
-		var ddData = new Array();
-		
-		if(data.encuestas.length > 0)
-		{
-			for(var i=0;i<data.encuestas.length;i++)
-			{
-				var nuevoObjeto = new Array();
-				
-				nuevoObjeto.push(data.encuestas[i].id);
-				nuevoObjeto.push(data.encuestas[i].nombre);
-				nuevoObjeto.push(data.encuestas[i].descripcion);
-				nuevoObjeto.push('<img src="img/read_more_16x16.png"/>');
-
-				ddData.push(nuevoObjeto);
-			}
-		 	
-		 	// Pongo Tabla 
-		 	
-			$('#contenido').html('<div class="hero-unit"><h3>Mis Encuestas</h3><div class=""><br><table cellpadding="0" cellspacing="0" border="0" class="display" id="example">');
-			$('#contenido').append('</table></div></div>');
-			
-		 	 var oTable = $('#example').dataTable( {
-					"aaData": ddData,
-					"bJQueryUI": true,
-					"aoColumnDefs": [
-                        { "bSearchable": false, "bVisible": false, "aTargets": [0,2] },
-                        { "bVisible": false, "aTargets": [0,2] }
-                    ],
-					"aoColumns": [
-			            { "sTitle": "Id" },
-			            { "sTitle": "Nombre"},
-			            { "sTitle": "Desc", "sClass": "center"},
-			            { "sTitle": "Descripcion", "sClass": "center"}
-			        ]	
-			} );	
-			
-			 $('#example tbody td img').live('click', function () {
-		        var nTr = $(this).parents('tr')[0];
-		        if ( oTable.fnIsOpen(nTr) )
-		        {
-		            oTable.fnClose( nTr );
-		        }
-		        else
-		        {		            
-		            oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr), 'details' );
-		        }
-		    } );
-		}
-		else
-		{
-			// Alerta 
-			$('#alertaCragaDatos').html('<strong>No hay encuestas cargadas.</strong>');
-			$('#contenido').html('');
-			$('#alertaCragaDatos').removeClass('ocultar');
-		}
-		
-	}
-
-	function ajaxSuccessObtenerPreguntas(data)
-	{
-		
-		$('#contenidoTabla').html('<br><table cellpadding="0" cellspacing="0" border="0" class="display" id="example"></table>');
-		
-		var ddData = new Array();
-		
-		if(data.preguntas.length > 0)
-		{
-			for(var i=0;i<data.preguntas.length;i++)
-			{
-				var nuevoObjeto = new Array();
-				
-				nuevoObjeto.push(data.preguntas[i].id);
-				nuevoObjeto.push("¿"+data.preguntas[i].descripcion+"?");
-				nuevoObjeto.push(data.preguntas[i].orden);
-				nuevoObjeto.push('<img src="img/chart_16x16_azul.png"/>');
-
-				ddData.push(nuevoObjeto);
-			}
-		 	
-		 	 var oTable = $('#example').dataTable( {
-					"aaData": ddData,
-					//"bJQueryUI": true,
-					"aoColumnDefs": [
-                        { "bSearchable": false, "bVisible": false, "aTargets": [0,2] },
-                        { "bVisible": false, "aTargets": [0,2] },
-                        { "bSortable": false, "aTargets": [3] }
-                    ],
-					"aoColumns": [
-			            { "sTitle": "Id" },
-			            { "sTitle": "Pregunta"},
-			            { "sTitle": "Orden", "sClass": "center"},
-			            { "sTitle": "Grafico", "sClass": "center"}
-			        ]	
-			} );	
-			
-			 $('#example tbody td img').live('click', function () {
-		        var nTr = $(this).parents('tr')[0];
-		        if ( oTable.fnIsOpen(nTr) )
-		        {
-		        	this.src = "img/chart_16x16_azul.png";
-		            oTable.fnClose( nTr );
-		        }
-		        else
-		        {		
-		        	this.src = "img/chart_16x16_rojo.png";            
-		            oTable.fnOpen( nTr, obtenerGraficoPregunta(oTable, nTr), 'details' );
-		        }
-		    } );
-   	
-		}
-		else
-		{
-			// Alerta 
-			$('#alertaCragaDatos').html('<strong>No hay preguntas cargadas.</strong>');
-			$('#alertaCragaDatos').removeClass('ocultar');
-		}
 	}
 	
 	function ajaxSuccessGraficoGral(data)
@@ -255,31 +94,6 @@ $(document).ready(function() {
 			}	
 			else
 			{
-				/*var graficoMasVotadosEncuestasXPrograma = jQuery.jqplot ('chartdiv', [datos], 
-	    			{ 
-	      				seriesDefaults: {
-	        							// Make this a pie chart.
-	        							renderer: jQuery.jqplot.PieRenderer, 
-	        							rendererOptions: {
-	        		 					 // Put data labels on the pie slices.
-	          							// By default, labels show the percentage of the slice.
-	          							showDataLabels: true
-	        			}	
-				      }, 
-				      legend: { show:true, location: 'e' },
-				      title: {
-			        		text: 'Votos Encuesta',  
-			        		show: true,
-			    			}
-				    }
-				  );*/
-				 
-				 /*var datosAux = Morris_Donut(datos);
-				 
-				 Morris.Donut({
-					  element: 'chartdiv',
-					  data: datosAux
-					});*/
 				
 				var datosAux = Morris_Barras(datos);
 				Morris.Bar({
@@ -316,74 +130,16 @@ $(document).ready(function() {
 				
 				// LLeno la lista 
 				
-				var opciones ="" //'<option value="0"SELECTED>Seleccione una encuesta</option>';
+				var opciones ="";
 				
 				for(var i=0;i<data.encuestas.length;i++)
 				{
-					//opciones = opciones + '<option value="'+data.encuestas[i].id+'">'+data.encuestas[i].nombre+'</option>';
-					
-					 //<li><a id="" href="#"></a></li>
 					 
 					opciones = opciones + '<li></i> <a id="'+data.encuestas[i].id+'" href="#">'+data.encuestas[i].nombre+'</a></li>';
 				}
 				
 				$('#listaPregunta').html(opciones);
 				
-				/*$('#listaPregunta').change(function() {
-					
-					$('#alertaCragaDatos').addClass('ocultar');
-					
-  					var idEncuesta = $("#listaPregunta option:selected").val();
-  					
-  					if(idEncuesta == 0)
-  					{
-  						// Alerta
-  						
-  						$('#alertaCragaDatos').html('<strong>Debe seleccionar una opcion</strong>');
-  						$('#alertaCragaDatos').removeClass('ocultar');
-  						$('#contenidoTabla').html('');
-  					}
-  					else
-  					{
-  						// Cargar tabla de  
-  						
-  						$('#contenidoTabla').html(cssLoading());
-  						
-  						var idPrograma = $('#hdnIdPrograma').val();
-  						
-  						//$.getJSON('phpHelper/SmartVoteServices.php?action=3&id_p='+idPrograma+'&id_e='+idEncuesta,ajaxSuccessObtenerPreguntas,"json");
-  					
-  						
-  						var stringTabla = "<table id='tablaContenido' align='center'></table><div id='paginacion'></div>";
-						$('#contenidoTabla').html(stringTabla);
-						
-						$("#tablaContenido").jqGrid({
-							url:'phpHelper/SmartVoteServices.php?action=3&paged=1&id_p='+ idPrograma+'&id_e='+idEncuesta ,
-							datatype: 'json',
-							mtype: 'GET',
-							colNames:['DESCRIPCION','ORDEN'],
-							colModel:[
-								{name:'descripcion', editable: true, index:'descripcion', width:400, search:false},
-								{name:'orden', editable: true, index:'orden', width:300}
-							],
-							subGrid: true,
-				           	subGridRowExpanded: function (subgrid_id, row_id) {
-				           		
-				           		  alert(row_id);
-				           	},
-							pager: '#paginacion',
-							rowNum:2,
-							rowList:[2,4,6,8,10],
-							sortname: 'orden',
-							sortorder: 'asc',
-							viewrecords: true,
-							caption: 'PREGUNTAS',
-							width:700
-						});
-  					
-  					
-  					}
-				});*/
 				
 				$('#listaPregunta a').click(function() {
 					
@@ -426,7 +182,6 @@ $(document).ready(function() {
 									
 									$("#" + subgrid_id).html(retorno);
 									
-									//$("#" + subgrid_id + " div").css("margin-left", ($("#" + subgrid_id ).width() - $("#"+ subgrid_id +" div").width()) / 2);
 				           	},
 							pager: '#paginacion',
 							rowNum:2,
@@ -486,9 +241,8 @@ $(document).ready(function() {
 		
 		var idPrograma = $('#hdnIdPrograma').val();
 		
-		//$.getJSON('phpHelper/SmartVoteServices.php?action=2&paged=0&id_p='+idPrograma,ajaxSuccessMisEncuestas);
-		
 		var stringTabla = "<table id='tablaContenido' align='center'></table><div id='paginacion'></div>";
+		
 		$('#contenido').html(stringTabla);
 		
 		$("#tablaContenido").jqGrid({
@@ -542,7 +296,7 @@ $(document).ready(function() {
 			mtype: 'GET',
 			colNames:['NOMBRE','FECHA INICIO','FECHA FIN','NOMBRE PROGRAMA'],
 			colModel:[
-				{name:'nombre', editable: true, index:'nombre', width:200,resizable:false, sortable:true},
+				{name:'nombre', editable: true, index:'nombre', width:200,resizable:true, sortable:true},
 				{name:'fechainicio', editable: true, index:'fechainicio', width:000, search:false},
 				{name:'fechafin', editable: true, index:'fechafin', width:200, search:false},
 				{name:'nombrep', editable: true, index:'nombrep', width:300}
@@ -580,8 +334,6 @@ $(document).ready(function() {
 		}
 		else
 		{
-
-			//$('#gifLoading').show();
 			
 			$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'encuestas',nombreP: nombrePrograma} ,ajaxSuccessGraficoGral,"json");
 		}	
