@@ -48,7 +48,7 @@ function TraerGraficoPregunta(idEncuesta,indice,primeravez)
 		$.ajax({
 				type: "POST",
 				async:true,
-				url: "http://localhost:8000/paginaSV/phpHelper/SmartVoteServices.php",
+				url: "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php",
 				data:{tipo:'grafico',de:'preguntas',id_e: idEncuesta,indice:indice},
 				dataType: "json",
 				success: function(data){				
@@ -58,7 +58,11 @@ function TraerGraficoPregunta(idEncuesta,indice,primeravez)
 					var cantidad = datos.length;
 					
 					// Guardo siguiente anterior en variables de la escena //
-
+					
+					var ema2 = data.anterior;
+					
+					var ema3 = data.siguiente;
+					
 					if(data.anterior == null)
 					{
 						//this.Anterior = null;
@@ -169,7 +173,16 @@ SceneScene8.prototype.handleFocus = function () {
 	
 	$('#cargaGraficoPregunta').sfLoading('show');
 	
-	TraerGraficoPregunta(3,1,this.primeraVez);
+	var VariablesEscena3 = $.sfScene.get('Scene3');
+	this.EncuestaS = VariablesEscena3.EncuestaSeleccionada;
+	
+	var idE = this.EncuestaS.getId();
+	
+	//TraerGraficoPregunta(3,1,this.primeraVez);
+	
+	TraerGraficoPregunta(idE,1,this.primeraVez);
+	
+	
 }
 
 SceneScene8.prototype.handleBlur = function () {
@@ -186,6 +199,7 @@ SceneScene8.prototype.handleKeyDown = function (keyCode) {
 			// Aalizo si Tiene Anterior //
 			
 			var anterior = $('#anterior').val();
+			var idE = this.EncuestaS.getId();
 			
 			if(anterior== '0')
 			{
@@ -197,7 +211,7 @@ SceneScene8.prototype.handleKeyDown = function (keyCode) {
 			{
 				this.primeraVez=false;
 				$('#cargaGraficoPregunta').sfLoading('show');
-				TraerGraficoPregunta(3,anterior,this.primeraVez);
+				TraerGraficoPregunta(idE,anterior,this.primeraVez);
 			}
 			break;
 		case $.sfKey.RIGHT:
@@ -214,7 +228,7 @@ SceneScene8.prototype.handleKeyDown = function (keyCode) {
 			{
 				this.primeraVez=false;
 				$('#cargaGraficoPregunta').sfLoading('show');
-				TraerGraficoPregunta(3,siguiente,this.primeraVez);
+				TraerGraficoPregunta(idE,siguiente,this.primeraVez);
 			}
 			
 			break;

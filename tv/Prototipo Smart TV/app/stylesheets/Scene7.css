@@ -47,10 +47,10 @@ text-align:center;
 
 #SceneScene7 #svecImage_4PVJ{
 	position : absolute;
-	left : 340px;
+	left : 380px;
 	top : 190px;
-	width : 280px;
-	height : 240px;
+	width : 230px;
+	height : 220px;
 }
 
 .imagenGrafico{
@@ -67,8 +67,3 @@ text-align:center;
 	display:none;
 }
 
-#SceneScene7 #cargaGrafico{
-	position : absolute;
-	left : 410px;
-	top : 230px;
-}

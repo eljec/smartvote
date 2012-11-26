@@ -225,7 +225,7 @@ SceneScene4.prototype.handleFocus = function () {
 	this.EncuestaS = VariablesEscena3.EncuestaSeleccionada;
 	this.yaVoto=false;
 	
-	var urlPrg = "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=3&id_p=" + this.EncuestaS.getIdP()+"&id_e="+ this.EncuestaS.getId();
+	var urlPrg = "http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=3&paged=0&id_p=" + this.EncuestaS.getIdP()+"&id_e="+ this.EncuestaS.getId();
 	
 	var arrayPreguntasNombre = new Array();
 	
