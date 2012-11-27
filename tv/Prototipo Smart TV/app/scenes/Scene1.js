@@ -85,12 +85,12 @@ SceneScene1.prototype.handleKeyDown = function (keyCode) {
 			}
 			else
 			{
-				$.sfScene.hide('Scene1');
+				//$.sfScene.hide('Scene1');
 				//$.sfScene.show('Scene5');
 				//$.sfScene.focus('Scene5');
 				
-				$.sfScene.show('Scene8');
-				$.sfScene.focus('Scene8');
+				//$.sfScene.show('Scene7');
+				//$.sfScene.focus('Scene7');
 				
 				this.configuracion = true;
 			}
