@@ -150,11 +150,11 @@ function validarPoderVotarSinConfiguracion(idEncuesta,idTV){
 			else
 			{
 				$.sfScene.hide('Scene3');
-				//$.sfScene.show('Scene4');
-				//$.sfScene.focus('Scene4');
+				$.sfScene.show('Scene4');
+				$.sfScene.focus('Scene4');
 				
-				$.sfScene.show('Scene7');
-				$.sfScene.focus('Scene7');
+				//$.sfScene.show('Scene7');
+				//$.sfScene.focus('Scene7');
 			}
 							
 		}, 
@@ -190,22 +190,12 @@ SceneScene3.prototype.initialize = function () {
 	
 	
 	$('#lbEncuesta').sfLabel({text:'Sección Encuestas', width:'440px'});
-	$('#helpBar3').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Informacion del Sistema','return':'Rregresar al Hub'});
+	$('#helpBar3').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Info','return':'Rregresar al Hub','GREEN':'Ver Gráfico'});
 	
 	$('#cargandoEncuestas').sfLoading('show');
 	$('#lbTituloDescripcionEncuesta').sfLabel({text:'Desccipción', width:'200px'});
 	$('#fotoREncuesta').sfImage({src:'images/survey-checkboxes.jpg'});
 	$('#svecImage_XY3F').sfImage({src:'images/encuestas-265x300.jpg'});
-	
-	$('#popUpRegresoEncuesta').sfPopup({text:'¿ Seguro desea regresar a la pantalla anterior ?', num:'2', callback:function(data){
-			
-				if(data)
-				{
-					$.sfScene.hide('Scene3');
-					$.sfScene.show('Scene2');
-					$.sfScene.focus('Scene2');
-				}
-	}});
 	
 } // fin initialize
 
@@ -363,6 +353,15 @@ SceneScene3.prototype.handleKeyDown = function (keyCode) {
 	switch (keyCode) {
 		case $.sfKey.LEFT:
 			
+			$('#popUpRegresoEncuesta').sfPopup({text:'¿ Seguro desea regresar a la pantalla anterior ?', num:'2', callback:function(data){
+			
+				if(data)
+				{
+					$.sfScene.hide('Scene3');
+					$.sfScene.show('Scene2');
+					$.sfScene.focus('Scene2');
+				}
+			}});
 			$('#popUpRegresoEncuesta').sfPopup('show');
 				
 			break;
@@ -422,7 +421,38 @@ SceneScene3.prototype.handleKeyDown = function (keyCode) {
 			   }
 			 }
 			break;
+			
+		case $.sfKey.GREEN:
+				
+			if( this.activo==false)
+			{
+				this.error = "Seleccione alguna encuesta de la lista";
+				$('#popErrorE').sfPopup({text:this.error, num:'1', callback:'null'});
+				$('#popErrorE').sfPopup('show');
+			}
+			else
+			{
+				// Obtengo la Encuesta seleccionada //
+				
+				var seleccion = $('#listaEncuestas').sfListbox2('getIndex');
 
+				this.EncuestaSeleccionada = this.Encuestas[seleccion];
+				
+				$('#popUpRegresoEncuesta').sfPopup({text:'¿ Desea ver el gráfico de esta encuesta ?', num:'2', callback:function(data){
+				
+					if(data)
+					{
+						$.sfScene.hide('Scene3');
+						$.sfScene.show('Scene8');
+						$.sfScene.focus('Scene8');
+					}
+				}});
+				
+				$('#popUpRegresoEncuesta').sfPopup('show');
+			}
+			
+			break;
+		
 		case $.sfKey.ENTER:
 		
 			if( this.activo==false)
