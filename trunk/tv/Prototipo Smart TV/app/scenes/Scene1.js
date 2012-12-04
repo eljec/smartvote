@@ -13,7 +13,7 @@ SceneScene1.prototype.initialize = function () {
 	
 	$('#lbTituloSistema').sfLabel({text:'Smart Vote', width:'320px'});
 	$('#B_CargaProgramas').sfButton({text:'Iniciar', width:'109px'});
-	$('#btnPresentacion').sfButton({text:'Configuración', width:'122px'});
+	$('#btnTest').sfButton({text:'Test', width:'122px'});
 	$('#logo').sfImage({src:'images/logoTV.png'});
 	$('#helpBar').sfKeyHelp({'return':'Return'});
 	
@@ -39,7 +39,7 @@ SceneScene1.prototype.handleFocus = function () {
 	
 	this.btnIniciar = true;
 	$('#B_CargaProgramas').sfButton('focus');
-	$('#btnPresentacion').sfButton('blur');
+	$('#btnTest').sfButton('blur');
 }
 
 SceneScene1.prototype.handleBlur = function () {
@@ -57,7 +57,7 @@ SceneScene1.prototype.handleKeyDown = function (keyCode) {
 			if(!this.btnIniciar)
 			{
 				$('#B_CargaProgramas').sfButton('focus');
-				$('#btnPresentacion').sfButton('blur');
+				$('#btnTest').sfButton('blur');
 				this.btnIniciar = true;
 			}
 
@@ -67,7 +67,7 @@ SceneScene1.prototype.handleKeyDown = function (keyCode) {
 			if(this.btnIniciar)
 			{
 				$('#B_CargaProgramas').sfButton('blur');
-				$('#btnPresentacion').sfButton('focus');
+				$('#btnTest').sfButton('focus');
 				this.btnIniciar = false;
 			}
 

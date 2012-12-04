@@ -8,6 +8,7 @@ function SceneScene8(options) {
 	
 	this.idEncuestaSelect;
 	
+	this.EncuestaS;
 }
 
 function GraficoPregunta(idEncuesta,indice)
@@ -123,10 +124,18 @@ SceneScene8.prototype.handleFocus = function () {
 	alert("SceneScene8.handleFocus()");
 	// this function will be called when the scene manager focus this scene
 	
-	var VariablesEscena7 = $.sfScene.get('Scene7');
-	this.idEncuestaSelect = VariablesEscena7.idE;
+	/*var VariablesEscena7 = $.sfScene.get('Scene7');
+	this.idEncuestaSelect = VariablesEscena7.idE;*/
 	
-	var idEncuesta = this.idEncuestaSelect;
+	//var idEncuesta = this.idEncuestaSelect;
+	
+	var VariablesEscena3 = $.sfScene.get('Scene3');
+	this.EncuestaS = VariablesEscena3.EncuestaSeleccionada;
+	
+	var idEncuesta = this.EncuestaS.getId();
+	
+	this.idEncuestaSelect = idEncuesta;
+	
 	var indice = 1;
 	
 	$('#CargandoGrafico').sfLoading('show');
