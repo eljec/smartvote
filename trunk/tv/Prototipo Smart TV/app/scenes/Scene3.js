@@ -274,6 +274,10 @@ SceneScene3.prototype.handleFocus = function () {
 					
 				}
  
+				// Limpio la lista //
+				
+				
+				
 				/* Analisis del numero a mostrar */
 
 				if(tam>5)
@@ -286,6 +290,8 @@ SceneScene3.prototype.handleFocus = function () {
 				   $('#listaEncuestas').sfListbox2({data:arrayNombresEnc, width:'200', height:'31', itemsPerPage:tam, horizontal:'false'});
 				   //$('#listaEncuestas').sfListbox2('focus');
 				}
+				
+				$('#listaEncuestas').sfListbox2('clear');
 			}
 			else
 			{

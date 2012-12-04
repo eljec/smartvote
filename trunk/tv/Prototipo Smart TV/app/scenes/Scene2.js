@@ -109,6 +109,8 @@ SceneScene2.prototype.handleFocus = function () {
 				   $('#ListaProgramas').sfListbox2({data:arrayPN, width:'200', height:'31', itemsPerPage:tam, horizontal:'false'});	
 				}
 				
+				$('#ListaProgramas').sfListbox2('clear');
+				 
 				$('#cargandoProgramas').sfLoading('hide');
 			
 		  }, // fin success
