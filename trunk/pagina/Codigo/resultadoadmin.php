@@ -98,7 +98,7 @@ else
 					<li><a href="#" id="listadoEncuestas"><i  class="icon-list"></i>  Lista Activas</a></li>
 					<li><a href="#" id="listadoEncuestasInactivas"><i  class="icon-list"></i>  Lista Inactivas</a></li>
 					<li><a href="#" id="masVotadosEncuestasPorPrograma"><i class="icon-plus"></i>  Votos por programa</a></li>
-					<li><a href="#" id="masVotadosPreguntasPorEncuestas"><i class="icon-plus"></i>  Votos por enuesta</a></li>
+					<li><a href="#" id="masVotadosPreguntasPorEncuestas"><i class="icon-plus"></i>  Votos por encuesta</a></li>
 					<br>
 				</ul>
 			</div>

@@ -77,7 +77,7 @@ $(document).ready(function() {
 	
 	function ajaxSuccessGraficoGral(data)
 	{
-			$('#contenido').html("<div id='chartdiv' style='height:300px;width:600px; '></div>");
+			$('#contenido').html("<h3>Gráfico general</h3><div id='chartdiv' style='height:300px;width:600px; '></div>");
 			
 			$('#chartdiv').html('');
 	
@@ -121,10 +121,12 @@ $(document).ready(function() {
   				
   				$('#contenido').html('');
 			}	
+			
 			else
 			{
 				
-				$('#contenido').html('<table style="width: 100%;"><tr><td style="width: 20px;"><h3>Encuestas</h3><ul class="nav nav-pills nav-stacked"  id="listaPregunta" style="width: 250px; height: 200px; overflow: auto"></ul></td><td><h3>Preguntas</h3><div id="contenidoTabla" align="center"><br><table cellpadding="0" cellspacing="0" border="0" class="display" id="example" style="width: 100%;"></table></div></td></tr></table>');
+				
+				$('#contenido').html('<table style="width: 100%;"><tr><td style="width: 20px;"><h3>Encuestas</h3><ul class="nav nav-pills nav-stacked"  id="listaPregunta" style="width: 250px; height: 200px; overflow: auto"></ul></td><td style="text-align: center;"><h3>Preguntas</h3><div id="contenidoTabla" align="center"><br><table cellpadding="0" cellspacing="0" border="0" class="display" id="example" style="width: 100%;"></table></div></td></tr></table>');
 			
 				$('#listaPregunta').html('');
 				
@@ -169,8 +171,8 @@ $(document).ready(function() {
 				           	subGridRowExpanded: function (subgrid_id, row_id) {
 				           		
 				           			var data =  jQuery('#tablaContenido').jqGrid('getRowData',row_id);
-				           			
-				           		  	var retorno = "<div align='center' id='chartdiv"+data.orden+"'>"+cssLoading()+"</div>";
+
+				           		  	var retorno = "<div align='center' id='chartdiv"+data.orden+"'><img src='img/gifBarrasLoading.gif'/></div>";
 									
 									var indice = data.orden;
 									
@@ -178,7 +180,15 @@ $(document).ready(function() {
 									
 									$('#hdnIdGrafico').val(data.orden);
 									
-									$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'preguntas',id_e: idLimpio,indice: indice},ajaxSuccessGraficoPreguntas,"json");
+									$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'preguntas',id_e: idLimpio,indice: indice},ajaxSuccessGraficoPreguntas,"json").error(function()
+									{
+										var idGrafico = $('#hdnIdGrafico').val();
+							
+										$("#chartdiv" + idGrafico).html('<strong> ERROR, Intentelo mas tarde </strong>');
+										$("#chartdiv" + idGrafico).css("background-color","#A60000");
+										$("#chartdiv" + idGrafico).css("color","white");
+										
+									});
 									
 									$("#" + subgrid_id).html(retorno);
 									
@@ -319,7 +329,9 @@ $(document).ready(function() {
 	
 	$('#graficoGral').click(function(){
 		
-		$('#contenido').html(cssLoading());
+		//$('#contenido').html(cssLoading());
+		
+		$('#contenido').html("<img src='img/gifBarrasLoading.gif'/>");
 				
 		$('#alertaCragaDatos').addClass('ocultar');
 		
@@ -345,8 +357,10 @@ $(document).ready(function() {
 				
 			// Le muestro una lista con las encuestas //
 			
-			$('#contenido').html(cssLoading());
+			//$('#contenido').html(cssLoading());
 		
+			$('#contenido').html("<img src='img/gifBarrasLoading.gif'/>");
+			
 			$('#alertaCragaDatos').addClass('ocultar');
 		
 			var idPrograma = $('#hdnIdPrograma').val();

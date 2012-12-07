@@ -307,6 +307,7 @@ function inicializarPanelEncuesta()
 	});
 	
 	$('.help-inline').hide();
+	$('.control-group').removeClass('error');
 	
 	$('#alertaEncuestas').addClass('ocultar');
 	
@@ -709,7 +710,7 @@ $(function() {
 	
 	$('#myTabDos a[href="#partePrograma"]').click(function (e) 
 		{
-   			$('#hdnIdPrograma').val(''); 
+   			//$('#hdnIdPrograma').val(''); 
 	});
 		
 	$('#myTabDos a[href="#parteEncuesta"]').click(function (e) 
