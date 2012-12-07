@@ -83,8 +83,12 @@ $(document).ready(function() {
 	$('#dialog_link').click(function(){
 	
 		/* Limpio los valores */
-		$('#usrname').val('');
+		
+		$('#username').val('');
 		$('#password').val('');
+		
+		$('#alertLogin').addClass('ocultar')
+		
 		$('#dialog').dialog('open');
 		
 		return false;

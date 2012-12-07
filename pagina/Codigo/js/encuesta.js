@@ -480,10 +480,17 @@ function llenaListaProgramas()
 				// Alerta que ya no hay mas encuestas
 				
 				$('#alertaPreguntas').addClass('alert-error');	
-				$('#alertaBajaEncuesta').html("<strong>No hay encuestas.</strong>");	
+				$('#alertaBajaEncuesta').html("<strong>No hay encuestas activas</strong>");	
 				$('#alertaBajaEncuesta').removeClass('ocultar');
 					
 			}	 
+	}).error(function()
+	{
+		$('#gifLoading').hide();
+		
+		$('#alertaPreguntas').addClass('alert-error');	
+		$('#alertaBajaEncuesta').html("<strong>Ocurrio un ERROR, intentelo mas tarde.</strong>");	
+		$('#alertaBajaEncuesta').removeClass('ocultar');
 	});
 	
 }

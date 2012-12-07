@@ -32,7 +32,7 @@ $(document).ready(function() {
 	
 	// FUNCIONES DE MANEJO DE PETICIONES AJAXS //
 	
-	function ajaxErrorMasVotadosGeneral()
+	function ajaxErrorMasVotadosGeneral(row_id)
 	{
 		 $('#gifLoading').hide();
 		 $('#alertaCargaDatos').html('<strong>Warning!</strong> Ocurrio un Error, Intentelo mas tarde.');
@@ -63,6 +63,8 @@ $(document).ready(function() {
 		
 		$("#chartdiv" + idGrafico).html('');
 		
+		$("#chartdiv" + idGrafico).css("background-color","white");
+		
 		var datos = data.datosgrafico;
 			 
 		var cantidad = datos.length;
@@ -89,7 +91,9 @@ $(document).ready(function() {
 		{
 			// Muestro alerta //
 			
-			$("#chartdiv" + idGrafico).html('<strong> NO hay votos para esta encuesta.</strong>');
+			$("#chartdiv" + idGrafico).css("color","black");
+					
+			$("#chartdiv" + idGrafico).html('<strong> NO hay votos para este programa.</strong>');
 		}
 	}
 
@@ -542,7 +546,17 @@ $(document).ready(function() {
 				
 				var nombrePrograma = data.nombre;
 				
-				$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'encuestas',nombreP: nombrePrograma} ,ajaxSuccessMasVotadosEncuestas,"json").error(ajaxErrorMasVotadosGeneral);
+				//$.post("phpHelper/1SmartVoteServices.php",{tipo:'grafico',de:'encuestas',nombreP: nombrePrograma} ,ajaxSuccessMasVotadosEncuestas,"json").error(ajaxErrorMasVotadosGeneral);
+				
+				$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'encuestas',nombreP: nombrePrograma} ,ajaxSuccessMasVotadosEncuestas,"json").error(function()
+				{
+					var idGrafico = $('#hdnIdPrograma').val();
+		
+					$("#chartdiv" + idGrafico).html('<strong> ERROR, Intentelo mas tarde </strong>');
+					$("#chartdiv" + idGrafico).css("background-color","#A60000");
+					$("#chartdiv" + idGrafico).css("color","white");
+					
+				});
 				
 				$("#" + subgrid_id).html(retorno);
            	},          	
@@ -585,5 +599,15 @@ $(document).ready(function() {
 	});
 	
 	$( "#accordion" ).accordion( "option", "active", false );
+	
+	// Boton Logon 
+	
+	$('#btnLogOn').click(function(){
+		
+		$('.gifLoading').show();
+	
+		$.post("phpHelper/nologin.php",successLogon, "json").error(errorLogon);
+	
+	});	
 
 }); // Fin ready 

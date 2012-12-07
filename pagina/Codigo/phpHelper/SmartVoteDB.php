@@ -318,7 +318,7 @@ class SmartVoteDB {
 								$consulta = "SELECT e.id,e.nombre,e.descripcion,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p and e.activo=1 ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
 							}
 							else {
-								$consulta = "SELECT e.id,e.nombre,e.fechainicio,e.fechafin,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p and e.activo=0 ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+								$consulta = "SELECT e.id,e.nombre,e.fecha_inicio,e.fecha_fin,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p and e.activo=0 ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
 							}
 						}					
 						else {
@@ -329,7 +329,7 @@ class SmartVoteDB {
 							}
 							else {
 								
-								$consulta = "SELECT e.id,e.nombre,e.fechainicio,e.fechafin,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ".$_where." ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
+								$consulta = "SELECT e.id,e.nombre,e.fecha_inicio,e.fecha_fin,p.nombre as nombrep FROM programas as p, encuestas as e WHERE p.id=e.id_p ".$_where." ORDER BY e.".$sidx." ".$sord." LIMIT ".$start." , ".$limit;
 							}
 							
 						}
@@ -402,6 +402,17 @@ class SmartVoteDB {
 		
 	public function BuscarPreguntas($id_program,$id_encuesta)
 	{
+		
+		// 1) Obtengo total de preguntas
+		
+		$consulta = "SELECT count(*) as cantidad FROM preguntas WHERE id_e='".$id_encuesta."'";
+		
+		$resultado = $this->buscar($consulta);
+		
+		$row = mysql_fetch_array($resultado);
+		
+		$total = $row['cantidad'];
+		
 		$auxString = "select pr.id, pr.descripcion, pr.orden from encuestas as e, preguntas as pr where e.id = pr.id_e and e.id='";
 		
 		$aux="order by pr.orden asc";
@@ -416,7 +427,13 @@ class SmartVoteDB {
 
 			mysql_close($this->db_conexion);
 
-			return $resultado;	
+			
+			$datosret["total"] = $total;
+			$datosret["preguntas"] = $resultado;
+			
+			//echo $datosret;
+			
+			return $datosret;	
 		
 		}catch (Exception $e) {
 		
@@ -483,7 +500,7 @@ class SmartVoteDB {
 			}
 			else
 			{
-				$cadenaInsertar="Insert into encuestas (id,id_p,nombre,descripcion,fechainicio,fechafin,activo) values ('','".$id_p."','".$nombre."','".$desc."','".$fecha_actual."','',1)";
+				$cadenaInsertar="Insert into encuestas (id,id_p,nombre,descripcion,fecha_inicio,fecha_fin,activo) values ('','".$id_p."','".$nombre."','".$desc."','".$fecha_actual."','',1)";
 
 				$flag = mysqli_query($this->db_conexionTran,$cadenaInsersion);
 			}
@@ -539,7 +556,7 @@ class SmartVoteDB {
 
 			// Creo la Encuesta y Obtengo su Id--> En caso de error regreso todo al estado anterior 
 			
-			$cadenaInsertar="Insert into encuestas (id,id_p,nombre,descripcion,fechainicio,fechafin,activo) values ('','".$id_p."','".utf8_decode($nombre)."','".utf8_decode($desc)."','".$fecha_actual."', NULL,1)";
+			$cadenaInsertar="Insert into encuestas (id,id_p,nombre,descripcion,fecha_inicio,fecha_fin,activo) values ('','".$id_p."','".utf8_decode($nombre)."','".utf8_decode($desc)."','".$fecha_actual."', NULL,1)";
 
 			$flag = mysqli_query($this->db_conexionTran,$cadenaInsertar);
 			
@@ -641,14 +658,26 @@ class SmartVoteDB {
 	public function GraficoPreguntas($id_encuesta,$indice)
 	{
 		$anterior ="";
-		$siguiente="";	
+		$siguiente="";
+		$total = "";	
 			
 		if($indice == 1)
 			$anterior = null;
 		else 
 			$anterior = $indice -1;
 		
-		// 1) Obtengo el id de la encuesta 
+		
+		// 1) Obtengo total de preguntas
+		
+		$consulta = "SELECT count(*) as cantidad FROM preguntas WHERE id_e='".$id_encuesta."'";
+		
+		$resultado = $this->buscar($consulta);
+		
+		$row = mysql_fetch_array($resultado);
+		
+		$total = $row['cantidad'];
+		
+		// 2) Obtengo el id de la encuesta 
 		
 		$consulta = "SELECT id,descripcion FROM preguntas WHERE id_e='".$id_encuesta."' and orden='".$indice."'";
 		
@@ -664,7 +693,7 @@ class SmartVoteDB {
 		
 		//echo $desc;
 		
-		// 2) Analizo si tiene siguiente
+		// 3) Analizo si tiene siguiente
 		
 		$siguiente = $indice +1;
 		
@@ -677,12 +706,15 @@ class SmartVoteDB {
 			$siguiente = null;
 		}
 		
-		// 3) Obtengo votos para esa pregunta 
+		// 4) Obtengo votos para esa pregunta 
 		
 		$votos = $this->ObtenerVotosPorPregunta($id_pr);
 		
+		
 		$datosret["anterior"] = $anterior;
+		$datosret["actual"] = $indice;
 		$datosret["siguiente"] = $siguiente;
+		$datosret["total"] = $total;
 		$datosret["desc"] = $desc;
 		$datosret["votos"] = $votos;
 		
@@ -940,7 +972,7 @@ class SmartVoteDB {
 	{
 		$fecha_actual = date("Y-m-d H:i:s"); //new DateTime('Y-m-d H:i:s');
 		
-		$consulta = "UPDATE encuestas SET activo=0,fechafin='".$fecha_actual."' WHERE id='".$id_e."'";
+		$consulta = "UPDATE encuestas SET activo=0,fecha_fin='".$fecha_actual."' WHERE id='".$id_e."'";
 		
 		try{
 		
@@ -1283,7 +1315,7 @@ class SmartVoteDB {
 				
 				//$aColumns = array('nombre','descripcion');
 				
-				$aColumns = array('id','nombre','fechainicio','fechafin');
+				$aColumns = array('id','nombre','fecha_inicio','fecha_fin');
 			
 				/* Indexed column (used for fast and accurate table cardinality) */
 				$sIndexColumn = "id";

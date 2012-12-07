@@ -353,6 +353,7 @@ class SmartVoteManager {
 			return json_encode($resp);
 		}
 	}
+	
 	public function ValidarExistencia($idPrograma,$nombre)
 	{
 		try{
@@ -472,7 +473,9 @@ class SmartVoteManager {
 			// Formo el objeto de regresar //
 			
 			$cadenaRetorno = "{\"anterior\":".json_encode($datos["anterior"]);
+			$cadenaRetorno = $cadenaRetorno.",\"actual\":".json_encode($datos["actual"]);
 			$cadenaRetorno = $cadenaRetorno.",\"siguiente\":".json_encode($datos["siguiente"]);
+			$cadenaRetorno = $cadenaRetorno.",\"total\":".json_encode($datos["total"]);
 			$cadenaRetorno = $cadenaRetorno.",\"desc\":".json_encode($datos['desc']);
 			$cadenaRetorno = $cadenaRetorno.",".$this->transformarDatosGraficoArray($datos["votos"]);
 			$cadenaRetorno = $cadenaRetorno."}";
@@ -721,37 +724,46 @@ class SmartVoteManager {
 	
 	private function transformarDatosPreguntas($datos)
 	{
-		$cadenaDevolver = "{\"preguntas\":[";
+		$cadenaDevolver = "{";
+		$cadenaDevolver = $cadenaDevolver." \"total\":\"".$datos["total"]."\",";
+		$cadenaDevolver = $cadenaDevolver.  "\"preguntas\":[";
+		
+		//$cadenaDevolver = "{\"preguntas\":[";
+		
 		$count=0;
-
-		 while ($fila = mysql_fetch_assoc($datos))
-		 {
-			if($count==0)
-			{
-				$cadenaDevolver = $cadenaDevolver. "{\"id\":";
-					$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['id']));
-				$cadenaDevolver = $cadenaDevolver. ",";
-				$cadenaDevolver = $cadenaDevolver. "\"descripcion\":";
-					$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['descripcion']));
-				$cadenaDevolver = $cadenaDevolver. ",";
-					$cadenaDevolver = $cadenaDevolver. "\"orden\":";
-					$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['orden']));
-				$cadenaDevolver = $cadenaDevolver. "}";
+		
+		if($datos["preguntas"])
+		{
+			while ($fila = mysql_fetch_assoc($datos["preguntas"]))
+			 {
+				if($count==0)
+				{
+					$cadenaDevolver = $cadenaDevolver. "{\"id\":";
+						$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['id']));
+					$cadenaDevolver = $cadenaDevolver. ",";
+					$cadenaDevolver = $cadenaDevolver. "\"descripcion\":";
+						$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['descripcion']));
+					$cadenaDevolver = $cadenaDevolver. ",";
+						$cadenaDevolver = $cadenaDevolver. "\"orden\":";
+						$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['orden']));
+					$cadenaDevolver = $cadenaDevolver. "}";
+				}
+				else
+				{
+					$cadenaDevolver = $cadenaDevolver. ",{\"id\":";
+						$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['id']));
+					$cadenaDevolver = $cadenaDevolver. ",";
+					$cadenaDevolver = $cadenaDevolver. "\"descripcion\":";
+						$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['descripcion']));
+					$cadenaDevolver = $cadenaDevolver. ",";
+						$cadenaDevolver = $cadenaDevolver. "\"orden\":";
+						$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['orden']));
+					$cadenaDevolver = $cadenaDevolver. "}";  
+				}
+				$count++;
 			}
-			else
-			{
-				$cadenaDevolver = $cadenaDevolver. ",{\"id\":";
-					$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['id']));
-				$cadenaDevolver = $cadenaDevolver. ",";
-				$cadenaDevolver = $cadenaDevolver. "\"descripcion\":";
-					$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['descripcion']));
-				$cadenaDevolver = $cadenaDevolver. ",";
-					$cadenaDevolver = $cadenaDevolver. "\"orden\":";
-					$cadenaDevolver = $cadenaDevolver. json_encode(utf8_encode($fila['orden']));
-				$cadenaDevolver = $cadenaDevolver. "}";  
-			}
-			$count++;
 		}
+		 
 		$cadenaDevolver = $cadenaDevolver. "]}";
 		
 		return $cadenaDevolver;
@@ -766,54 +778,57 @@ class SmartVoteManager {
 		$cadenaDevolver = $cadenaDevolver. "\"rows\":[";
 	    $i=0;
 		
-		if($inactivo == "")
+		if($datos != false )
 		{
-			while($fila = mysql_fetch_assoc($datos))
+			if($inactivo == "")
 			{
-		
-				if($i == 0)
+				while($fila = mysql_fetch_assoc($datos))
 				{
-					$cadenaDevolver = $cadenaDevolver."{\"id\":\"".$fila["id"]."\",";
-					$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"]);
-				}
-				else
-				{
-					$cadenaDevolver = $cadenaDevolver.",{\"id\":\"".$fila["id"]."\",";
-					$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"]);
-				}
-				
-				if($fila["activo"] == "0")
-				{
-					$cadenaDevolver = $cadenaDevolver . "\",\""."INACTIVO";
-				}
-				else {
-					$cadenaDevolver = $cadenaDevolver . "\",\""."ACTIVO";
-				}
-				
-				$cadenaDevolver = $cadenaDevolver . "\"]}";
-				
-		        $i++;
-		    }
-		}
-		else {
 			
-			while($fila = mysql_fetch_assoc($datos))
-			{
-		
-				if($i == 0)
+					if($i == 0)
+					{
+						$cadenaDevolver = $cadenaDevolver."{\"id\":\"".$fila["id"]."\",";
+						$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"]);
+					}
+					else
+					{
+						$cadenaDevolver = $cadenaDevolver.",{\"id\":\"".$fila["id"]."\",";
+						$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"]);
+					}
+					
+					if($fila["activo"] == "0")
+					{
+						$cadenaDevolver = $cadenaDevolver . "\",\""."INACTIVO";
+					}
+					else {
+						$cadenaDevolver = $cadenaDevolver . "\",\""."ACTIVO";
+					}
+					
+					$cadenaDevolver = $cadenaDevolver . "\"]}";
+					
+			        $i++;
+			    }
+			}
+			else {
+				
+				while($fila = mysql_fetch_assoc($datos))
 				{
-					$cadenaDevolver = $cadenaDevolver."{\"id\":\"".$fila["id"]."\",";
-					$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"])."\"]}";
-				}
-				else
-				{
-					$cadenaDevolver = $cadenaDevolver.",{\"id\":\"".$fila["id"]."\",";
-					$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"])."\"]}";
-				}
-		        $i++;
-		    }
+			
+					if($i == 0)
+					{
+						$cadenaDevolver = $cadenaDevolver."{\"id\":\"".$fila["id"]."\",";
+						$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"])."\"]}";
+					}
+					else
+					{
+						$cadenaDevolver = $cadenaDevolver.",{\"id\":\"".$fila["id"]."\",";
+						$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["descripcion"])."\",\"".utf8_encode($fila["usuario"])."\"]}";
+					}
+			        $i++;
+			    }
+			}
 		}
-	    
+		
 		$cadenaDevolver = $cadenaDevolver. "]}";
 
 
@@ -954,12 +969,12 @@ class SmartVoteManager {
 					if($i == 0)
 					{
 						$cadenaDevolver = $cadenaDevolver."{\"id\":\"".$fila["id"]."\",";
-						$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["fechainicio"])."\",\"".utf8_encode($fila["fechafin"])."\",\"".utf8_encode($fila["nombrep"])."\"]}";                                                                
+						$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["fecha_inicio"])."\",\"".utf8_encode($fila["fecha_fin"])."\",\"".utf8_encode($fila["nombrep"])."\"]}";                                                                
 					}
 					else
 					{
 						$cadenaDevolver = $cadenaDevolver.",{\"id\":\"".$fila["id"]."\",";
-						$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["fechainicio"])."\",\"".utf8_encode($fila["fechafin"])."\",\"".utf8_encode($fila["nombrep"])."\"]}";
+						$cadenaDevolver = $cadenaDevolver. "\"cell\":[\"".utf8_encode($fila["nombre"])."\",\"".utf8_encode($fila["fecha_inicio"])."\",\"".utf8_encode($fila["fecha_fin"])."\",\"".utf8_encode($fila["nombrep"])."\"]}";
 					}
 			        $i++;
 			    }
