@@ -22,7 +22,6 @@ function errorLogon()
 		$('.label-important').removeClass('ocultar');
 }
 
-
 function successUsuario(data)
 {
 	if(data.tipo == "OK")
@@ -101,7 +100,6 @@ function errorUsuario(jqXHR, textStatus, errorThrown)
   	return false;
   
 }
-
 
 function nuevoUsuario()
 {
