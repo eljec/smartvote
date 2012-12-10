@@ -79,7 +79,7 @@ if($reg != 'jemac')
         <div class="container-fluid">
 		  <div class="row-fluid">
 			<div class="span2">
-				<div class="negro bordeRedondoGral animated rotateInUpLeft">
+				<div class="negro bordeRedondoGral"> <!-- animated rotateInUpLeft">-->
 					<h3 id="tituloAcordion" align="center">Menu</h3>
 				</div>
 			  	<ul class="nav nav-tabs nav-stacked">
@@ -87,7 +87,7 @@ if($reg != 'jemac')
 				</ul>
 			</div>
 			<div class="span10">
-				<div class="negro bordeRedondoGral animated rotateInUpRight">
+				<div class="negro bordeRedondoGral"><!-- animated rotateInUpRight">-->
 					<h3 id="tituloAccion" align="center">Resultados</h3>
 				</div>
 				<div id="alertaCragaDatos" class="alert ocultar TamAlerta">

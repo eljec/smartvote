@@ -32,7 +32,7 @@ $(document).ready(function() {
 	
 	// FUNCIONES DE MANEJO DE PETICIONES AJAXS //
 	
-	function ajaxErrorMasVotadosGeneral(row_id)
+	function ajaxErrorGeneral(row_id)
 	{
 		 $('#gifLoading').hide();
 		 $('#alertaCargaDatos').html('<strong>Warning!</strong> Ocurrio un Error, Intentelo mas tarde.');
@@ -43,7 +43,7 @@ $(document).ready(function() {
 	{
 	  	$('#gifLoading').hide();
 	
-		$('#contenido').html("<div id='chartdiv' style='height:300px;width:600px; '></div>");
+		$('#contenido').html("<h3>Gráfico: Programas mas votados</h3><div id='chartdiv' style='height:300px;width:600px; '></div>");
 				
 		var datos = data.datosgrafico;
  
@@ -181,7 +181,7 @@ $(document).ready(function() {
 							      
 					  });
 					  
-			$("#"+id_padre+" div").css("margin-left", ($("#"+id_padre).width() - $("#"+id_padre+" div").width()) / 2)
+			$("#"+id_padre+" div").css("margin-left", ($("#"+id_padre).width() - $("#"+id_padre+" div").width()) / 2);
 		}
 		else
 		{
@@ -225,11 +225,22 @@ $(document).ready(function() {
 						
 						$('#hdnIdGrafico').val(data.orden);
 						
-						$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'preguntas',id_e: idLimpio,indice: indice},ajaxSuccessGraficoPreguntas,"json");
+						$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'preguntas',id_e: idLimpio,indice: indice},ajaxSuccessGraficoPreguntas,"json").error(function()
+						{
+							var idGrafico = $('#hdnIdGrafico').val();
+				
+							$("#chartdiv" + idGrafico).html('<strong> ERROR, Intentelo mas tarde </strong>');
+							$("#chartdiv" + idGrafico).css("background-color","#A60000");
+							$("#chartdiv" + idGrafico).css("color","white");
+							
+						});
 						
 						$("#" + subgrid_id).html(retorno);
 						
 	           	},
+	           	loadError: function (jqXHR, textStatus, errorThrown) {
+           			$("#tablaContenido").html("<div align='center'><strong>Ocurrio un Error, intentelo mas tarde.</strong></di>")
+           		},
 				pager: '#paginacion',
 				rowNum:2,
 				rowList:[2,4,6,8,10],
@@ -305,7 +316,7 @@ $(document).ready(function() {
 		$('#textoPregunta').text('');
 		$('#comboEncuestas').ddslick('destroy');
 		
-		$.getJSON('phpHelper/SmartVoteServices.php?action=2&paged=0&id_p='+idPrograma,ajaxSuccessComboEncuestas);
+		$.getJSON('phpHelper/SmartVoteServices.php?action=2&paged=0&id_p='+idPrograma,ajaxSuccessComboEncuestas).error(ajaxErrorGeneral);
 	}
 	
 	function graficoPreguntas()
@@ -324,7 +335,7 @@ $(document).ready(function() {
 	
 		$('#gifLoading').show();
 		
-		$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'preguntas',id_e: idEncuesta} ,ajaxSuccessGraficoPreguntas,"json").error(ajaxErrorMasVotadosGeneral);
+		$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'preguntas',id_e: idEncuesta} ,ajaxSuccessGraficoPreguntas,"json").error(ajaxErrorGeneral);
 	}
 	
 	
@@ -361,6 +372,9 @@ $(document).ready(function() {
            		  var data =  jQuery('#tablaContenido').jqGrid('getRowData',row_id);
            		  
            		 $("#" + subgrid_id).html("<div>Descripcion:"+data.descripcion+"<div>");
+           	},
+           	loadError: function (jqXHR, textStatus, errorThrown) {
+           			$("#tablaContenido").html("<div align='center'><strong>Ocurrio un Error, intentelo mas tarde.</strong></di>")
            	},
 			pager: '#paginacion',
 			rowNum:5,
@@ -404,6 +418,9 @@ $(document).ready(function() {
            		  
            		 $("#" + subgrid_id).html("<div>Descripcion:"+data.descripcion+"<div>");
            	},
+           	loadError: function (jqXHR, textStatus, errorThrown) {
+           			$("#tablaContenido").html("<div align='center'><strong>Ocurrio un Error, intentelo mas tarde.</strong></di>")
+           	},
 			pager: '#paginacion',
 			rowNum:5,
 			rowList:[5,10],
@@ -422,7 +439,7 @@ $(document).ready(function() {
 	
 	$('#masVotadosProgramas').click(function(){
 		
-		$('#tituloAccion').text('Grafico: Programas mas Votados');
+		//$('#tituloAccion').text('Grafico: Programas mas Votados');
 		
 		$('#alertaCragaDatos').addClass('ocultar');
 		
@@ -432,7 +449,7 @@ $(document).ready(function() {
 		
 		$('#gifLoading').show();
 		
-	 	$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'programas'} ,ajaxSuccessMasVotadosProgramas,"json").error(ajaxErrorMasVotadosGeneral);
+	 	$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'programas'} ,ajaxSuccessMasVotadosProgramas,"json").error(ajaxErrorGeneral);
 
 	});
 	
@@ -461,6 +478,9 @@ $(document).ready(function() {
            		  var data =  jQuery('#tablaContenido').jqGrid('getRowData',row_id);
            		  
            		 $("#" + subgrid_id).html("<div class='negro'>Descripcion:"+data.descripcion+"<div>");
+           	},
+           	loadError: function (jqXHR, textStatus, errorThrown) {
+           			$("#tablaContenido").html("<div align='center'><strong>Ocurrio un Error, intentelo mas tarde.</strong></di>")
            	},
 			pager: '#paginacion',
 			rowNum:5,
@@ -497,6 +517,9 @@ $(document).ready(function() {
 				{name:'fechafin', editable: true, index:'fechafin', width:200, search:false},
 				{name:'nombrep', editable: true, index:'nombrep', width:300}
 			],
+			loadError: function (jqXHR, textStatus, errorThrown) {
+           			$("#tablaContenido").html("<div align='center'><strong>Ocurrio un Error, intentelo mas tarde.</strong></di>")
+           	},
 			pager: '#paginacion',
 			rowNum:5,
 			rowList:[5,10],
@@ -546,8 +569,6 @@ $(document).ready(function() {
 				
 				var nombrePrograma = data.nombre;
 				
-				//$.post("phpHelper/1SmartVoteServices.php",{tipo:'grafico',de:'encuestas',nombreP: nombrePrograma} ,ajaxSuccessMasVotadosEncuestas,"json").error(ajaxErrorMasVotadosGeneral);
-				
 				$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'encuestas',nombreP: nombrePrograma} ,ajaxSuccessMasVotadosEncuestas,"json").error(function()
 				{
 					var idGrafico = $('#hdnIdPrograma').val();
@@ -559,7 +580,10 @@ $(document).ready(function() {
 				});
 				
 				$("#" + subgrid_id).html(retorno);
-           	},          	
+           	}, 
+           	loadError: function (jqXHR, textStatus, errorThrown) {
+           			$("#tablaContenido").html("<div align='center'><strong>Ocurrio un Error, intentelo mas tarde.</strong></di>")
+           	},         	
 			pager: '#paginacion',
 			rowNum:5,
 			rowList:[5,10],
@@ -583,7 +607,7 @@ $(document).ready(function() {
 		$('#contenido').html("<div align='center'><img id='gifLoading'src='img/ajax-loaderBlanco.gif' style='display: none;' alt='Loading...'/></div>");
 		$('#gifLoading').show();
 		
-		$.getJSON('phpHelper/SmartVoteServices.php?action=1&paged=0',ajaxSuccessComboProgramas);
+		$.getJSON('phpHelper/SmartVoteServices.php?action=1&paged=0',ajaxSuccessComboProgramas).error(ajaxErrorGeneral);
 				
 	});
 	

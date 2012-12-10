@@ -43,6 +43,8 @@ $(document).ready(function() {
 		
 		var ema = $("#chartdiv" + idGrafico).parent();
 		
+		var id_padre = ema.attr("id");
+		
 		var cantidad = datos.length;
 		
 		if(cantidad > 0)
@@ -65,6 +67,8 @@ $(document).ready(function() {
 							   
 							      
 					  });
+					  
+			$("#"+id_padre+" div").css("margin-left", ($("#"+id_padre).width() - $("#"+id_padre+" div").width()) / 2);
 		}
 		else
 		{
@@ -164,7 +168,7 @@ $(document).ready(function() {
 							mtype: 'GET',
 							colNames:['DESCRIPCION','ORDEN'],
 							colModel:[
-								{name:'descripcion', editable: true, index:'descripcion', width:400, search:false},
+								{name:'descripcion', editable: true, index:'descripcion', align:"center",width:400, search:false},
 								{name:'orden', editable: true, index:'orden',align:"center", width:100}
 							],
 							subGrid: true,
@@ -192,6 +196,9 @@ $(document).ready(function() {
 									
 									$("#" + subgrid_id).html(retorno);
 									
+				           	},
+				           	loadError: function (jqXHR, textStatus, errorThrown) {
+				           			$("#tablaContenido").html("<div align='center'><strong>Ocurrio un Error, intentelo mas tarde.</strong></di>")
 				           	},
 							pager: '#paginacion',
 							rowNum:2,
@@ -272,6 +279,9 @@ $(document).ready(function() {
            		  
            		 $("#" + subgrid_id).html("<div class='negro'>Descripcion:"+data.descripcion+"<div>");
            	},
+           	loadError: function (jqXHR, textStatus, errorThrown) {
+           			$("#tablaContenido").html("<div align='center'><strong>Ocurrio un Error, intentelo mas tarde.</strong></di>")
+           	},
 			pager: '#paginacion',
 			rowNum:5,
 			rowList:[5,10],
@@ -311,6 +321,9 @@ $(document).ready(function() {
 				{name:'fechafin', editable: true, index:'fechafin', width:200, search:false},
 				{name:'nombrep', editable: true, index:'nombrep', width:300}
 			],
+			loadError: function (jqXHR, textStatus, errorThrown) {
+           			$("#tablaContenido").html("<div align='center'><strong>Ocurrio un Error, intentelo mas tarde.</strong></di>")
+           	},
 			pager: '#paginacion',
 			rowNum:5,
 			rowList:[5,10],
@@ -347,7 +360,10 @@ $(document).ready(function() {
 		else
 		{
 			
-			$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'encuestas',nombreP: nombrePrograma} ,ajaxSuccessGraficoGral,"json");
+			$.post("phpHelper/SmartVoteServices.php",{tipo:'grafico',de:'encuestas',nombreP: nombrePrograma} ,ajaxSuccessGraficoGral,"json").error(function(){
+				$('#contenido').html('');
+				$('#alertaCragaDatos').removeClass('ocultar');
+			});
 		}	
 	});
 	
@@ -375,7 +391,11 @@ $(document).ready(function() {
 			else
 			{
 
-				$.getJSON('phpHelper/SmartVoteServices.php?action=2&paged=0&id_p='+idPrograma,ajaxSuccessGraficoXPregunta,"json");
+				$.getJSON('phpHelper/SmartVoteServices.php?action=2&paged=0&id_p='+idPrograma,ajaxSuccessGraficoXPregunta,"json").error(function(){
+					$('#alertaCragaDatos').html('<strong>ERROR, intentelo mas tarde.');
+					$('#alertaCragaDatos').removeClass('ocultar');
+					$('#contenido').html('');
+				});
 			}	
 		
 		

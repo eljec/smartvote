@@ -100,7 +100,7 @@
 				</ul>
 				<div class="tab-content">
 					    <div class="tab-pane active" id="panelNuevaEncuesta">
-							<div class="negro bordeRedondoGral animated rotateIn">
+							<div class="negro bordeRedondoGral"><!-- animated rotateIn">-->
 								<h3 id="tituloAccion" align="center">Alta Encuestas</h3>
 							</div>	
 							<div id="contenido" align="center">	
@@ -254,7 +254,7 @@
 							</div>
 						</div>
 						<div class="tab-pane" id="panelBajaEncuesta">
-							<div class="negro bordeRedondoGral animated rotateIn">
+							<div class="negro bordeRedondoGral"><!-- animated rotateIn">-->
 								<h3 align="center">Baja Encuestas</h3>
 							</div>
 								<br>

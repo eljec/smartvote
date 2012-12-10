@@ -83,7 +83,7 @@ function successEncuesta(data)
 			{ 
 				window.location = "portada.php";
 			},
-			"Creae nueva encuesta": function()
+			"Crear nueva encuesta": function()
 			{
 				window.location = "encuestas.php";
 			}
