@@ -85,9 +85,9 @@ SceneScene1.prototype.handleKeyDown = function (keyCode) {
 			}
 			else
 			{
-				//$.sfScene.hide('Scene1');
-				//$.sfScene.show('Scene5');
-				//$.sfScene.focus('Scene5');
+				$.sfScene.hide('Scene1');
+				$.sfScene.show('Scene9');
+				$.sfScene.focus('Scene9');
 				
 				//$.sfScene.show('Scene7');
 				//$.sfScene.focus('Scene7');
