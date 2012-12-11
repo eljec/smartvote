@@ -1,9 +1,9 @@
 #SceneScene6 {
 	position : absolute;
-	left : 556px;
+	left : 0px;
 	top : 0px;
-	width : 410px;
-	height : 600px;
+	width : 960px;
+	height : 540px;
 	background-color : #c0c0c0;
 }
 
@@ -12,76 +12,17 @@
 	position : absolute;
 	font-size : 24pt;
 	color : #000000;
-	left : 104px;
-	top : 50px;
+	left : 380px;
+	top : 30px;
 	width : 190px;
 }
 
-#SceneScene6 #ImagenD1{
-	position : absolute;
-	left : 34px;
-	top : 140px;
-	width : 60px;
-	height : 20px;
-}
 
-#SceneScene6 #ImagenD2{
+#SceneScene6 #svecLabel_ZTZ3{
 	position : absolute;
-	left : 34px;
-	top : 190px;
-	width : 60px;
-	height : 20px;
-}
-
-#SceneScene6 #IntruccionD1{
-	position : absolute;
-	font-size : 12pt;
+	font-size : 10pt;
 	color : #210000;
-	left : 104px;
-	top : 160px;
-	width : 300px;
+	left : 260px;
+	top : 110px;
+	width : 410px;
 }
-
-#SceneScene6 #svecImage_M8W6{
-	position : absolute;
-	left : 34px;
-	top : 260px;
-	width : 50px;
-	height : 40px;
-}
-
-#SceneScene6 #InstruccionS1{
-	position : absolute;
-	font-size : 12pt;
-	color : #210000;
-	left : 100px;
-	top : 270px;
-	width : 310px;
-}
-
-#SceneScene6 #ImagenD3{
-	position : absolute;
-	left : 44px;
-	top : 350px;
-	width : 30px;
-	height : 50px;
-}
-
-#SceneScene6 #InstruccionD2{
-	position : absolute;
-	font-size : 12pt;
-	color : #210000;
-	left : 114px;
-	top : 360px;
-	width : 280px;
-}
-
-#SceneScene6 #LogoInstrucciones{
-	position : absolute;
-	left : 314px;
-	top : 30px;
-	width : 80px;
-	height : 70px;
-}
-
-

@@ -12,14 +12,7 @@ SceneScene6.prototype.initialize = function () {
 	// scene HTML and CSS will be loaded before this function is called
 	
 	$('#Titulo_I').sfLabel({text:'Instrucciones ', width:'190px'});
-	$('#ImagenD1').sfImage({src:'images/Desplazamientos3.PNG'});
-	$('#ImagenD2').sfImage({src:'images/Desplazamientos4.PNG'});
-	$('#IntruccionD1').sfLabel({text:'Para moverse por la lista', width:'300px'});
-	$('#svecImage_M8W6').sfImage({src:'images/Enter.PNG'});
-	$('#InstruccionS1').sfLabel({text:'Para seleccionar elemento de la lista', width:'310px'});
-	$('#ImagenD3').sfImage({src:'images/Desplazamientos2.PNG'});
-	$('#InstruccionD2').sfLabel({text:'Para regresar a la panatalla anterior', width:'280px'});
-	$('#LogoInstrucciones').sfImage({src:'images/LogoIntrucciones.jpg'});
+	$('#svecLabel_ZTZ3').sfLabel({text:'label', width:'410px'});
 	
 	
 	

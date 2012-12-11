@@ -7,7 +7,7 @@
 	<cpauthjs itemtype="string"></cpauthjs>
 	<ver itemtype="string"></ver>
 	<mgrver itemtype="string"></mgrver>
-	<fullwidget itemtype="boolean">n</fullwidget>
+	<fullwidget itemtype="boolean">y</fullwidget>
 	<srcctl itemtype="boolean">y</srcctl>
 	<ticker itemtype="boolean">n</ticker>
 	<childlock itemtype="boolean">n</childlock>
@@ -15,13 +15,13 @@
 	<videomute itemtype="boolean">n</videomute>
 	<dcont itemtype="boolean">y</dcont>
 	<type itemtype="string">user</type>
-	<widgetname itemtype="string">MyApps</widgetname>
-	<description itemtype="string"></description>
-	<width itemtype="number">966</width>
-	<height itemtype="number">600</height>
+	<widgetname itemtype="string">SmartVote</widgetname>
+	<description itemtype="string">Prototipo para Trabajo Final</description>
+	<width itemtype="number">960</width>
+	<height itemtype="number">540</height>
 	<author itemtype="group">
-		<name itemtype="string">Samsung Electronics</name>
-		<email itemtype="string"></email>
+		<name itemtype="string">Julio Castillo</name>
+		<email itemtype="string">eljec@hotmail.com</email>
 		<link itemtype="string">http://www.pavv.co.kr</link>
 		<organization itemtype="string">Samsung</organization>
 	</author>

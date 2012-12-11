@@ -15,6 +15,8 @@ function SceneScene4(options) {
 	this.error;
 	
 	this.ArrayNumeroPreguntas;
+	
+	this.total;
 
 }
 
@@ -173,7 +175,7 @@ SceneScene4.prototype.initialize = function () {
 	
 
 	$('#lbTituloPreguntas').sfLabel({text:'Sección Preguntas', width:'500px'});
-	$('#hrlpBar4').sfKeyHelp({'RED':'NO','BLUE':'SI','return':'Return'});
+	$('#hrlpBar4').sfKeyHelp({'RED':'NO','BLUE':'SI','LEFTRIGHT':'Regresar de escena','return':'Regresar al Hub'});
 	$('#signoPregunta').sfImage({src:'images/interrogacion.png'});
 	$('#signoPregunta2').sfImage({src:'images/interrogacion.png'});
 	
@@ -220,6 +222,7 @@ SceneScene4.prototype.handleFocus = function () {
 	this.error = "";
 	this.Votos = new Array();
 	this.votoCadena = "";
+	this.total =0;
 	
 	var VariablesEscena3 = $.sfScene.get('Scene3');
 	this.EncuestaS = VariablesEscena3.EncuestaSeleccionada;
@@ -259,6 +262,10 @@ SceneScene4.prototype.handleFocus = function () {
 			{
 			   // Tienen preguntas  	
 			   
+			    var total = data.total;
+				
+				this.total = total;
+				
 				for(var i=0;i<tam;i++)
 				{
 					arrayPreguntasNombre.push(data.preguntas[i].descripcion);
@@ -270,6 +277,7 @@ SceneScene4.prototype.handleFocus = function () {
 					arrayPreguntas.push(preguntaAux);
 					
 				}
+
 			}
 			else
 			{
@@ -314,10 +322,11 @@ SceneScene4.prototype.handleFocus = function () {
 	this.Preguntas=arrayPreguntas;
 	
 	var des = arrayPreguntasNombre[0];
+	var total = arrayPreguntasNombre.length;
 	
 	this.numeroPregunta=0;
 		
-	$('#lbTituloPregunta').sfLabel({text:"Pregunta: "+this.ArrayNumeroPreguntas[this.numeroPregunta], width:'210px'});
+	$('#lbTituloPregunta').sfLabel({text:"Pregunta: "+this.ArrayNumeroPreguntas[this.numeroPregunta]+"  de "+ total, width:'210px'});
 	$('#lbPregunta').sfLabel({text:des, width:'500px'});	
 	
 }
@@ -346,7 +355,7 @@ SceneScene4.prototype.handleKeyDown = function (keyCode) {
 					if(this.numeroPregunta < this.DescripcionPreguntas.length)
 					{
 						$('#lbPregunta').text(this.DescripcionPreguntas[this.numeroPregunta]);
-						$('#lbTituloPregunta').text("Pregunta: "+this.ArrayNumeroPreguntas[this.numeroPregunta]);
+						$('#lbTituloPregunta').text("Pregunta: "+this.ArrayNumeroPreguntas[this.numeroPregunta]+ " de " + this.DescripcionPreguntas.length);
 						this.yaVoto=false;
 					}
 					else
