@@ -142,7 +142,7 @@ class SmartVoteDB {
 				$consulta="SELECT nombre FROM usuarios WHERE nombre='".$user_escape."' and contraseña='".$pass_escape."'";
 			}
 			else {
-				$consulta="SELECT u.nombre, p.nombre as nombrep, p.id as idPrograma FROM usuarios as u, programas as p WHERE u.nombre = p.usuario and u.nombre='".$user_escape."' and u.contraseña='".$pass_escape."'";
+				$consulta="SELECT u.nombre, p.nombre as nombrep, p.id as idPrograma FROM usuarios as u, programas as p WHERE u.nombre = p.usuario and u.activo='1' and u.nombre='".$user_escape."' and u.contraseña='".$pass_escape."'";
 			}
 
 			$resultado = mysql_query($consulta);
