@@ -1,7 +1,7 @@
 
 function getIdentificador()
 {
-	return "3TV5" ;
+	return "3TV6" ;
 }
 
 function getMACaddress()

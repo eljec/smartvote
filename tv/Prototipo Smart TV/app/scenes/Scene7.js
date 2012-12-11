@@ -22,7 +22,7 @@ SceneScene7.prototype.initialize = function () {
 	// initialize the scene controls and styles, and initialize your variables here 
 	// scene HTML and CSS will be loaded before this function is called
 	
-	$('#btnVolverVotar').sfButton({text:'Volver a Votar', width:'170px'});
+	$('#btnVolverVotar').sfButton({text:'Votar otra encuesta', width:'170px'});
 	$('#btnGrafico').sfButton({text:'Ver Grafico', width:'170px'});
 	$('#lbTituloPaginaOK').sfLabel({text:'Felicitaciones !! ', width:'370px'});
 	$('#lbDescripcionPaginaOK').sfLabel({text:'Tus votos fueron cargados correctamente', width:'580px'});

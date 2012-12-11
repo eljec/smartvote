@@ -190,7 +190,7 @@ SceneScene3.prototype.initialize = function () {
 	
 	
 	$('#lbEncuesta').sfLabel({text:'Sección Encuestas', width:'440px'});
-	$('#helpBar3').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Info','return':'Rregresar al Hub','GREEN':'Ver Gráfico'});
+	$('#helpBar3').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Info','return':'Regresar al Hub','GREEN':'Ver Gráfico'});
 	
 	$('#cargandoEncuestas').sfLoading('show');
 	$('#lbTituloDescripcionEncuesta').sfLabel({text:'Desccipción', width:'200px'});

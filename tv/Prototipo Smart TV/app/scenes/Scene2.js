@@ -43,7 +43,7 @@ SceneScene2.prototype.initialize = function (aux) {
 	// Se ejecuta una sola vez, cuando se crea la pagina por primera vez. NADA MAS 
 	
 	$('#TituloProgramas').sfLabel({text:'Sección Programas', width:'880px'});
-	$('#helpBar2').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Informacion del Sistema','return':'Rregresar al Hub'});
+	$('#helpBar2').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Informacion del Sistema','return':'Regresar al Hub'});
 	$('#lbDescripcion').sfLabel({text:'Info del Programa', width:'430px'});
 	$('#lbTituloDescripcion').sfLabel({text:'Descripcion', width:'430px'});
 	$('#lbLista').sfLabel({text:'Lista', width:'240px'});
@@ -248,9 +248,9 @@ SceneScene2.prototype.handleKeyDown = function (keyCode) {
 		
 		break;
 		
-		case $.sfKey.RETURN:
+		/*case $.sfKey.RETURN:
 			 $.sf.exit(false);
-		break;
+		break;*/
 	}
 }
 

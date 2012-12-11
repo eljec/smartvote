@@ -15,8 +15,8 @@ SceneScene1.prototype.initialize = function () {
 	$('#B_CargaProgramas').sfButton({text:'Iniciar', width:'109px'});
 	$('#btnTest').sfButton({text:'Test', width:'122px'});
 	$('#logo').sfImage({src:'images/logoTV.png'});
-	$('#helpBar').sfKeyHelp({'return':'Return'});
-	
+	$('#helpBar').sfKeyHelp({'LEFTRIGHT':'Moverse entre botones','ENTER':'Enter','return':'Rregresar al Hub'});
+
 	//this.btnIniciar = true;
 	
 	
@@ -40,6 +40,10 @@ SceneScene1.prototype.handleFocus = function () {
 	this.btnIniciar = true;
 	$('#B_CargaProgramas').sfButton('focus');
 	$('#btnTest').sfButton('blur');
+	
+	$('#btnTest').sfButton({text:'Ayuda'});
+	
+	//$('#lbTituloSistema').sfLabel({text:''});
 }
 
 SceneScene1.prototype.handleBlur = function () {
@@ -95,6 +99,10 @@ SceneScene1.prototype.handleKeyDown = function (keyCode) {
 				this.configuracion = true;
 			}
 
+		break;
+		
+		case $.sfKey.RETURN:
+			$.sf.exit(false);
 		break;
 	}
 }

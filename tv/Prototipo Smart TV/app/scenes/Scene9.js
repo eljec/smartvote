@@ -15,7 +15,7 @@ SceneScene9.prototype.initialize = function () {
 	$('#btn_Mac').sfButton({text:'Dirección MAC', width:'150px'});
 	$('#btn_TipoConeccion').sfButton({text:'Tipo Conección', width:'160px'});
 	$('#btn_ID_TV').sfButton({text:'ID TV', width:'140px'});
-	$('#hlpBar_test').sfKeyHelp({'return':'Return'});
+	$('#hlpBar_test').sfKeyHelp({'LEFTRIGHT':'Moverse entre botones','ENTER':'Enter','INFO':'Informacion del Sistema','return':'Rregresar al Hub'});
 	$('#img_test').sfImage({src:'images/engranajes.jpg'});
 	$('#lb_tiutlo_test').sfLabel({text:'TEST', width:'720px'});
 	$('#lb_resultado_test').sfLabel({text:'Resultado:.', width:'480px'});
