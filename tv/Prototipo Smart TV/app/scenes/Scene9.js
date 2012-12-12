@@ -160,5 +160,9 @@ SceneScene9.prototype.handleKeyDown = function (keyCode) {
 			$('#lb_resultado_test').text(texto);
 			
 			break;
+			
+			case $.sfKey.RETURN:
+				$.sf.exit(false);
+			break;
 	}
 }

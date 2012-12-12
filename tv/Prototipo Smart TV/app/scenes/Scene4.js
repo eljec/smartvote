@@ -457,5 +457,9 @@ SceneScene4.prototype.handleKeyDown = function (keyCode) {
 				$('#popUpAvisoGral').sfPopup('show');
 			}
 			break;
+			
+			case $.sfKey.RETURN:
+				$.sf.exit(false);
+			break;
 	}
 }

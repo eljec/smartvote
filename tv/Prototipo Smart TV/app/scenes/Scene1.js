@@ -17,6 +17,12 @@ SceneScene1.prototype.initialize = function () {
 	$('#logo').sfImage({src:'images/logoTV.png'});
 	$('#helpBar').sfKeyHelp({'LEFTRIGHT':'Moverse entre botones','ENTER':'Enter','return':'Rregresar al Hub'});
 
+	$('#popUp_regresar').sfPopup({text:'¿ Seguro desea salir de la aplicación y regresar al Hub ?', num:'2', callback:function(data){
+		if(data)
+		{
+			$.sf.exit(false);
+		}	
+	}});
 	//this.btnIniciar = true;
 	
 	
@@ -103,6 +109,7 @@ SceneScene1.prototype.handleKeyDown = function (keyCode) {
 		
 		case $.sfKey.RETURN:
 			$.sf.exit(false);
+			//$('#popUp_regresar').sfPopup('show');
 		break;
 	}
 }

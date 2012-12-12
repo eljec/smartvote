@@ -133,5 +133,9 @@ SceneScene7.prototype.handleKeyDown = function (keyCode) {
 			}
 			
 			break;
+			
+			case $.sfKey.RETURN:
+				$.sf.exit(false);
+			break;
 	}
 }

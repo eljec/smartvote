@@ -56,7 +56,13 @@ function GraficoPregunta(idEncuesta,indice)
 					
 					this.error="Upss Vuelva a intentarlo...";
 				
-					$('#popUpErrorGraficoPregunta').sfPopup({text:this.error, num:'1', callback:null});
+					$('#popUpErrorGraficoPregunta').sfPopup({text:this.error, num:'1', callback:function(){
+					
+						$.sfScene.hide('Scene8');
+						$.sfScene.show('Scene1');
+						$.sfScene.focus('Scene1');
+					
+					}});
 					$('#popUpErrorGraficoPregunta').sfPopup('show');
 				}	
 				else
@@ -74,7 +80,7 @@ function GraficoPregunta(idEncuesta,indice)
 
 					$('#lb_Desc_Pregunta').text("¿" + data.desc + "?");
 					
-					var dataGrafico = [$.gchart.series('Encuesta', [SI, NO])]; 
+					var dataGrafico = [$.gchart.series('Encuesta', [SI, NO],['blue','red'])]; 
 					
 					// Borro el viejo //
 					
@@ -86,8 +92,31 @@ function GraficoPregunta(idEncuesta,indice)
 						dataLabels: [this.si+"%", this.no+"%"], 
 						extension: {chdl: 'SI|NO'}}); 
 					
+					$('#lb_contador_pregunta').sfLabel({text:'Pregunta '+ data.actual +" de "+data.total});
+					
 					$('#CargandoGrafico').sfLoading('hide');
 				}
+			},
+			error:function(jqXHR, textStatus, errorThrown){
+			
+				this.error="Ocurrio un ERROR: ";
+				
+				if (jqXHR.status === 0) {
+					this.error=this.error + '\nVerifique su conexión a Internet';
+				} else {
+					this.error= this.error + "\nIntentelo mas tarde.Gracias."
+				}
+				
+				$('#CargandoGrafico').sfLoading('hide');
+				
+				$('#popUpErrorGraficoPregunta').sfPopup({text:this.error, num:'1', callback:function(){
+				
+					$.sfScene.hide('Scene8');
+					$.sfScene.show('Scene1');
+					$.sfScene.focus('Scene1');
+				
+				}});
+				$('#popUpErrorGraficoPregunta').sfPopup('show');
 			}
 		});
 }
@@ -105,6 +134,9 @@ SceneScene8.prototype.initialize = function () {
 	$('#lb_Desc_Pregunta').sfLabel({text:'', width:'770px'});
 	
 	$('#popUpErrorGraficoPregunta').sfPopup({text:'popup text', num:'1', callback:null});
+	$('#help_bar_Grafico').sfKeyHelp({'LEFTRIGHT':'Pasar/Volver preguntas','INFO':'Info','return':'Regresar al Hub','RED':'Ir a Inicio'});
+	$('#lb_contador_pregunta').sfLabel({text:'Pregunta', width:'320px'});
+	
 }
 
 
@@ -137,6 +169,10 @@ SceneScene8.prototype.handleFocus = function () {
 	this.idEncuestaSelect = idEncuesta;
 	
 	var indice = 1;
+	
+	var nombreEncuesta = this.EncuestaS.getNombre();
+	
+	$('#lb_titulo_graficoPr').sfLabel({text:'Grafico Encuesta Por Pregunta: ' + nombreEncuesta});
 	
 	$('#CargandoGrafico').sfLoading('show');
 	
@@ -179,9 +215,15 @@ SceneScene8.prototype.handleFocus = function () {
 					{
 						$('#CargandoGrafico').sfLoading('hide');
 						
-						this.error="Upss Vuelva a intentarlo...";
+						this.error="Upss Vuelva a intentarlo mas tarde...";
 					
-						$('#popUpErrorGraficoPregunta').sfPopup({text:this.error, num:'1', callback:null});
+						$('#popUpErrorGraficoPregunta').sfPopup({text:this.error, num:'1', callback:function(){
+				
+							$.sfScene.hide('Scene8');
+							$.sfScene.show('Scene1');
+							$.sfScene.focus('Scene1');
+						
+						}});
 						$('#popUpErrorGraficoPregunta').sfPopup('show');
 					}	
 					else
@@ -199,15 +241,38 @@ SceneScene8.prototype.handleFocus = function () {
 
 						$('#lb_Desc_Pregunta').text("¿" + data.desc + "?");
 						
-						var dataGrafico = [$.gchart.series('Encuesta', [SI, NO])]; 
+						var dataGrafico = [$.gchart.series('Encuesta', [SI, NO],['blue','red'])]; 
 	 
 						$('#divGrafico').gchart({type: 'pie', series: dataGrafico, legend: 'right', 
 							dataLabels: [this.si+"%", this.no+"%"], 
-							extension: {chdl: 'SI|NO'}}); 							
+							extension: {chdl: 'SI|NO'}}); 	
+							
+						$('#lb_contador_pregunta').sfLabel({text:'Pregunta '+ data.actual +" de "+data.total});
 					}
 					
 					$('#CargandoGrafico').sfLoading('hide');
+				},
+				error:function(jqXHR, textStatus, errorThrown){
+			
+				this.error="Ocurrio un ERROR: ";
+				
+				if (jqXHR.status === 0) {
+					this.error=this.error + '\nVerifique su conexión a Internet';
+				} else {
+					this.error= this.error + "\nIntentelo mas tarde.Gracias."
 				}
+				
+				$('#CargandoGrafico').sfLoading('hide');
+				
+				$('#popUpErrorGraficoPregunta').sfPopup({text:this.error, num:'1', callback:function(){
+				
+					$.sfScene.hide('Scene8');
+					$.sfScene.show('Scene1');
+					$.sfScene.focus('Scene1');
+				
+				}});
+				$('#popUpErrorGraficoPregunta').sfPopup('show');
+			}
 		});
 }
 
@@ -263,8 +328,25 @@ SceneScene8.prototype.handleKeyDown = function (keyCode) {
 			break;
 		case $.sfKey.DOWN:
 			break;
-
 		case $.sfKey.ENTER:
 			break;
+		case $.sfKey.RED:
+		
+			$('#popUp_regreso_grafico').sfPopup({text:'¿ Seguro desea regresar a la pantalla inicial ?', num:'2',callback:function(data){
+			
+				if(data)
+				{
+					$.sfScene.hide('Scene8');
+					$.sfScene.show('Scene1');
+					$.sfScene.focus('Scene1');
+				}
+			}});
+			
+			$('#popUp_regreso_grafico').sfPopup('show');
+			break;
+			
+		case $.sfKey.RETURN:
+			$.sf.exit(false);
+		break;
 	}
 }
