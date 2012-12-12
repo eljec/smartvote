@@ -1,6 +1,7 @@
 function SceneScene6(options) {
 	this.options = options;
-	this.EscenaPedido;
+	this.listaVideos;
+	this.urlVideos;
 	
 
 }
@@ -11,24 +12,28 @@ SceneScene6.prototype.initialize = function () {
 	// initialize the scene controls and styles, and initialize your variables here 
 	// scene HTML and CSS will be loaded before this function is called
 	
+	var data = [
+			'Como votar una encusta',
+			'Ver Gráfico 1',
+			'Ver Gráfico 2'
+	];
+	
+	this.listaVideos = data;
+	
+	var url = ['http://www.tesiscastillo.com.ar/VerGrafico.mp4','http://www.tesiscastillo.com.ar/VerGrafico.mp4','http://www.tesiscastillo.com.ar/VerGrafico.mp4'];
+	
+	this.urlVideos = url;
+	
 	$('#Titulo_I').sfLabel({text:'Instrucciones ', width:'190px'});
-	$('#svecLabel_ZTZ3').sfLabel({text:'label', width:'410px'});
+	$('#lb_instruciones').sfLabel({text:'Seleccione un video de la lista.', width:'800px'});
 	
+	$('#lista_videos').sfList({data:data, index:'0', itemsPerPage:'3'});
 	
+	$('#pantalla_video').sfVideo2({urlMedia:'http://www.tesiscastillo.com.ar/VerGrafico.mp4', jumpSeconds:'10', idVideo2_controller:'controlador_video'});
+	$('#controlador_video').sfVideo2_controller();
 	
-	var ScenneCall2 = $.sfScene.get('Scene2');
+	$('#help_bar_ayuda').sfKeyHelp({'return':'Return'});
 	
-	//var ScenneCall3 = $.sfScene.get('Scene3');
-	
-	var call_S2 = ScenneCall2.llamadoPH_S2;
-	
-	//var call_S3 = ScenneCallllamadoPH_S3;
-	
-	if(call_S2 == true)
-	{
-	  this.EscenaPedido=2;
-	  
-	}
 }
 
 
@@ -46,6 +51,8 @@ SceneScene6.prototype.handleHide = function () {
 
 SceneScene6.prototype.handleFocus = function () {
 	alert("SceneScene6.handleFocus()");
+	
+	$('#pantalla_video').sfVideo2('stop');
 }
 
 SceneScene6.prototype.handleBlur = function () {
@@ -64,22 +71,32 @@ SceneScene6.prototype.handleKeyDown = function (keyCode) {
 		case $.sfKey.RIGHT:
 			break;
 		case $.sfKey.UP:
+		
+			var idx = $('#lista_videos').sfList('getIndex');
+			if(idx == 0)
+			   break;
+			$('#lista_videos').sfList('prev');
+			
 			break;
 		case $.sfKey.DOWN:
+		
+			var idx = $('#lista_videos').sfList('getIndex');
+			if(idx == this.listaVideos.length )
+			   break;
+			$('#lista_videos').sfList('next');
+			
 			break;
 
 		case $.sfKey.ENTER:
-		
-		    if(this.EscenaPedido == 2)
-			{
-			      $.sfScene.hide('Scene6');
-				  $.sfScene.show('Scene2');
-				  $.sfScene.focus('Scene2');
-			}
+			var seleccion = $('#ListaProgramas').sfListbox2('getIndex');
+			
 			break;
 			
 		case $.sfKey.RETURN:
 			$.sf.exit(false);
 		break;
+		
+		default:
+			$('#pantalla_video').sfVideo2('RCKeyDefined', keyCode);
 	}
 }

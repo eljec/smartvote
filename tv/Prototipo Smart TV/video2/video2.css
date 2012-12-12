@@ -1,0 +1,10 @@
+
+.videoConfiguration
+{
+	position: absolute;
+	left: 0px;
+    top: 0px;
+	width: 400px;
+	height: 250px;
+    opacity: 0;
+}

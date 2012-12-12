@@ -12,17 +12,50 @@
 	position : absolute;
 	font-size : 24pt;
 	color : #000000;
-	left : 380px;
+	left : 400px;
 	top : 30px;
 	width : 190px;
 }
 
 
-#SceneScene6 #svecLabel_ZTZ3{
+#SceneScene6 #lb_instruciones{
 	position : absolute;
-	font-size : 10pt;
+	font-size : 22pt;
 	color : #210000;
-	left : 260px;
-	top : 110px;
+	left : 100px;
+	top : 100px;
+	width : 800px;
+}
+
+#SceneScene6 #lista_videos{
+	position : absolute;
+	left : 110px;
+	top : 250px;
+	width : 200px;
+}
+
+.descripcion{
+	white-space:pre-wrap;
+	text-align:center;
+	background-color: #A9A9A9;
+}
+
+#SceneScene6 #pantalla_video{
+	position : absolute;
+	left : 430px;
+	top : 190px;
 	width : 410px;
+	height : 250px;
+}
+
+#SceneScene6 #controlador_video{
+	position : absolute;
+	left : 430px;
+	top : 440px;
+}
+
+#SceneScene6 #help_bar_ayuda{
+	position : absolute;
+	left : 0px;
+	top : 505px;
 }

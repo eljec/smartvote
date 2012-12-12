@@ -10,7 +10,7 @@ SceneScene1.prototype.initialize = function () {
 	alert("SceneScene1.initialize()");
 	
 	// Se llama cuando se Crea por Primera Vez--Nada Mas  
-	
+		
 	$('#lbTituloSistema').sfLabel({text:'Smart Vote', width:'320px'});
 	$('#B_CargaProgramas').sfButton({text:'Iniciar', width:'109px'});
 	$('#btnTest').sfButton({text:'Test', width:'122px'});
@@ -96,8 +96,12 @@ SceneScene1.prototype.handleKeyDown = function (keyCode) {
 			else
 			{
 				$.sfScene.hide('Scene1');
-				$.sfScene.show('Scene9');
-				$.sfScene.focus('Scene9');
+				
+				$.sfScene.show('Scene6');
+				$.sfScene.focus('Scene6');
+				
+				//$.sfScene.show('Scene9');
+				//$.sfScene.focus('Scene9');
 				
 				//$.sfScene.show('Scene7');
 				//$.sfScene.focus('Scene7');
