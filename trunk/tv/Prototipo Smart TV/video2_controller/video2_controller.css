@@ -1,0 +1,181 @@
+.main {
+    position:absolute;
+    width : 410px;
+	height : 52px;
+}
+
+.Video2_controllerUp {
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    background-image: url(../video2_controller/images/bg_up.png) ;
+    width: 410px;
+    height: 26px;
+}
+
+.Video2_controllerUpFullScreen {
+    position:absolute;
+    left: 130px;
+    top: 12px;
+    width: 410px;
+    height: 26px;
+}
+
+.Video2_controllerBGDown {
+    position:absolute;
+    left: 0px;
+    top: 26px;
+    background-image: url(../video2_controller/images/bg_down.png) ;
+    width: 410px;
+    height: 26px;
+}
+
+.Video2_controllerBGDownFullScreen {
+    position:absolute;
+    left: 550px;
+    top: 12px;
+    width: 410px;
+    height: 26px;
+    
+}
+
+.Video2_controllerTime {
+    position:absolute;
+    left: 15px;
+    top: 10px;
+    background-image: url(../video2_controller/images/prog_bg.png) ;
+    width: 300px;
+    height: 8px;
+}
+
+.progressTime {
+    position:absolute;
+    background-image: url(../video2_controller/images/prog.png);
+    left: 0px;
+    top: 0px;
+    height: 8px;
+    width: 0%;
+}
+
+.time {
+    position:absolute;
+    left: 325px;
+    top: 6px;
+    color:#ffffff;
+    font-size: 85%;
+}
+
+.button {
+    position:absolute;
+    background-image: url(../video2_controller/images/sub_stop.png);
+    height: 28px;
+    width: 28px;
+    top: 20px;
+    left: 15px;
+}
+
+.mainFullScreen {
+    position:absolute;
+    top: 0px;
+    left:0px;
+    width : 960px;
+	height : 46px;
+    background-image:url(../video2_controller/images/sub5_box_2.png);
+}
+
+.iconVolume {
+    position:absolute;
+    background-image:url(../video2_controller/images/sound_sl.png);
+    width: 23px;
+    height: 18px;
+    left: 15px;
+    top: 5px;
+}
+
+.Video2_controllerVolume {
+    position:absolute;
+    left: 45px;
+    top: 10px;
+    background-image: url(../video2_controller/images/prog_bg.png) ;
+    width: 100px;
+    height: 8px;
+}
+
+.progressVolume {
+    position:absolute;
+    background-image: url(../video2_controller/images/prog.png);
+    left: 0px;
+    top: 0px;
+    height: 8px;
+    width: 0%;
+}
+
+.volumeValue {
+    position:absolute;
+    left: 155px;
+    top: 6px;
+    color:#ffffff;
+    font-size: 85%;
+}
+
+.buttons{
+    left: 200px;
+    top: 6px;
+    position:absolute;
+    width: 100px;
+    height: 12px;
+}
+
+.bkButton {
+    position:absolute;
+    background-image: url(../video2_controller/images/rew.png);
+    height: 12px;
+    width: 12px;
+    left: 0px;
+    top: 0px;
+}
+
+.plButton {
+    position:absolute;
+    background-image: url(../video2_controller/images/play.png);
+    height: 12px;
+    width: 12px;
+    left: 26px;
+    top: 0px;
+}
+
+.stButton {
+    position:absolute;
+    background-image: url(../video2_controller/images/stop.png);
+    height: 12px;
+    width: 12px;
+    left: 50px;
+    top: 0px;
+}
+
+.paButton {
+    position:absolute;
+    background-image: url(../video2_controller/images/pause.png);
+    height: 12px;
+    width: 12px;
+    left: 75px;
+    top: 0px;
+}
+
+.fwButton {
+    position:absolute;
+    background-image: url(../video2_controller/images/ff.png);
+    height: 12px;
+    width: 12px;
+    left: 105px;
+    top: 0px;
+}
+
+.txButton {
+    position:absolute;
+    left: 140px;
+    top: 0px;
+    color:#ffffff;
+    font-size: 85%;
+}
+
