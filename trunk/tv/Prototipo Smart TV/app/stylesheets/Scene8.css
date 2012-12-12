@@ -51,3 +51,20 @@
 	top : 120px;
 	width : 770px;
 }
+
+#SceneScene8 #help_bar_Grafico{
+	position : absolute;
+	left : 0px;
+	top : 510px;
+}
+
+#SceneScene8 #lb_contador_pregunta{
+	position : absolute;
+	font-size : 18pt;
+	color : #210000;
+	left : 320px;
+	top : 470px;
+	width : 320px;
+	text-align:center;
+}
+

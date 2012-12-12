@@ -248,9 +248,10 @@ SceneScene2.prototype.handleKeyDown = function (keyCode) {
 		
 		break;
 		
-		/*case $.sfKey.RETURN:
-			 $.sf.exit(false);
-		break;*/
+		case $.sfKey.RETURN:
+			$.sf.exit(false);
+		break;
+		
 	}
 }
 

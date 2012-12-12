@@ -77,5 +77,9 @@ SceneScene6.prototype.handleKeyDown = function (keyCode) {
 				  $.sfScene.focus('Scene2');
 			}
 			break;
+			
+		case $.sfKey.RETURN:
+			$.sf.exit(false);
+		break;
 	}
 }
