@@ -225,6 +225,20 @@
 						
 							$respuesta = $adminServicio->encuestasNuevaTabla($varGet);
 						break;
+					case 8:
+							if(isset($_GET["tipo_tuto"], $_GET["num_imagen"]))
+							{
+								$tipo_tuto=$_GET["tipo_tuto"];
+							 
+								$id_imagen=$_GET["num_imagen"];
+							 
+								$respuesta = $adminServicio->GetUrlImagen($tipo_tuto,$id_imagen);
+							}
+							else
+							{
+								errorParametros("LA URL NO CONTIENE ALGUNO DE LOS PARAMETRO tipo_tuto O num_imagen");
+							} 
+						break;
 				}
 				
 				echo $respuesta;

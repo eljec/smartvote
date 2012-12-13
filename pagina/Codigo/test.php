@@ -1,5 +1,4 @@
 <?php
-include 'phpHelper/GChart.php';
 	/*date_default_timezone_set('UTC');
 
 	$fecha_actual = date("Y-m-d H:i:s");
@@ -28,11 +27,46 @@ $array["ju"] = 1;
 	
 	//echo $fecha_actual =  date("Y-m-d H:i:s");
 	
-	$pie2d=new GChart_Pie2D(150,150);  
-$pie2d->add(50);  
-$pie2d->add(25);  
-$pie2d->add(6);
+	//echo $_SERVER['HTTP_USER_AGENT'] . "\n\n";
+
+	/*$browser = get_browser(null, true);
+	print_r($browser);*/
+	
+	$arrayURL = [ 
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/imagen_inicio.PNG',
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_1.PNG',
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_2.PNG',
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_3.PNG',
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_4.PNG',
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_5.PNG',
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_6.PNG',
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_7.PNG',
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/imagen_fin.PNG'
+		];
+		
+	//print_r($arrayURL);
+	
+	$ema = 1;
+	
+	/*try
+	{
+		$ema = $arrayURL[10];
+		
+	}catch(Exception $ex)
+	{
+		$ema = "and";
+	}*/
+	
+	if( isset( $arrayURL[10]) )
+	{
+		 $ema="2";
+	 }
+	else
+		{
+			$ema = "and";
+		}
 	
 	
+	echo $ema;
 ?>
 
