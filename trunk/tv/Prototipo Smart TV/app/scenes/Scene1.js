@@ -97,8 +97,8 @@ SceneScene1.prototype.handleKeyDown = function (keyCode) {
 			{
 				$.sfScene.hide('Scene1');
 				
-				$.sfScene.show('Scene6');
-				$.sfScene.focus('Scene6');
+				$.sfScene.show('Scene10');
+				$.sfScene.focus('Scene10');
 				
 				//$.sfScene.show('Scene9');
 				//$.sfScene.focus('Scene9');

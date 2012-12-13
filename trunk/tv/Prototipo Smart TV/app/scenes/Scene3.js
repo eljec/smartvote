@@ -195,7 +195,7 @@ SceneScene3.prototype.initialize = function () {
 	$('#cargandoEncuestas').sfLoading('show');
 	$('#lbTituloDescripcionEncuesta').sfLabel({text:'Desccipción', width:'200px'});
 	$('#fotoREncuesta').sfImage({src:'images/survey-checkboxes.jpg'});
-	$('#svecImage_XY3F').sfImage({src:'images/encuestas-265x300.jpg'});
+	$('#svecImage_XY3F').sfImage({src:'images/encuesta5.jpg'});
 	
 } // fin initialize
 

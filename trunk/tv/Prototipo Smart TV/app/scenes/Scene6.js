@@ -13,14 +13,18 @@ SceneScene6.prototype.initialize = function () {
 	// scene HTML and CSS will be loaded before this function is called
 	
 	var data = [
-			'Como votar una encusta',
+			'Como votar una encuesta',
 			'Ver Gráfico 1',
 			'Ver Gráfico 2'
 	];
 	
 	this.listaVideos = data;
 	
-	var url = ['http://www.tesiscastillo.com.ar/VerGrafico.mp4','http://www.tesiscastillo.com.ar/VerGrafico.mp4','http://www.tesiscastillo.com.ar/VerGrafico.mp4'];
+	var url = [
+			'http://www.tesiscastillo.com.ar/smartvote/videos/VotarEncuesta.mp4',
+			'http://www.tesiscastillo.com.ar/smartvote/videos/VerGrafico_opcion1.mp4',
+			'http://www.tesiscastillo.com.ar/smartvote/videos/VerGrafico_opcion2.mp4'
+			];
 	
 	this.urlVideos = url;
 	
@@ -29,10 +33,12 @@ SceneScene6.prototype.initialize = function () {
 	
 	$('#lista_videos').sfList({data:data, index:'0', itemsPerPage:'3'});
 	
-	$('#pantalla_video').sfVideo2({urlMedia:'http://www.tesiscastillo.com.ar/VerGrafico.mp4', jumpSeconds:'10', idVideo2_controller:'controlador_video'});
+	$('#pantalla_video').sfVideo2({urlMedia:'http://www.tesiscastillo.com.ar/VerGrafico.mp4', jumpSeconds:'2', idVideo2_controller:'controlador_video'});
+	
 	$('#controlador_video').sfVideo2_controller();
 	
-	$('#help_bar_ayuda').sfKeyHelp({'return':'Return'});
+	$('#help_bar_ayuda').sfKeyHelp({'LEFTRIGHT':'Moverse entre botones','RED':'Ir a Inicio','return':'Regresar al Hub'});
+	
 	
 }
 
@@ -51,8 +57,7 @@ SceneScene6.prototype.handleHide = function () {
 
 SceneScene6.prototype.handleFocus = function () {
 	alert("SceneScene6.handleFocus()");
-	
-	$('#pantalla_video').sfVideo2('stop');
+
 }
 
 SceneScene6.prototype.handleBlur = function () {
@@ -88,12 +93,40 @@ SceneScene6.prototype.handleKeyDown = function (keyCode) {
 			break;
 
 		case $.sfKey.ENTER:
-			var seleccion = $('#ListaProgramas').sfListbox2('getIndex');
+		
+			// Paramos el video //
+			$('#pantalla_video').sfVideo2('stop');
+			
+			// Obtenemos el index de la lista
+			
+			var seleccion = $('#lista_videos').sfList('getIndex');
+			
+			// Obtenemos la direccion del video 
+			
+			var urlVideo = this.urlVideos[seleccion];
+			
+			$('#pantalla_video').sfVideo2({urlMedia:urlVideo, jumpSeconds:'2', idVideo2_controller:'controlador_video'});
+	
+			$('#controlador_video').sfVideo2_controller();
+			
+			$('#pantalla_video').sfVideo2('play');
 			
 			break;
 			
 		case $.sfKey.RETURN:
 			$.sf.exit(false);
+		break;
+		
+		case $.sfKey.RED:
+			$('#popUp_aviso_videos').sfPopup({text:'¿ Desea regresar a la pantalla inicial ?', num:'2', callback:function(data){
+				if(data)
+				{
+					$.sfScene.hide('Scene6');				
+					$.sfScene.show('Scene1');
+					$.sfScene.focus('Scene1');
+				}
+			}});	
+			$('#popUp_aviso_videos').sfPopup('show');
 		break;
 		
 		default:
