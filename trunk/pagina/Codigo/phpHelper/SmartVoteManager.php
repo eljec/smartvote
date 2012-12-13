@@ -636,7 +636,80 @@ class SmartVoteManager {
 		}
 	}
 	
+	public function GetUrlImagen($tipo_tuto,$id_imagen)
+	{
+		$resultado ="";
+		switch ($tipo_tuto) 
+		{
+			case 'votar':
+				$resultado = $this->UrlVotar($id_imagen);
+				break;
+			case 'grafico1':
+				
+				break;
+			case 'grafico2':
+			
+				break;
+			default:
+				
+				break;
+		}
+		
+		return $resultado;
+	}
 	
+	private function UrlVotar($id_imagen)
+	{
+		$siguiente = "";
+		$anterior = "";
+		$actual = $id_imagen;
+		
+		$arrayURL = [ 
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/imagen_inicio.PNG',
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_1.PNG',
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_2.PNG',
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_3.PNG',
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_4.PNG',
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_5.PNG',
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_6.PNG',
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_7.PNG',
+		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/imagen_fin.PNG'
+		];
+		
+		if( isset( $arrayURL[$id_imagen+1]) )
+		{
+			// Si tiene siguiente 
+			
+			$siguiente = $id_imagen+1;
+		}
+		else
+		{
+			$siguiente = null;
+		}
+		
+		if( isset( $arrayURL[$id_imagen-1]) )
+		{
+			// Si tiene anterior 
+			
+			$anterior = $id_imagen-1;
+		}
+		else
+		{
+			$anterior = null;
+		}
+		
+		// URL actual
+		
+		
+		$resultado = "{";
+			$resultado = $resultado.json_encode("siguiente").":".json_encode($siguiente).",";	
+			$resultado = $resultado.json_encode("actual").":".$actual.",";
+			$resultado = $resultado.json_encode("anterior").":".json_encode($anterior).",";
+			$resultado = $resultado.json_encode("url").":"."\"".$arrayURL[$id_imagen]."\"";
+		$resultado = $resultado."}";
+		
+		echo $resultado;
+	}
 	// ------------------------------    METODOS PRIVADOS  --------------------------------------------------  //
 
 	private function transformarDatosProgramas($datos)
