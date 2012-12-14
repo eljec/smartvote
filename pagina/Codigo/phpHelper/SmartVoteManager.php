@@ -705,6 +705,7 @@ class SmartVoteManager {
 			$resultado = $resultado.json_encode("siguiente").":".json_encode($siguiente).",";	
 			$resultado = $resultado.json_encode("actual").":".$actual.",";
 			$resultado = $resultado.json_encode("anterior").":".json_encode($anterior).",";
+			$resultado = $resultado.json_encode("total").":".json_encode(count($arrayURL)).",";
 			$resultado = $resultado.json_encode("url").":"."\"".$arrayURL[$id_imagen]."\"";
 		$resultado = $resultado."}";
 		
