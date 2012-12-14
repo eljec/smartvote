@@ -8,14 +8,6 @@
 }
 
 
-#SceneScene10 #imagen_tuto{
-	position : absolute;
-	left : 300px;
-	top : 100px;
-	width : 610px;
-	height : 360px;
-}
-
 #SceneScene10 #lb_titurial_titulo{
 	position : absolute;
 	font-size : 26pt;
@@ -31,16 +23,15 @@
 	position : absolute;
 	font-size : 22pt;
 	color : #210000;
-	left : 50px;
-	top : 160px;
-	width : 190px;
-	text-align:center;
+	left : 300px;
+	top : 140px;
+	width : 300px;
 }
 
 #SceneScene10 #lista_tutoriales{
 	position : absolute;
-	left : 50px;
-	top : 220px;
+	left : 350px;
+	top : 210px;
 	width : 190px;
 	height : 162px;
 }

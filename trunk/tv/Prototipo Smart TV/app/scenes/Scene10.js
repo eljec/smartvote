@@ -13,6 +13,8 @@ function SceneScene10(options) {
 	this.numeroInstruccion;
 	
 	this.activo;
+	
+	this.TipoSeleccion;
 }
 
 SceneScene10.prototype.initialize = function () {
@@ -64,14 +66,14 @@ SceneScene10.prototype.initialize = function () {
 		'images/Tuto/grafico2/imagen_fin.PNG'
 	];
 	
-	$('#imagen_tuto').sfImage({src:'images/azul.jpg'});
 	$('#lb_titurial_titulo').sfLabel({text:'Instrucciones', width:'130px'});
-	$('#lb_lista_tutos').sfLabel({text:'Tutoriales', width:'190px'});
+	$('#lb_lista_tutos').sfLabel({text:'Seleccione un tutorial', width:'300px'});
 	
 	$('#popUp_aviso_tuto').sfPopup({text:'Se termino el tutorial', num:'1', callback:'null'});
 	
 	$('#lista_tutoriales').sfListbox2({data:listbox2_data3XY0GN, width:'200', height:'31', itemsPerPage:'3', horizontal:'false'});
 	$('#helBar_tuto').sfKeyHelp({'RED':'Volver a pantalla inicial','return':'Regresar al Hub'});
+	$('#svecPopup_SGJN').sfPopup({text:'popup text', num:'1', callback:null});
 	
 	this.selecciono = false;
 	this.numeroInstruccion =0;
@@ -110,7 +112,7 @@ SceneScene10.prototype.handleKeyDown = function (keyCode) {
 	switch (keyCode) {
 		case $.sfKey.LEFT:
 			
-			if(this.selecciono)
+			/*if(this.selecciono)
 			{
 				if(this.numeroInstruccion == 0)
 				{
@@ -126,12 +128,12 @@ SceneScene10.prototype.handleKeyDown = function (keyCode) {
 						changeImagen(this.listaImagen_usando[this.numeroInstruccion]);
 					}
 				}
-			}
+			}*/
 			
 			break;
 		case $.sfKey.RIGHT:
 			
-			if(this.selecciono)
+			/*if(this.selecciono)
 			{
 
 				if(this.numeroInstruccion == this.listaImagen_usando.length-1)
@@ -148,8 +150,8 @@ SceneScene10.prototype.handleKeyDown = function (keyCode) {
 						changeImagen(this.listaImagen_usando[this.numeroInstruccion]);
 					}
 				}
-
-			}
+*
+			}*/
 			break;
 		case $.sfKey.UP:
 
@@ -178,22 +180,16 @@ SceneScene10.prototype.handleKeyDown = function (keyCode) {
 				var seleccion = $('#lista_tutoriales').sfListbox2('getIndex');
 
 				if(seleccion == '0')
-					this.listaImagen_usando = this.listaImagen_votar;
+					this.TipoSeleccion = 'votar'; //this.listaImagen_usando = this.listaImagen_votar;
 				else
 					if(seleccion == '1')
-						this.listaImagen_usando = this.listaImagen_verGrafico1;
+						this.TipoSeleccion ='grafico1'; //this.listaImagen_usando = this.listaImagen_verGrafico1;
 					else
-						this.listaImagen_usando = this.listaImagen_verGrafico2;
-
-				// Pongo la Primera Imagen 
-				
-				changeImagen(this.listaImagen_usando[0]);
-				
-				this.selecciono = true;
-				
-				this.numeroInstruccion = 0;
-				
-				//$('#lista_tutoriales').sfListbox2('hide');
+						this.TipoSeleccion= 'grafico2';//this.listaImagen_usando = this.listaImagen_verGrafico2;
+						
+				$.sfScene.hide('Scene10');
+				$.sfScene.show('Scene11');
+				$.sfScene.focus('Scene11');
 			}
 			else
 			{
