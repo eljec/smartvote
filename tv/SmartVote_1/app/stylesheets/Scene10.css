@@ -1,0 +1,44 @@
+#SceneScene10 {
+	position : absolute;
+	left : 0px;
+	top : 0px;
+	width : 960px;
+	height : 540px;
+	background-color : #c0c0c0;
+}
+
+
+#SceneScene10 #lb_titurial_titulo{
+	position : absolute;
+	font-size : 26pt;
+	color : #210000;
+	left : 40px;
+	top : 20px;
+	width : 880px;
+	text-align:center;
+	background-color:#9793A7;
+}
+
+#SceneScene10 #lb_lista_tutos{
+	position : absolute;
+	font-size : 22pt;
+	color : #210000;
+	left : 330px;
+	top : 140px;
+	width : 310px;
+	background-color : white;
+}
+
+#SceneScene10 #lista_tutoriales{
+	position : absolute;
+	left : 370px;
+	top : 210px;
+	width : 210px;
+	height : 162px;
+}
+
+#SceneScene10 #helBar_tuto{
+	position : absolute;
+	left : 0px;
+	top : 505px;
+}

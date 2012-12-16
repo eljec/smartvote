@@ -1,0 +1,51 @@
+#SceneScene1 {
+	position : absolute;
+	left : 0px;
+	top : 0px;
+	width : 960px;
+	height : 540px;
+	background-color : #D3D6DE;
+}
+
+
+#SceneScene1 #lbTituloSistema{
+	position : absolute;
+	font-size : 36pt;
+	color : #000000;
+	left : 320px;
+	top : 40px;
+	width : 320px;
+}
+
+#SceneScene1 #B_CargaProgramas{
+	position : absolute;
+	left : 330px;
+	top : 390px;
+	width : 109px;
+}
+
+#SceneScene1 #btnTest{
+	position : absolute;
+	left : 550px;
+	top : 390px;
+	width : 122px;
+}
+
+#SceneScene1 #logo{
+	position : absolute;
+	left : 280px;
+	top : 90px;
+	width : 410px;
+	height : 290px;
+}
+
+
+
+#SceneScene1 #helpBar{
+	position : absolute;
+	left : 0px;
+	top : 506px;
+}
+
+
+
