@@ -46,7 +46,6 @@ SceneScene1.prototype.handleFocus = function () {
 	
 	$('#btnTest').sfButton({text:'Ayuda'});
 	
-	//$('#lbTituloSistema').sfLabel({text:''});
 }
 
 SceneScene1.prototype.handleBlur = function () {

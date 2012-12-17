@@ -11,9 +11,9 @@ SceneScene11.prototype.initialize = function () {
 	// initialize the scene controls and styles, and initialize your variables here 
 	// scene HTML and CSS will be loaded before this function is called
 	
-	$('#help_bar_tutoriales').sfKeyHelp({'LEFTRIGHT':'Regresar al menu de ayuda','INFO':'Info','RED':'Volver a pantalla inicial','return':'Regresar al Hub'});
-	$('#itutlo_imagesn_tuto').sfLabel({text:'label', width:'880px'});
-	$('#label_instrucciones').sfLabel({text:'label', width:'670px'});
+	$('#help_bar_tutoriales').sfKeyHelp({'LEFTRIGHT':'Regresar al menu de ayuda','INFO':'Info','RED':'Ir a Inicio','return':'Regresar al Hub'});
+	$('#itutlo_imagesn_tuto').sfLabel({text:'', width:'880px'});
+	$('#label_instrucciones').sfLabel({text:'', width:'670px'});
 	$('#svecImage_ZJYI').sfImage({src:'images/imagen_instruccion.png'});
 	$('#imagen_instruccion2').sfImage({src:'images/imagen_instruccion2.png'});
 	
@@ -22,8 +22,8 @@ SceneScene11.prototype.initialize = function () {
 		if(data)
 		{
 			$.sfScene.hide('Scene11');
-			$.sfScene.show('Scene10');
-			$.sfScene.focus('Scene10');
+			$.sfScene.show('Scene1');
+			$.sfScene.focus('Scene1');
 		}
 	}});
 	
@@ -49,9 +49,9 @@ function textoInstruccionVotar()
 		texto = texto +  "<li><p>Inicie la aplicación.</p></li>";
 		texto = texto +  "<li><p>Seleccione un PROGRAMA de la lista y oprimir el boton Enter.</p></li>";
 		texto = texto +  "<li><p>Seleccione una ENCUESTA de la lista y oprimir el boton Enter.</p></li>";
-		texto = texto +  "<li><p>Vote la pregunta con los botones ROJO y AZUL.</p></li>";
+		texto = texto +  "<li><p>Vote la pregunta usando los botones ROJO y AZUL, segun su elección.</p></li>";
 		texto = texto +  "<li><p>Pase de preguntas con los botones izquierda y derecha del control.</p></li>";
-		texto = texto +  "<li><p>Una vez terminadas la votacion de todas las preguntas, el sistema emite un cartel avisando que guardo sus datos.</p></li>";
+		texto = texto +  "<li><p>Una vez terminada la votacion de todas las preguntas, el sistema emite un cartel avisando que guardo sus datos.</p></li>";
 		texto = texto +  "<li><p>Fin de la votación.</p></li>";
 	texto = texto +  "</ol>";
 
@@ -63,7 +63,7 @@ function textoInstruccionVerGrafico1()
 	var texto = "<ol>";
 		texto = texto +  "<li><p>Oprimir el boton Ver Gráfico.</p></li>";
 		texto = texto +  "<li><p>Pase de preguntas con los botones izquierda y derecha del control.</p></li>";
-		texto = texto +  "<li><p>Una vez terminada todas las preguntas, el sistema emite un cartel avisandole que ya vio todos los gráficos.</p></li>";
+		texto = texto +  "<li><p>Una vez terminadas todas las preguntas, el sistema emite un cartel avisandole que ya vio todos los gráficos.</p></li>";
 		texto = texto +  "<li><p>Fin.</p></li>";
 	texto = texto +  "</ol>";
 
@@ -99,17 +99,17 @@ SceneScene11.prototype.handleFocus = function () {
 	switch(this.tipo)
 	{
 		case 'votar':
-				$('#itutlo_imagesn_tuto').text('Como votar una encuesta');
+				$('#itutlo_imagesn_tuto').text('¿ Como votar una encuesta ?');
 				html = textoInstruccionVotar();
 				$('#label_instrucciones').css("font-size","15pt");
 			break;
 		case 'grafico1':
-				$('#itutlo_imagesn_tuto').text('Como ver grafico de encuesta(luego de votar)');
+				$('#itutlo_imagesn_tuto').text('¿ Como ver gráfico de encuesta ? (luego de votar)');
 				html = textoInstruccionVerGrafico1();
 				$('#label_instrucciones').css("font-size","17pt");
 			break;
 		case 'grafico2':
-				$('#itutlo_imagesn_tuto').text('Como ver grafico de encuesta 2(sin votar)');
+				$('#itutlo_imagesn_tuto').text('¿ Como ver gráfico de encuesta ? (sin votar)');
 				html = textoInstruccionVerGrafico2();
 				$('#label_instrucciones').css("font-size","15pt");
 			break;

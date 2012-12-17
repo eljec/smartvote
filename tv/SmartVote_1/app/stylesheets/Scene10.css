@@ -33,7 +33,7 @@
 	position : absolute;
 	left : 370px;
 	top : 210px;
-	width : 210px;
+	width : 410px;
 	height : 162px;
 }
 
@@ -41,4 +41,10 @@
 	position : absolute;
 	left : 0px;
 	top : 505px;
+}
+
+#SceneScene10 #cargando_losta_tutoriales{
+	position : absolute;
+	left : 400px;
+	top : 200px;
 }
