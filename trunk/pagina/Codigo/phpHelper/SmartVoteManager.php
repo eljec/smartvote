@@ -664,7 +664,7 @@ class SmartVoteManager {
 		$anterior = "";
 		$actual = $id_imagen;
 		
-		$arrayURL = [ 
+		$arrayURL = array ( 
 		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/imagen_inicio.PNG',
 		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_1.PNG',
 		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_2.PNG',
@@ -674,7 +674,7 @@ class SmartVoteManager {
 		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_6.PNG',
 		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_7.PNG',
 		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/imagen_fin.PNG'
-		];
+		);
 		
 		if( isset( $arrayURL[$id_imagen+1]) )
 		{
