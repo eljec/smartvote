@@ -1,0 +1,45 @@
+#SceneScene5 {
+	position : absolute;
+	left : 0px;
+	top : 0px;
+	width : 960px;
+	height : 540px;
+	background-color : #c0c0c0;
+}
+
+
+#SceneScene5 #lb_titulo_info_sistema{
+	position : absolute;
+	font-size : 26pt;
+	color : #210000;
+	left : 40px;
+	top : 20px;
+	width : 880px;
+	background-color:#9793A7;
+}
+
+#SceneScene5 #texto_info_sistema{
+	position : absolute;
+	font-size : 15pt;
+	color : #210000;
+	left : 40px;
+	top : 110px;
+	width : 660px;
+	white-space:pre-wrap;
+	text-align: justify;
+}
+
+#SceneScene5 #svecImage_J3C1{
+	position : absolute;
+	left : 760px;
+	top : 220px;
+	width : 180px;
+	height : 160px;
+}
+
+	
+#SceneScene5 #helpBar_info{
+	position : absolute;
+	left : 0px;
+	top : 506px;
+}
