@@ -1,0 +1,40 @@
+.ocultar{
+	display:none;
+}
+.verde{
+	background-color:#8FAB98;
+}
+.azulado{
+	background-color: #06799F;
+	color:white;
+}
+.verdeDos{
+	background-color:#006363;
+	color:white;
+}
+
+.negro{
+	background-color: black;
+	color:white;
+}
+
+.bordeRedondoGral{
+	-moz-border-radius:15px 15px 15px;
+	-webkit-border-radius: 15px 15px 15px;
+}
+
+.espacioPadin{
+	padding-left:20px;
+}
+
+.gris{
+	/*background-color:#18191B;*/
+	background-color:#272B39;
+	color:white;
+}
+.bordeArribaAbajo{
+	border-bottom-style:solid;
+	border-bottom-width:5px;
+	border-top-style:solid;
+	border-top-width:5px;
+}

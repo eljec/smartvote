@@ -1,0 +1,40 @@
+.titulo{
+	background-color:black;
+	text-align:center;
+	height:100%;
+	font: 250% sans-serif; 
+	color: white;
+}
+
+td
+{
+vertical-align:top;
+}
+
+.etiquetas{
+	font: 150% sans-serif; 
+}
+
+.bordeArribaAbajo{
+	border-bottom-style:solid;
+	border-bottom-width:5px;
+	border-top-style:solid;
+	border-top-width:5px;
+}
+.textoAlerta{
+	text-align:center;
+}
+.morado{
+	background-color:#3C214C;
+}
+.TamAlerta{
+	width:350px;
+}
+.alert{
+	text-align: center;
+}
+
+.espacioPaddingTop{
+	padding-top: 30px;
+	padding-bottom: 30px;
+}

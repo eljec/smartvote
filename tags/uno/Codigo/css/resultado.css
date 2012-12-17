@@ -1,0 +1,47 @@
+
+.cssNav{
+	height: 300px
+}
+.hilite{
+	background-color:#BCE2E1;
+	cursor:pointer;
+}
+#tablaContenido td,#tablaContenido th{
+	text-align:center;
+}
+ #accordion h2 { 
+    font-size: 17px;
+    font-weight: normal;
+    height: 1.7em;
+	line-height: 1.7em;
+    margin: 0 0 2px;
+    padding: 0 20px;
+    position: relative;
+ }
+ 
+ .cursorHand{
+	cursor:pointer;
+}
+
+.bordeRedondo {
+	-moz-border-radius:15px 55px 5px;
+	-webkit-border-radius: 15px 55px 5px;
+}
+
+.inputLargo{
+	width: 350px;
+	
+}
+
+#graficoDos{
+	text-align: center;
+	alignment-baseline: center;
+}
+
+.ui-autocomplete-loading {
+        background: white url('../img/ui-anim_basic_16x16.gif') right center no-repeat;
+    }
+    
+#alertaCragaDatos{
+	text-align: center;
+}
