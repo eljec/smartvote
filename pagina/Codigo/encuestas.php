@@ -176,7 +176,9 @@
 								    	<div align="center" class="hero-unit">
 								    		<div class="negro bordeRedondoGral">
 												<h3 align="center">Datos de las preguntas(sin ?¿)</h3>
+												<a href="#" id="infoFormatoPr" rel="popover" data-content="Las preguntas van sin los siguientes caracteres: - ; ¿ ?" data-original-title="Formato Preguntas">Formato Preguntas</a>  
 											</div>
+											<br>
 											<div align="center">
 												<div id="alertaPreguntas" class="alert ocultar TamAlerta"></div>
 											</div>
@@ -189,7 +191,7 @@
 																<label class="control-label" for="inputWarning">Pregunta 1</label>
 															  	<div class="controls">
 															    	<input type="text" id="1" name="1" class="pregunta" placeholder="Texto de la pregunta..">
-															    	<span class="help-inline">Campo Obligatorio, sin espacios.</span>
+															    	<span class="help-inline">Campo Obligatorio, en formato correcto.</span>
 															  	</div>
 															</div>
 														</td>				
@@ -200,7 +202,7 @@
 																<label class="control-label" for="inputWarning">Pregunta 2</label>
 															  	<div class="controls">
 															    	<input type="text" id="2" name="2" class="pregunta" placeholder="Texto de la pregunta..">
-															    	<span class="help-inline">Campo Obligatorio, sin espacios</span>
+															    	<span class="help-inline">Campo Obligatorio, en formato correcto.</span>
 															  	</div>
 															</div>
 														</td>		
@@ -211,7 +213,7 @@
 																<label class="control-label" for="inputWarning">Pregunta 3</label>
 															  	<div class="controls">
 															    	<input type="text" id="3" name="3" class="pregunta" placeholder="Texto de la pregunta..">
-															    	<span class="help-inline">Campo Obligatorio, sin espacios</span>
+															    	<span class="help-inline">Campo Obligatorio, en formato correcto.</span>
 															  	</div>
 															</div>
 														</td>		
@@ -222,7 +224,7 @@
 																<label class="control-label" for="inputWarning">Pregunta 4</label>
 															  	<div class="controls">
 															    	<input type="text" id="4" name="4" class="pregunta" placeholder="Texto de la pregunta..">
-															    	<span class="help-inline">Campo Obligatorio, sin espacios</span>
+															    	<span class="help-inline">Campo Obligatorio, en formato correcto.</span>
 															  	</div>
 															</div>
 														</td>		
@@ -233,7 +235,7 @@
 																<label class="control-label" for="inputWarning">Pregunta 5</label>
 															  	<div class="controls">
 															    	<input type="text" id="5" name="5" class="pregunta" placeholder="Texto de la pregunta..">
-															    	<span class="help-inline">Campo Obligatorio, sin espacios</span>
+															    	<span class="help-inline">Campo Obligatorio, en formato correcto.</span>
 															  	</div>
 															</div>
 														</td>		
