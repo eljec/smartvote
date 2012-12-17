@@ -188,7 +188,7 @@ SceneScene3.prototype.initialize = function () {
 	$('#helpBar3').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Info','return':'Regresar al Hub','GREEN':'Ver Gráfico'});
 	
 	$('#cargandoEncuestas').sfLoading('show');
-	$('#lbTituloDescripcionEncuesta').sfLabel({text:'Desccipción', width:'200px'});
+	$('#lbTituloDescripcionEncuesta').sfLabel({text:'Descripción', width:'200px'});
 	$('#fotoREncuesta').sfImage({src:'images/survey-checkboxes.jpg'});
 	$('#svecImage_XY3F').sfImage({src:'images/encuesta5.jpg'});
 	
@@ -304,9 +304,9 @@ SceneScene3.prototype.handleFocus = function () {
 			this.error="Ocurrio un ERROR: ";
 			
 			if (jqXHR.status === 0) {
-				this.error=this.error + '\nNot connect.\n Verify Network.';
+				this.error=this.error + '\n Verifique su Conexión a Internet.';
 			} else {
-				this.error= this.error + "\nIntentelo mas tarde.Gracias."
+				this.error= this.error + "\n Intentelo mas tarde.Gracias."
 			}
 			
 			$('#cargandoEncuestas').sfLoading('hide');

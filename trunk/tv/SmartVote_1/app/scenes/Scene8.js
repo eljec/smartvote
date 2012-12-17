@@ -101,9 +101,9 @@ function GraficoPregunta(idEncuesta,indice)
 				this.error="Ocurrio un ERROR: ";
 				
 				if (jqXHR.status === 0) {
-					this.error=this.error + '\nVerifique su conexión a Internet';
+					this.error=this.error + '\n Verifique su conexión a Internet';
 				} else {
-					this.error= this.error + "\nIntentelo mas tarde.Gracias."
+					this.error= this.error + "\n Intentelo mas tarde.Gracias."
 				}
 				
 				$('#CargandoGrafico').sfLoading('hide');
@@ -127,7 +127,7 @@ SceneScene8.prototype.initialize = function () {
 	// initialize the scene controls and styles, and initialize your variables here 
 	// scene HTML and CSS will be loaded before this function is called
 	
-	$('#lb_titulo_graficoPr').sfLabel({text:'Grafico Encuesta Por Pregunta', width:'880px'});
+	$('#lb_titulo_graficoPr').sfLabel({text:'Gráfico Encuesta Por Pregunta', width:'880px'});
 	$('#divGrafico').sfLabel({text:'', width:'590px'});
 	$('#CargandoGrafico').sfLoading();
 	$('#lb_Desc_Pregunta').sfLabel({text:'', width:'770px'});
@@ -135,7 +135,7 @@ SceneScene8.prototype.initialize = function () {
 	$('#popUpErrorGraficoPregunta').sfPopup({text:'', num:'1', callback:null});
 	$('#help_bar_Grafico').sfKeyHelp({'LEFTRIGHT':'Pasar/Volver preguntas','INFO':'Info','return':'Regresar al Hub','RED':'Ir a Inicio'});
 	$('#lb_contador_pregunta').sfLabel({text:'Pregunta', width:'320px'});
-	$('#imagen_cargando_grafico').sfImage({src:'images/imagen_cargando.jpg'});
+	$('#imagen_cargando_grafico').sfImage({src:'images/cargando_pp.png'});
 	
 }
 
@@ -167,7 +167,7 @@ SceneScene8.prototype.handleFocus = function () {
 	
 	var nombreEncuesta = this.EncuestaS.getNombre();
 	
-	$('#lb_titulo_graficoPr').sfLabel({text:'Grafico Encuesta Por Pregunta: ' + nombreEncuesta});
+	$('#lb_titulo_graficoPr').sfLabel({text:'Gráfico Encuesta Por Pregunta: ' + nombreEncuesta});
 	
 	$('#CargandoGrafico').sfLoading('show');
 	
@@ -251,9 +251,9 @@ SceneScene8.prototype.handleFocus = function () {
 				this.error="Ocurrio un ERROR: ";
 				
 				if (jqXHR.status === 0) {
-					this.error=this.error + '\nVerifique su conexión a Internet';
+					this.error=this.error + '\n Verifique su conexión a Internet';
 				} else {
-					this.error= this.error + "\nIntentelo mas tarde.Gracias."
+					this.error= this.error + "\n Intentelo mas tarde.Gracias."
 				}
 				
 				$('#CargandoGrafico').sfLoading('hide');
@@ -326,7 +326,7 @@ SceneScene8.prototype.handleKeyDown = function (keyCode) {
 			break;
 		case $.sfKey.RED:
 		
-			$('#popUp_regreso_grafico').sfPopup({text:'¿ Seguro desea regresar a la pantalla inicial ?', num:'2',callback:function(data){
+			$('#popUp_regreso_grafico').sfPopup({text:'¿ Desea regresar a la pantalla inicial ?', num:'2',callback:function(data){
 			
 				if(data)
 				{

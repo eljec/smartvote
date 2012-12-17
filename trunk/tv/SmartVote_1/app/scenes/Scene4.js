@@ -62,7 +62,7 @@ function GuardarVotos(votos,idEn,idTV)
 				 
 				 if(data.tipo == "OK")
 				 {
-						this.textoPopUp= "Se han terminado las preguntas. EL sistema registro sus votos. Gracias por usar SmartVote";
+						this.textoPopUp= "Se han terminado las preguntas. El sistema registro sus votos. Gracias por usar SmartVote";
 						$('#popUpAvisoGral').sfPopup({text:this.textoPopUp, num:'1', callback:function(){
 							
 							$.sfScene.hide('Scene4');
@@ -80,9 +80,9 @@ function GuardarVotos(votos,idEn,idTV)
 					this.error="Ocurrio un ERROR: ";
 					
 					if (jqXHR.status === 0) {
-						this.error=this.error + '\nVerifique su conexión a Internet';
+						this.error=this.error + '\n Verifique su conexión a Internet';
 					} else {
-						this.error= this.error + "\nIntentelo mas tarde.Gracias."
+						this.error= this.error + "\n Intentelo mas tarde.Gracias."
 					}
 										
 					$('#popErrorPregunta').sfPopup({text:this.error, num:'1', callback:function(){
@@ -120,7 +120,7 @@ function GuardarVotosConfiguracionOK(votos,idEn,idTV,varConfiguracion)
 				 
 					if(data.tipo == 'OK')
 					{
-						this.textoPopUp= "Se han terminado las preguntas. EL sistema registrara sus votos. Espere un momento";
+						this.textoPopUp= "Se han terminado las preguntas. El sistema registrara sus votos. Espere un momento";
 						$('#popUpAvisoGral').sfPopup({text:this.textoPopUp, num:'1', callback:function(){
 							
 							$.sfScene.hide('Scene4');
@@ -138,9 +138,9 @@ function GuardarVotosConfiguracionOK(votos,idEn,idTV,varConfiguracion)
 					this.error="Ocurrio un ERROR: ";
 					
 					if (jqXHR.status === 0) {
-						this.error=this.error + '\nVerifique su conexión a Internet';
+						this.error=this.error + '\n Verifique su conexión a Internet';
 					} else {
-						this.error= this.error + "\nIntentelo mas tarde.Gracias."
+						this.error= this.error + "\n Intentelo mas tarde.Gracias."
 					}					
 					
 					$('#popErrorPregunta').sfPopup({text:this.error, num:'1', callback:function(){
@@ -301,9 +301,9 @@ SceneScene4.prototype.handleFocus = function () {
 			this.error="Ocurrio un ERROR: ";
 			
 			if (jqXHR.status === 0) {
-				this.error=this.error + '\nNot connect.\n Verify Network.';
+				this.error=this.error + '\n Verifique su conexión a Internet.';
 			} else {
-				this.error= this.error + "\nIntentelo mas tarde.Gracias."
+				this.error= this.error + "\n Intentelo mas tarde.Gracias."
 			}
 					
 			$('#popErrorPregunta').sfPopup({text:this.error, num:'1', callback:function(){

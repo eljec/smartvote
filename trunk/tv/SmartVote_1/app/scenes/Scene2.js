@@ -45,7 +45,7 @@ SceneScene2.prototype.initialize = function (aux) {
 	$('#TituloProgramas').sfLabel({text:'Sección Programas', width:'880px'});
 	$('#helpBar2').sfKeyHelp({'UPDOWN':'Moverse en la lista','LEFTRIGHT':'Moverse entre escenas(solo para atras)','ENTER':'Enter','INFO':'Info','return':'Regresar al Hub'});
 	$('#lbDescripcion').sfLabel({text:'Info del Programa', width:'430px'});
-	$('#lbTituloDescripcion').sfLabel({text:'Descripcion', width:'430px'});
+	$('#lbTituloDescripcion').sfLabel({text:'Descripción', width:'430px'});
 	$('#lbLista').sfLabel({text:'Lista', width:'240px'});
 
 } 
@@ -116,7 +116,7 @@ SceneScene2.prototype.handleFocus = function () {
                 this.error=this.error + '\n Verifique su Conexión a Internet .';
             } 
 			else {
-				this.error= this.error + "\nIntentelo mas tarde.Gracias."
+				this.error= this.error + "\n Intentelo mas tarde.Gracias."
             }
 
 			$('#popError').sfPopup({text:this.error, num:'1', callback:function(){

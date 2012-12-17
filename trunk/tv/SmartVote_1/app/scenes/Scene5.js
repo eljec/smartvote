@@ -11,19 +11,20 @@ SceneScene5.prototype.initialize = function () {
 	// scene HTML and CSS will be loaded before this function is called
 	
 	$('#lb_titulo_info_sistema').sfLabel({text:'Información del Sistema', width:'880px'});
-	$('#texto_info_sistema').sfLabel({text:'label', width:'660px'});
+	$('#texto_info_sistema').sfLabel({text:'', width:'660px'});
 	$('#svecImage_J3C1').sfImage({src:'images/Imagen_informacion.png'});
 	
 	var texto = "<h2>SmartVote</h2>";
 	
 		texto = texto + "<p>Es una aplicación prototipo desarrollada para el Trabajo Final de grado de Julio Castillo.</p>";
-		texto = texto +	"<p>El sistema tiene como principal objetivo permitir al usuario votar diferentes encuetas de sus programas favoritos, para lo cual";
+		texto = texto +	"<p>El sistema tiene como principal objetivo permitir al usuario votar diferentes encuestas de sus programas favoritos, para lo cual";
 		texto = texto +	" va navegando por las diferentes escenas que le presenta la aplicación  eligiendo  el programa y la encuesta que desea votar.</p>";
+		texto = texto +	"<P>Las encuestas son cerradas y solo admiten las opciones de SI y NO. La votación se realiza mediante los botones ROJO y AZUL, del control remoto.</p>";
 		texto = texto +	"<p>Además, el sistema permite la visualización de gráfico sobre la encuesta, mostrando los resultados de sus diferentes preguntas.</p>";
-		texto = texto + "<p>Versión: 1.0</p>";
-		texto = texto + "<p>Fecha: 16 -12 -2012</p>";
+		texto = texto + "<p>Versión: 2.0</p>";
+		texto = texto + "<p>Fecha: 17 -12 -2012</p>";
 	
-	$('#texto_info_sistema').css("font-size","14pt");
+	$('#texto_info_sistema').css("font-size","12pt");
 	
 	$('#texto_info_sistema').html(texto);
 	$('#helpBar_info').sfKeyHelp({'RED':'Ir a Inicio','LEFTRIGHT':'Regresar','return':'Regresar al Hub'});
@@ -81,9 +82,10 @@ SceneScene5.prototype.handleKeyDown = function (keyCode) {
 			break;
 		case $.sfKey.ENTER:
 			break;
-		case $.sfKey.ENTER:
+		case $.sfKey.RED:
 			$('#pupUp-regreso_ayuda').sfPopup('show');
-			break;	
+			break;
+		
 		
 	}
 }

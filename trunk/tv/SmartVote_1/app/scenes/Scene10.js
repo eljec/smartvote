@@ -39,9 +39,11 @@ SceneScene10.prototype.initialize = function () {
 	
 	$('#popUp_aviso_tuto').sfPopup({text:'Se termino el tutorial', num:'1', callback:'null'});
 
-	$('#helBar_tuto').sfKeyHelp({'RED':'Volver a pantalla inicial','INFO':'Info','return':'Regresar al Hub'});
+	$('#helBar_tuto').sfKeyHelp({'RED':'Ir a Inicio','INFO':'Info','return':'Regresar al Hub'});
 	
 	$('#popUpRetorno_menu_ayuda').sfPopup({text:'¿ Desea regresar a la pantalla inicial ?', num:'2', callback: regreso });
+	
+	$('#cargando_losta_tutoriales').sfLoading();
 	
 	
 	this.selecciono = false;
@@ -69,13 +71,17 @@ SceneScene10.prototype.handleFocus = function () {
 	
 	this.activo = false;
 	
+	$('#cargando_losta_tutoriales').sfLoading('show');
+	
 	var listbox2_data3XY0GN =[
-		'¿ Como votar ?','¿ Como ver gráfico ?','¿ Como ver gráficos 2 ?'
+		'¿ Como votar ?','¿ Como ver gráfico-opcion 1 ?','¿ Como ver gráficos-opcion 2 ?'
 	];
 	
 	this.listaVideos = listbox2_data3XY0GN;
 	
 	$('#lista_tutoriales').sfListbox2({data:listbox2_data3XY0GN, width:'200', height:'31', itemsPerPage:'3', horizontal:'false'});
+	
+	$('#cargando_losta_tutoriales').sfLoading('hide');
 }
 
 SceneScene10.prototype.handleBlur = function () {
