@@ -39,7 +39,7 @@ function successUsuario(data)
 			{ 
 				window.location = "portada.php";
 			},
-			"Creae Nuevo Usuario": function()
+			"Crear Nuevo Usuario": function()
 			{
 				window.location = "administracionusuario.php";
 			}
@@ -48,19 +48,39 @@ function successUsuario(data)
 	}
 	else
 	{
+	
 		$('#mensajeFinal').removeClass('alert-info')
 		$('#mensajeFinal').addClass("alert-error");
-		$('#mensajeFinal').html("<strong><h2>OCURRIO UN ERROR!</h2></strong>");
 		
-		$( "#mensajeFinal" ).dialog( "option", "buttons", 
-		{ 
-			"Intenar mas tarde": function() { 
-											window.location = "adminportada.php";
-										},
-			"Volver a intentar": function(){
-				$( this ).dialog( "close" ); 
-			}
-		});
+		
+		switch(data.desc)
+		{
+			case "EJECUCION":
+			
+				$('#mensajeFinal').html("<strong><h2>OCURRIÓ UN ERROR</h2></strong>");
+				
+			  	$( "#mensajeFinal" ).dialog( "option", "buttons", 
+				{ 
+					"Intenar mas tarde": function() { 
+													window.location = "adminportada.php";
+												},
+					"Volver a intentar": function(){
+						$( this ).dialog( "close" ); 
+					}
+				});
+			  break;
+			default:
+			
+				$('#mensajeFinal').html("<strong><h2>"+ data.desc +"</h2></strong>");
+				
+			  	$( "#mensajeFinal" ).dialog( "option", "buttons", 
+				{ 
+					"OK": function() 
+					{ 
+						$( this ).dialog( "close" ); 
+					}
+				});
+		}			
 	}
 	
 	$("#mensajeFinal" ).dialog( "option", "title", "Resultado de la creación" );

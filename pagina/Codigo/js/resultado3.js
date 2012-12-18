@@ -277,7 +277,11 @@ $(document).ready(function() {
            		
            		  var data =  jQuery('#tablaContenido').jqGrid('getRowData',row_id);
            		  
-           		 $("#" + subgrid_id).html("<div class='negro'>Descripcion:"+data.descripcion+"<div>");
+           		 $("#" + subgrid_id).html("<div><strong>Descripcion:</strong> "+data.descripcion+"<div>");
+           		 
+           		 $("#" + subgrid_id).css("text-align","left");
+           		 
+           		 $("#" + subgrid_id).css("word-wrap","break-word");
            	},
            	loadError: function (jqXHR, textStatus, errorThrown) {
            			$("#tablaContenido").html("<div align='center'><strong>Ocurrio un Error, intentelo mas tarde.</strong></di>")
@@ -317,8 +321,8 @@ $(document).ready(function() {
 			colNames:['NOMBRE','FECHA INICIO','FECHA FIN','NOMBRE PROGRAMA'],
 			colModel:[
 				{name:'nombre', editable: true, index:'nombre', width:200,resizable:true, sortable:true},
-				{name:'fechainicio', editable: true, index:'fechainicio', width:000, search:false},
-				{name:'fechafin', editable: true, index:'fechafin', width:200, search:false},
+				{name:'fecha_inicio', editable: true, index:'fecha_inicio', width:000, search:false},
+				{name:'fecha_fin', editable: true, index:'fecha_fin', width:200, search:false},
 				{name:'nombrep', editable: true, index:'nombrep', width:300}
 			],
 			loadError: function (jqXHR, textStatus, errorThrown) {

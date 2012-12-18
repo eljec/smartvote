@@ -171,14 +171,24 @@ class SmartVoteManager {
 		
 		for($i=0;$i<count($ruls);$i++)
 		{
-			if($ruls[$i]->field == "nombrep")
+			
+			switch ($ruls[$i]->field) {
+				case 'nombrep':
+						$where = $where."AND p.nombre LIKE '".$ruls[$i]->data."%'";
+					break;
+				default:
+						$where = $where."AND e.".$ruls[$i]->field." LIKE '".$ruls[$i]->data."%'";
+					break;
+			}
+			
+			/*if($ruls[$i]->field == "nombrep")
 			{
 				$where = $where."AND p.nombre LIKE '".$ruls[$i]->data."%'";
 			}
 			else
 			{
 				$where = $where."AND e.".$ruls[$i]->field." LIKE '".$ruls[$i]->data."%'";
-			}
+			}*/
 			
 		}
 		

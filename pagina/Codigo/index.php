@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="span4 offset4" class="divLogo" align="center">
 					<image src="img/logoTV.png"/> 
-					<a id="dialog_link" class="boton">Sig In</a>
+					<a id="dialog_link" class="boton">Sign In</a>
 					<a href="informacion.php" id="btnResultado" class="boton">¿Que es SmartVote?</a>
 					<div id="dialog">
 						<table>

@@ -69,7 +69,7 @@ else
 										  <a class="btn" href=""><i class="icon-user"></i><?php echo $reg; ?></a>
 										  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
 										  <ul class="dropdown-menu">
-										    <li><a href="#" id="btnLogOn"><i class="icon-minus"></i>Sign On </a></li>
+										    <li><a href="#" id="btnLogOn"><i class="icon-minus"></i>Sign Out </a></li>
 										    <li class="divider"></li>
 										  </ul>
 										</div>
@@ -123,13 +123,14 @@ else
             
             <br>
 
-            <div class="row">
+            <!--<div class="row">
 				<div class="span12">
 					<div align="center">
 						<h4>&copy; Production JEMAC 2012</h4>
 					</div>
 				</div>
-			</div>
+			</div>-->
+			
 			<input type="hidden" id="hdnCategoria" value="<?php echo $categoria;?>" />
         </div> <!-- /container -->
 		
