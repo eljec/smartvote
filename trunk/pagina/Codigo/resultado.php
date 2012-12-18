@@ -77,7 +77,7 @@
 										  <a class="btn" href=""><i class="icon-user"></i><?php echo $reg; ?></a>
 										  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
 										  <ul class="dropdown-menu">
-										    <li><a href="#" id="btnLogOn"><i class="icon-minus"></i>Sign On </a></li>
+										    <li><a href="#" id="btnLogOn"><i class="icon-minus"></i>Sign Out</a></li>
 										    <li class="divider"></li>
 										  </ul>
 										</div>
@@ -124,7 +124,6 @@
 		</div>
 		
 		
-        
         <div id="mensajeFinal">
 				
 		</div>

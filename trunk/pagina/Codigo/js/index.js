@@ -70,7 +70,7 @@ $(document).ready(function() {
 		autoOpen: false,
 		width: 400,
 		modal: true,
-		title: "SIG IN",
+		title: "SIGN IN",
 		buttons: {						
 			"Cancel": function() {
 				$(this).dialog("close");

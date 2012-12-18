@@ -63,7 +63,7 @@ $(document).ready(function() {
 		
 		$("#chartdiv" + idGrafico).html('');
 		
-		$("#chartdiv" + idGrafico).css("background-color","white");
+		$("#chartdiv" + idGrafico).css("background-color","#FFF473");
 		
 		var datos = data.datosgrafico;
 			 
@@ -371,7 +371,11 @@ $(document).ready(function() {
            		
            		  var data =  jQuery('#tablaContenido').jqGrid('getRowData',row_id);
            		  
-           		 $("#" + subgrid_id).html("<div>Descripcion:"+data.descripcion+"<div>");
+           		 $("#" + subgrid_id).html("<div><strong>Descripcion:</strong> "+data.descripcion+"<div>");
+           		 
+           		 $("#" + subgrid_id).css("text-align","left");
+           		 
+           		 $("#" + subgrid_id).css("word-wrap","break-word");
            	},
            	loadError: function (jqXHR, textStatus, errorThrown) {
            			$("#tablaContenido").html("<div align='center'><strong>Ocurrio un Error, intentelo mas tarde.</strong></di>")
@@ -416,7 +420,11 @@ $(document).ready(function() {
            		
            		  var data =  jQuery('#tablaContenido').jqGrid('getRowData',row_id);
            		  
-           		 $("#" + subgrid_id).html("<div>Descripcion:"+data.descripcion+"<div>");
+           		 $("#" + subgrid_id).html("<div><strong>Descripcion:</strong>"+data.descripcion+"<div>");
+           		 
+           		 $("#" + subgrid_id).css("text-align","left");
+           		 
+           		 $("#" + subgrid_id).css("word-wrap","break-word");
            	},
            	loadError: function (jqXHR, textStatus, errorThrown) {
            			$("#tablaContenido").html("<div align='center'><strong>Ocurrio un Error, intentelo mas tarde.</strong></di>")
@@ -470,14 +478,18 @@ $(document).ready(function() {
 			colModel:[
 				{name:'nombre', editable: true, index:'nombre', width:300,resizable:false, sortable:true},
 				{name:'descripcion', editable: true, index:'descripcion', width:400, search:false},
-				{name:'nombrep', editable: true, index:'nombrep', width:300}
+				{name:'nombrep', editable: true, index:'nombrep', width:300,sortable:false}
 			],
 			subGrid: true,
            	subGridRowExpanded: function (subgrid_id, row_id) {
            		
            		  var data =  jQuery('#tablaContenido').jqGrid('getRowData',row_id);
            		  
-           		 $("#" + subgrid_id).html("<div class='negro'>Descripcion:"+data.descripcion+"<div>");
+           		 $("#" + subgrid_id).html("<div><strong>Descripcion:</strong>"+data.descripcion+"<div>");
+           		 
+           		 $("#" + subgrid_id).css("text-align","left");
+           		 
+           		 $("#" + subgrid_id).css("word-wrap","break-word");
            	},
            	loadError: function (jqXHR, textStatus, errorThrown) {
            			$("#tablaContenido").html("<div align='center'><strong>Ocurrio un Error, intentelo mas tarde.</strong></di>")
@@ -513,8 +525,8 @@ $(document).ready(function() {
 			colNames:['NOMBRE','FECHA INICIO','FECHA FIN','NOMBRE PROGRAMA'],
 			colModel:[
 				{name:'nombre', editable: true, index:'nombre', width:200,resizable:false, sortable:true},
-				{name:'fechainicio', editable: true, index:'fechainicio', width:000, search:false},
-				{name:'fechafin', editable: true, index:'fechafin', width:200, search:false},
+				{name:'fecha_inicio', editable: true, index:'fecha_inicio', width:000, search:false,sortable:true},
+				{name:'fecha_fin', editable: true, index:'fecha_fin', width:200, search:false,sortable:true},
 				{name:'nombrep', editable: true, index:'nombrep', width:300}
 			],
 			loadError: function (jqXHR, textStatus, errorThrown) {
