@@ -674,8 +674,7 @@ class SmartVoteManager {
 		$anterior = "";
 		$actual = $id_imagen;
 		
-		$arrayURL = array ( 
-		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/imagen_inicio.PNG',
+		$arrayURL =  array('http://www.tesiscastillo.com.ar/smartvote/tutos/votar/imagen_inicio.PNG',
 		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_1.PNG',
 		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_2.PNG',
 		'http://www.tesiscastillo.com.ar/smartvote/tutos/votar/instruccion_3.PNG',
@@ -720,6 +719,22 @@ class SmartVoteManager {
 		$resultado = $resultado."}";
 		
 		echo $resultado;
+	}
+
+	public function GetNuevasEncuestas()
+	{
+		try{
+			
+			$respuesta = $this->baseSmartVote->GetNuevasEncuestas();
+			
+			return "{".json_encode("cantidad").":".$respuesta."}";
+			
+		}catch(exception $E)
+		{
+			$resp = new Respuesta("ERROR","EJECUCIÓN");
+			
+			return json_encode($resp);
+		}
 	}
 	// ------------------------------    METODOS PRIVADOS  --------------------------------------------------  //
 

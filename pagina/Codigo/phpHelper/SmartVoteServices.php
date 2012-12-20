@@ -239,6 +239,9 @@
 								errorParametros("LA URL NO CONTIENE ALGUNO DE LOS PARAMETRO tipo_tuto O num_imagen");
 							} 
 						break;
+					case 9:
+							$respuesta = $adminServicio->GetNuevasEncuestas();
+						break;
 				}
 				
 				echo $respuesta;

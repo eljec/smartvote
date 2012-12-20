@@ -1360,5 +1360,35 @@ class SmartVoteDB {
 
 		return $permisos;
 	}
+	
+	// METODO PARA VER SI HAY NUEVAS ENCUESTAS
+	
+	public function GetNuevasEncuestas()
+	{
+		// Preparo la fecha 
+		
+		try{
+			
+			$fecha = new DateTime('Y-m-d H:i:s');
+			
+		}
+		catch(Exception $e)
+		{
+			$fecha = new DateTime('');
+		}
+		
+		date_sub($fecha, date_interval_create_from_date_string('2 days'));
+		
+		$cadenaConsulta = "SELECT count(*) as cantidad FROM `encuestas` WHERE fecha_inicio > '".$fecha->format('Y-m-d')."' and activo = '0'";
+
+		$resultado = $this->buscar($cadenaConsulta);
+		
+		$row = mysql_fetch_array($resultado);
+		
+		$count = $row['cantidad'];
+		
+		return $count;
+	}
+	
 }
 ?>
