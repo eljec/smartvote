@@ -19,7 +19,7 @@
 		
 		public function PaginaPortada_Presentacion_Usuaro_Normal()
 		{
-			$texto = ' <p>Es una aplicacion que te permite poner en la "nube" tus porpias encuestas y cuestionarios, asi toda la gente puede participar y responderlas.Es muy facil de usar y no te tomara mucho tiempo...</p>';
+			$texto = ' <p>Es una aplicación que te permite poner en la "nube" tus propias encuestas y cuestionarios, asi toda la gente puede participar y responderlas.Es muy facil de usar y no te tomara mucho tiempo...</p>';
 			return $texto;
 		}
 		
