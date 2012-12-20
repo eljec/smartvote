@@ -401,11 +401,11 @@ SceneScene4.prototype.handleKeyDown = function (keyCode) {
 				   {
 						if(this.votoCadena == "")
 						{
-							this.votoCadena =this.votoCadena + this.Preguntas[i].getId() + "-"+"1" ;
+							this.votoCadena =this.votoCadena + this.Preguntas[i].getId() + "-"+"0" ;
 						}
 						else
 						{
-							this.votoCadena =this.votoCadena + ";" + this.Preguntas[i].getId() +"-"+"1" ;
+							this.votoCadena =this.votoCadena + ";" + this.Preguntas[i].getId() +"-"+"0" ;
 						}
 						
 						this.textoPopUp= "Gracias !!!";
@@ -435,11 +435,11 @@ SceneScene4.prototype.handleKeyDown = function (keyCode) {
 				   {
 						if(this.votoCadena == "")
 						{
-							this.votoCadena =this.votoCadena + this.Preguntas[i].getId() + "-"+"0" ;
+							this.votoCadena =this.votoCadena + this.Preguntas[i].getId() + "-"+"1" ;
 						}
 						else
 						{
-							this.votoCadena =this.votoCadena + ";" + this.Preguntas[i].getId() +"-"+"0" ;
+							this.votoCadena =this.votoCadena + ";" + this.Preguntas[i].getId() +"-"+"1" ;
 						}
 
 						this.textoPopUp= "Gracias !!!";

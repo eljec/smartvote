@@ -7,7 +7,7 @@
 	<cpauthjs itemtype="string"></cpauthjs>
 	<ver itemtype="string"></ver>
 	<mgrver itemtype="string"></mgrver>
-	<fullwidget itemtype="boolean">n</fullwidget>
+	<fullwidget itemtype="boolean">y</fullwidget>
 	<srcctl itemtype="boolean">y</srcctl>
 	<ticker itemtype="boolean">n</ticker>
 	<childlock itemtype="boolean">n</childlock>
@@ -15,8 +15,8 @@
 	<videomute itemtype="boolean">n</videomute>
 	<dcont itemtype="boolean">y</dcont>
 	<type itemtype="string">user</type>
-	<widgetname itemtype="string">SmartVote_2</widgetname>
-	<description itemtype="string"></description>
+	<widgetname itemtype="string">Prototipo2</widgetname>
+	<description itemtype="string">Ayuda con videos</description>
 	<width itemtype="number">960</width>
 	<height itemtype="number">540</height>
 	<author itemtype="group">
