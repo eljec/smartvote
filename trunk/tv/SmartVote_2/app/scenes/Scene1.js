@@ -20,7 +20,7 @@ function buscarNuevasEncuestas()
 			{
 				// Aviso que  hay nuevas encuestas
 				
-				$('#popUp_aviso_NE').sfPopup({text:'Se cargaron nuevas encuestas !!.Cantidad: '+data.cantidad, num:'1', callback:function(){
+				$('#popUp_aviso_NE').sfPopup({text:'Se cargaron nuevas encuestas !!.Cantidad : '+data.cantidad, num:'1', callback:function(){
 					
 					$.sfScene.hide('Scene1');
 					$.sfScene.show('Scene2');

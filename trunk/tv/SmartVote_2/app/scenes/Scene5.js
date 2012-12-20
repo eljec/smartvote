@@ -21,8 +21,8 @@ SceneScene5.prototype.initialize = function () {
 		texto = texto +	" va navegando por las diferentes escenas que le presenta la aplicación  eligiendo  el programa y la encuesta que desea votar.</p>";
 		texto = texto +	"<P>Las encuestas son cerradas y solo admiten las opciones de SI y NO. La votación se realiza mediante los botones ROJO y AZUL, del control remoto.</p>";
 		texto = texto +	"<p>Además, el sistema permite la visualización de gráfico sobre la encuesta, mostrando los resultados de sus diferentes preguntas.</p>";
-		texto = texto + "<p>Versión: 2.0</p>";
-		texto = texto + "<p>Fecha: 17 -12 -2012</p>";
+		texto = texto + "<p>Versión: 1.0</p>";
+		texto = texto + "<p>Fecha: 20 -12 -2012</p>";
 	
 	$('#texto_info_sistema').css("font-size","12pt");
 	
