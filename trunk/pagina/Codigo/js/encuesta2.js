@@ -359,7 +359,7 @@ function validarPreguntas()
 			vacias ++;
 		}
 		
-		if(/^\s+$/.test(arrayPreguntas[i].value))
+		if(/^\s+$/.test(arrayPreguntas[i].value) || arrayPreguntas[i].value.indexOf('-') != -1 || arrayPreguntas[i].value.indexOf('?') != -1 || arrayPreguntas[i].value.indexOf('¿') != -1 || arrayPreguntas[i].value.indexOf(';') != -1)
 		{
 			
 			flag = false;
