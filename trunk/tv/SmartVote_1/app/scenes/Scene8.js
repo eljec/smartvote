@@ -53,7 +53,7 @@ function GraficoPregunta(idEncuesta,indice)
 				{
 					$('#CargandoGrafico').sfLoading('hide');
 					
-					this.error="Upss Vuelva a intentarlo...";
+					this.error="No tiene votos cargados. Intentelo mas tarde.";
 				
 					$('#popUpErrorGraficoPregunta').sfPopup({text:this.error, num:'1', callback:function(){
 					
@@ -171,6 +171,12 @@ SceneScene8.prototype.handleFocus = function () {
 	
 	$('#CargandoGrafico').sfLoading('show');
 	
+	// Borro el viejo //
+					
+	$('#divGrafico').gchart('destroy');
+	
+	//
+	
 	$.ajax({
 				type: "POST",
 				async:true,
@@ -209,7 +215,7 @@ SceneScene8.prototype.handleFocus = function () {
 					{
 						$('#CargandoGrafico').sfLoading('hide');
 						
-						this.error="Upss Vuelva a intentarlo mas tarde...";
+						this.error="No tiene votos cargados. Intentelo mas tarde.";
 					
 						$('#popUpErrorGraficoPregunta').sfPopup({text:this.error, num:'1', callback:function(){
 				
@@ -236,12 +242,7 @@ SceneScene8.prototype.handleFocus = function () {
 						$('#lb_Desc_Pregunta').text("¿" + data.desc + "?");
 						
 						var dataGrafico = [$.gchart.series('Encuesta', [SI, NO],['blue','red'])]; 
-						
-						
-						// Borro el viejo //
-					
-						$('#divGrafico').gchart('destroy');
-					
+
 						// Pongo el nuevo 
 						
 						$('#divGrafico').gchart({type: 'pie', series: dataGrafico, legend: 'right', 
