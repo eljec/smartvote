@@ -3,7 +3,7 @@
 	<previewjs itemtype="string"></previewjs>
 	<preicon itemtype="string"></preicon>
 	<cpname itemtype="string"></cpname>
-	<cplogo itemtype="string"></cplogo>
+	<cplogo itemtype="string">images/logoPP2.PNG</cplogo>
 	<cpauthjs itemtype="string"></cpauthjs>
 	<ver itemtype="string"></ver>
 	<mgrver itemtype="string"></mgrver>

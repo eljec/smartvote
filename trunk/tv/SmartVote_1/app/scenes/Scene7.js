@@ -59,6 +59,9 @@ SceneScene7.prototype.handleFocus = function () {
 	
 	this.botonVolver = true;
 	
+	$('#btnVolverVotar').sfButton('blur');
+	$('#btnGrafico').sfButton('blur');
+				
 	$('#btnVolverVotar').sfButton('focus');
 	
 	$('#svecImage_4PVJ').sfImage('show');

@@ -389,7 +389,7 @@ SceneScene4.prototype.handleKeyDown = function (keyCode) {
 			break;
 		case $.sfKey.ENTER:
 			break;
-		case $.sfKey.RED:
+		case $.sfKey.RED: // NO
 		
 			if(this.yaVoto==false)
 			{
@@ -401,11 +401,11 @@ SceneScene4.prototype.handleKeyDown = function (keyCode) {
 				   {
 						if(this.votoCadena == "")
 						{
-							this.votoCadena =this.votoCadena + this.Preguntas[i].getId() + "-"+"1" ;
+							this.votoCadena =this.votoCadena + this.Preguntas[i].getId() + "-"+"0" ;
 						}
 						else
 						{
-							this.votoCadena =this.votoCadena + ";" + this.Preguntas[i].getId() +"-"+"1" ;
+							this.votoCadena =this.votoCadena + ";" + this.Preguntas[i].getId() +"-"+"0" ;
 						}
 						
 						this.textoPopUp= "Gracias !!!";
@@ -423,7 +423,7 @@ SceneScene4.prototype.handleKeyDown = function (keyCode) {
 				$('#popUpAvisoGral').sfPopup('show');
 			}
 			break;
-		case $.sfKey.BLUE:
+		case $.sfKey.BLUE: // SI
 
 			if(this.yaVoto==false)
 			{
@@ -435,11 +435,11 @@ SceneScene4.prototype.handleKeyDown = function (keyCode) {
 				   {
 						if(this.votoCadena == "")
 						{
-							this.votoCadena =this.votoCadena + this.Preguntas[i].getId() + "-"+"0" ;
+							this.votoCadena =this.votoCadena + this.Preguntas[i].getId() + "-"+"1" ;
 						}
 						else
 						{
-							this.votoCadena =this.votoCadena + ";" + this.Preguntas[i].getId() +"-"+"0" ;
+							this.votoCadena =this.votoCadena + ";" + this.Preguntas[i].getId() +"-"+"1" ;
 						}
 
 						this.textoPopUp= "Gracias !!!";
