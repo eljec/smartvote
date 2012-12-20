@@ -581,7 +581,7 @@ $(function() {
 				
 				var arrayPreguntasDatos = formarDatos();
 				
-				/*var textToShow="<div align='center'><img id='gifLoadingPreguntas2'src='img/ajax-loaderBlanco.gif' alt='Loading...'/></div>";
+				var textToShow="<div align='center'><img id='gifLoadingPreguntas2'src='img/ajax-loaderBlanco.gif' alt='Loading...'/></div>";
 				$('#mensajeFinal').html(textToShow);
 				$("#mensajeFinal" ).dialog( "option", "title", "Procesando");
 				$('#mensajeFinal').dialog('open');
@@ -593,7 +593,7 @@ $(function() {
 				var descNuevaEncuesta = $("#textAreaNuevaEncuesta").val();
 
 				$.post("phpHelper/SmartVoteServices.php",{ tipo:'encuesta',nombreE: nombreNuevaEncuesta, descE:descNuevaEncuesta, id_p: idPrograma,Arr_preguntas: arrayPreguntasDatos}, successEncuesta, "json").error(errorEncuesta);
-				*/
+				
 			}
 		}
 		
