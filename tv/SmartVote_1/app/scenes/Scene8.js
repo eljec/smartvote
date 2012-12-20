@@ -83,7 +83,7 @@ function GraficoPregunta(idEncuesta,indice)
 					
 					// Borro el viejo //
 					
-					$('#divGrafico').gchart('destroy')
+					$('#divGrafico').gchart('destroy');
 					
 					// Pinto el Nuevo //
 					
@@ -236,7 +236,14 @@ SceneScene8.prototype.handleFocus = function () {
 						$('#lb_Desc_Pregunta').text("¿" + data.desc + "?");
 						
 						var dataGrafico = [$.gchart.series('Encuesta', [SI, NO],['blue','red'])]; 
-	 
+						
+						
+						// Borro el viejo //
+					
+						$('#divGrafico').gchart('destroy');
+					
+						// Pongo el nuevo 
+						
 						$('#divGrafico').gchart({type: 'pie', series: dataGrafico, legend: 'right', 
 							dataLabels: [this.si+"%", this.no+"%"], 
 							extension: {chdl: 'SI|NO'}}); 	

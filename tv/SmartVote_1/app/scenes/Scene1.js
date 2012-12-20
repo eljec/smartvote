@@ -3,6 +3,75 @@ function SceneScene1(options) {
 	this.btnIniciar;
 	this.configuracion;
 	
+	this.error;
+}
+
+
+function buscarNuevasEncuestas()
+{
+	$.ajax({
+		type:"GET",
+		async:true,
+		dataType:"json",
+		url:"http://www.tesiscastillo.com.ar/smartvote/phpHelper/SmartVoteServices.php?action=9",
+		success:function(data){
+			 
+			if(data.cantidad >0)
+			{
+				// Aviso que  hay nuevas encuestas
+				
+				$('#popUp_aviso_NE').sfPopup({text:'Se cargaron nuevas encuestas !!.Cantidad: '+data.cantidad, num:'1', callback:function(){
+					
+					$.sfScene.hide('Scene1');
+					$.sfScene.show('Scene2');
+					$.sfScene.focus('Scene2');
+				
+				}});
+			}
+			else
+			{
+				// Aviso que no hay nuevas encuestas
+				
+				$('#popUp_aviso_NE').sfPopup({text:'No hay nuevas encuestas cargadas.', num:'1', callback:function(){
+					
+					$.sfScene.hide('Scene1');
+					$.sfScene.show('Scene2');
+					$.sfScene.focus('Scene2');
+				
+				}});
+			}
+			
+			$('#cargando_ver_NE').sfLoading('hide');
+			
+			$.sf.setData('aviso', '0');
+			
+			$('#popUp_aviso_NE').sfPopup('show');
+
+		  }, // fin success
+		error:function(jqXHR, textStatus, errorThrown){
+		
+			$.sf.setData('aviso', '0');
+			
+			$('#cargando_ver_NE').sfLoading('hide');
+
+			if (jqXHR.status === 0) {
+                this.error=this.error + '\n Verifique su Conexión a Internet .';
+            } 
+			else {
+				this.error= this.error + "\n Ocurrio un error obteniendo los dato.Intentelo mas tarde.Gracias.";
+            }
+
+			$('#popUp_aviso_NE').sfPopup({text:this.error, num:'1', callback:function(){
+			
+				$.sfScene.hide('Scene1');
+				$.sfScene.show('Scene2');
+				$.sfScene.focus('Scene2');
+			
+			}});
+			
+			$('#popUp_aviso_NE').sfPopup('show');
+	 }
+	}); 
 
 }
 
@@ -13,7 +82,7 @@ SceneScene1.prototype.initialize = function () {
 		
 	$('#lbTituloSistema').sfLabel({text:'Smart Vote', width:'320px'});
 	$('#B_CargaProgramas').sfButton({text:'Iniciar', width:'109px'});
-	$('#btnTest').sfButton({text:'Test', width:'122px'});
+	$('#btnTest').sfButton({text:'Ayuda', width:'122px'});
 	$('#logo').sfImage({src:'images/logoTV.png'});
 	$('#helpBar').sfKeyHelp({'LEFTRIGHT':'Moverse entre botones','ENTER':'Enter','return':'Rregresar al Hub'});
 
@@ -23,6 +92,12 @@ SceneScene1.prototype.initialize = function () {
 			$.sf.exit(false);
 		}	
 	}});	
+	
+	$('#popUp_aviso_NE').sfPopup({text:'popup text', num:'1', callback:'null'});
+	
+	$('#cargando_ver_NE').sfLoading();
+	
+	$.sf.setData('aviso', '1');
 }
 
 SceneScene1.prototype.handleShow = function () {
@@ -46,6 +121,7 @@ SceneScene1.prototype.handleFocus = function () {
 	
 	$('#btnTest').sfButton({text:'Ayuda'});
 	
+	this.error = "";
 }
 
 SceneScene1.prototype.handleBlur = function () {
@@ -83,9 +159,22 @@ SceneScene1.prototype.handleKeyDown = function (keyCode) {
 		
 			if(this.btnIniciar)
 			{
-				$.sfScene.hide('Scene1');
-				$.sfScene.show('Scene2');
-				$.sfScene.focus('Scene2');
+				
+				var aviso = $.sf.getData('aviso');
+				
+				if( aviso == '1')
+				{
+					$('#cargando_ver_NE').sfLoading('show');
+					
+					buscarNuevasEncuestas();
+				}
+				else
+				{
+					$.sfScene.hide('Scene1');
+					$.sfScene.show('Scene2');
+					$.sfScene.focus('Scene2');
+				}
+				
 				
 				this.configuracion = false;
 			}
